@@ -1,0 +1,45 @@
+{
+  "name": "capitalp",
+  "version": "1.0.0",
+  "description": "A WordPress theme for Capital P",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp build",
+    "watch": "gulp watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fumikito/capitalp.git"
+  },
+  "keywords": [
+    "wordpress"
+  ],
+  "author": "fumikito <guy@hametuha.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fumikito/capitalp/issues"
+  },
+  "homepage": "https://github.com/fumikito/capitalp#readme",
+  "devDependencies": {
+    "event-stream": "^3.3.2",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-filter": "^3.0",
+    "gulp-imagemin": "^2.4",
+    "gulp-jshint": "^2.0",
+    "gulp-load-plugins": "^1.2",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-sass": "^2.2",
+    "gulp-sass-bulk-import": "^1.0",
+    "gulp-sourcemaps": "^1.5",
+    "gulp-uglify": "^1.5",
+    "gulp-util": "^3.0",
+    "imagemin-pngquant": "^4.0.0",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.0"
+  }
+
+}

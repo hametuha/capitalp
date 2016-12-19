@@ -1,0 +1,88 @@
+@mixin author-image($width, $margin: 20px){
+  &-wrapper{
+    padding: $margin;
+  }
+  &-avatar{
+    max-width: $width;
+    margin-right: $margin;
+    margin-bottom: $margin;
+  }
+  &-title, &-desc{
+    margin-left: $width + $margin;
+  }
+}
+
+.author{
+
+  @include author-image(96px, 20px);
+
+  @media only screen and (max-width: 768px) {
+    @include author-image(48px, 10px);
+  }
+
+  @media only screen and (max-width: 768px) {
+    &-desc{
+      margin-left: 0;
+      clear: left;
+    }
+  }
+  &-avatar{
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    float: left;
+  }
+
+  &-content{
+    //float: left;
+
+  }
+
+  &-title {
+    clear: none;
+    font-size: 1.4em;
+    line-height: 1.1;
+    small{
+      display: block;
+      color: #aaa;
+      font-weight: normal;
+      font-size: 0.6em;
+    }
+  }
+
+  &-desc{
+    font-size: 0.85em;
+    color: #888;
+  }
+
+  &-links {
+    clear: both;
+    text-align: center;
+  }
+
+  &-link{
+    transition: background-color .5s linear;
+    margin-right: 10px;
+    display: inline-block;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    &:last-child{
+      margin-right: 0;
+    }
+    border-radius: 50%;
+    &:link, &:visited{
+      background: #aaa;
+      color: #fff;
+    }
+    &:hover, &:active{
+      color: #fff;
+      background: #0D72B2;
+    }
+  }
+
+
+}
+
