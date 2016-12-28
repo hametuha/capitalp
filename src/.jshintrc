@@ -1,0 +1,19 @@
+{
+  "strict" : true,
+  "indent" : 4,
+  "unused" : false,
+  "undef" : true,
+  "browser" : true,
+  "devel" : false,
+  "debug"    : true,
+  "jquery": true,
+  "globals": {
+    "angular": false,
+    "google": false,
+    "WP_API_Settings": false,
+    "Modernizr": false,
+    "ga": false,
+    "FB": false
+  }
+
+}
