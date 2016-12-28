@@ -1,0 +1,28 @@
+.ad{
+  &-single-top{
+    margin-bottom: 20px;
+  }
+
+  &-title{
+    display: block;
+    color: #999;
+    text-align: center;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  &-content{
+    &-wrapper{
+      margin: 20px 0;
+      clear: both;
+    }
+  }
+
+  &-sidebar{
+    &-wrapper{
+      width: 294px;
+      margin: 0 auto;
+    }
+  }
+}

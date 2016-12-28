@@ -33,12 +33,14 @@ get_header(); ?>
 
 			<?php
 			if ( have_posts() ) :
-
+				$counter = 0;
 				/* Start the Loop */
 				while ( have_posts() ) : the_post();
-
+					$counter++;
 					get_template_part( 'template-parts/post/card', get_post_format() );
-
+					if ( 3 == $counter ) {
+						get_template_part( 'template-parts/block/ad', 'loop' );
+					}
 				endwhile;
 
 				the_posts_pagination( array(
@@ -55,6 +57,9 @@ get_header(); ?>
 			?>
 
 		</main><!-- #main -->
+
+		<?php get_template_part( 'template-parts/block/ad', 'content' ) ?>
+
 	</div><!-- #primary -->
 	<?php get_sidebar(); ?>
 </div><!-- .wrap -->
