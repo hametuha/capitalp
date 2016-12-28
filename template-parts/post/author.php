@@ -12,20 +12,19 @@
         </div>
         <div class="author-links">
             <?php
-            $contact = [
-                'wordpress' => get_the_author_meta( 'url' ),
-            ];
+            $contact = [ [ 'wordpress', get_the_author_meta( 'user_url' ), 'ブログ' ] ];
             foreach ( [ 'facebook', 'twitter', 'instagram', 'github' ] as $sns ) {
-                $contact[ $sns ] = get_the_author_meta( $sns );
+                $contact[] = [ $sns, get_the_author_meta( $sns ), $sns.'アカウント' ];
             }
-            foreach ( $contact as $icon => $url ) :
+            foreach ( $contact as list( $icon, $url, $label ) ) :
                 if ( ! $url ) {
                     continue;
                 }
             ?>
-            <a target="_blank" class="author-link" href="<?= esc_url( $url ) ?>">
+            <a title="<?= esc_attr( $label ) ?>" target="_blank" class="author-link" href="<?= esc_url( $url ) ?>">
                 <?= twentyseventeen_get_svg( [
-                    'icon' => $icon,
+                    'icon'  => $icon,
+                    'title' => $label
                 ] ) ?>
             </a>
             <?php endforeach; ?>

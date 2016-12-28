@@ -26,6 +26,14 @@
       clear: left;
     }
   }
+
+  .authors-list &-wrapper{
+    border-bottom: 1px solid #ddd;
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+
   &-avatar{
     width: auto;
     height: auto;
@@ -82,7 +90,7 @@
       background: #0D72B2;
     }
   }
-
-
 }
+
+
 
