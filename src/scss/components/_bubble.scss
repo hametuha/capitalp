@@ -1,0 +1,78 @@
+@mixin bubble-size( $size ){
+  &-meta{
+    width: $size;
+  }
+  &-content{
+    .guest &{
+      margin-right: $size + 10;
+    }
+    .main & {
+      margin-left: $size + 10;
+    }
+  }
+}
+
+.bubble{
+  margin: 40px 0;
+  position: relative;
+  @include bubble-size(60px);
+  &-meta{
+    position: absolute;
+    text-align: center;
+    top: 0;
+    .guest &{
+      right: 0;
+    }
+    .main &{
+      left: 0;
+    }
+  }
+  &-link{
+    box-shadow: none !important;
+    transition: opacity .3s linear;
+    &:link, &:visited{
+      text-decoration: none;
+      border-bottom: none;
+    }
+    &:hover, &:active{
+      text-decoration: none;
+      border-bottom: none;
+      opacity: .6;
+    }
+  }
+  &-avatar{
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+  }
+  &-name{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  &-content{
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+    border-radius: 3px;
+    min-height: 60px;
+    p{
+      margin: 0;
+    }
+    .guest &{
+      background-color: #4081FF;
+      color: #fff;
+    }
+    .main &{
+      background-color: #f9f9f9;
+    }
+  }
+  // For narrow screen
+  @media only screen and (max-width: 768px) {
+    @include bubble-size(30px);
+    &-content{
+      font-size: 14px;
+    }
+  }
+}
