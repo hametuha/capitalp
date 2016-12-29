@@ -3,6 +3,7 @@
  */
 
 /*global ga:false */
+/*global capitalP:false */
 
 jQuery(document).ready(function ($) {
 
@@ -24,6 +25,8 @@ jQuery(document).ready(function ($) {
     var played = false;
     var playCount = 0;
     var episodeId = $tracker.attr('data-episode-id');
+    var episodeAuthor = $tracker.attr('data-episode-author');
+    var episodeTags = $tracker.attr('data-episode-tags');
     var href = makeUrl( $tracker.attr('data-src') );
     // Save play count
     $player.find('audio,video').bind('play', function(e){
@@ -31,6 +34,7 @@ jQuery(document).ready(function ($) {
       if (!played) {
         played = true;
         try{
+          window.capitalP.resetPostData();
           ga('send', {
             hitType: 'pageview',
             page: href.split('?')[0],
@@ -84,6 +88,7 @@ jQuery(document).ready(function ($) {
           }
         }
       };
+      window.capitalP.resetPostData();
       ga('send', event);
       if ( blank ) {
         e.preventDefault();
