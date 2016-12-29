@@ -57,8 +57,9 @@ add_action( 'wp_head', function() {
         <?php endif; ?>
       ga('create', 'UA-1766751-12', 'auto');
       ga('send', 'pageview');
+	    <?php endif; ?>
 	</script>
-	<?php endif;
+    <?php
 }, 99 );
 
 

@@ -1,0 +1,22 @@
+.notation{
+  display: block;
+  background-color: #fff;
+  margin: 20px 0;
+  padding: 20px;
+  clear: both;
+  border-top: 1px dotted #ddd;
+  border-bottom: 1px dotted #ddd;
+  &-meta{
+    display: block;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #888;
+  }
+  &-content{
+    font-size: 0.85em;
+    color: #666;
+    *:last-child{
+      margin-bottom: 0;
+    }
+  }
+}

@@ -26,6 +26,39 @@ add_shortcode( 'capitalp_authors', function( $attributes = [], $content = '' ) {
 /**
  * Register short code
  */
+add_shortcode( 'capitalp_interruption', function( $attributes = [], $content = '' ) {
+	$author_id = get_the_author_meta( 'ID' );
+	ob_start();
+	$attributes = wp_parse_args( $attributes, [
+		'user_id' => $author_id,
+        'inserted' => '',
+	] );
+	$user = get_userdata( $attributes['user_id'] );
+	?>
+    <ins class="notation" datetime="<?= mysql2date( DateTime::W3C, $attributes['inserted'] ) ?>">
+        <div class="notation-meta">
+            <a class="notation-link" title="この執筆者の記事一覧を見る" href="<?= esc_url( get_author_posts_url( $user->ID ) ) ?>">
+				<?= esc_html( $user->display_name ) ?>
+            </a>による追記
+            <?php if ( $attributes['inserted'] ) : ?>
+                <small class="notation-date">
+                    @ <?= mysql2date( get_option( 'date_format' ), $attributes['inserted'] ) ?>
+                </small>
+            <?php endif; ?>
+        </div>
+        <div class="notation-content">
+			<?= wpautop( wp_kses_post( $content ) ) ?>
+        </div>
+    </ins>
+	<?php
+	$content = ob_get_contents();
+	ob_end_clean();
+	return $content;
+} );
+
+/**
+ * Register short code
+ */
 add_shortcode( 'capitalp_author', function( $attributes = [], $content = '' ) {
 	$author_id = get_the_author_meta( 'ID' );
 	ob_start();
@@ -45,7 +78,7 @@ add_shortcode( 'capitalp_author', function( $attributes = [], $content = '' ) {
 			<span class="bubble-name">
 				<?= esc_html( $user->display_name ) ?>
 			</span>
-			<?= wpautop( $attributes['content'] ) ?>
+			<?= wpautop( wp_kses_post( $content ) ) ?>
 		</div>
 	</div>
 	<?php
@@ -60,26 +93,51 @@ add_shortcode( 'capitalp_author', function( $attributes = [], $content = '' ) {
 add_action( 'register_shortcode_ui', function() {
 	// Author list
 	shortcode_ui_register_for_shortcode( 'capitalp_authors', [
-		'label'     => 'Author List',
+		'label'     => '著者リスト',
 		'post_type' => [ 'page' ],
 		'listItemImage' => 'dashicons-groups',
 	] );
+	// Insert
+	shortcode_ui_register_for_shortcode( 'capitalp_interruption', [
+		'label'     => '別の著者による注釈',
+		'post_type' => [ 'post' ],
+		'listItemImage' => 'dashicons-welcome-add-page',
+		'inner_content' => [
+			'label'        => '注釈内容',
+            'description'  => '自動で改行が入ります。',
+		],
+		'attrs' => [
+			[
+				'label'    => '発言者',
+				'attr'     => 'user_id',
+				'type'     => 'user_select',
+				'multiple' => false,
+			],
+            [
+              'label' => '追記日',
+              'attr'  => 'inserted',
+              'type'  => 'date',
+              'meta'  => [
+                      'placeholder' => 'YYYY-MM-DD',
+              ]
+            ],
+		],
+	] );
 	// Interviews
 	shortcode_ui_register_for_shortcode( 'capitalp_author', [
-		'label'     => 'Comment Bubble',
+		'label'     => '著者の発言',
 		'post_type' => [ 'post' ],
-		'listItemImage' => 'dashicons-groups',
+		'listItemImage' => 'dashicons-format-status',
+		'inner_content' => [
+			'label'        => '発言内容',
+			'description'  => '自動で改行が入ります。',
+		],
 		'attrs' => [
 			[
 			'label'    => '発言者',
 			'attr'     => 'user_id',
 			'type'     => 'user_select',
 			'multiple' => false,
-			],
-			[
-				'label' => '発言内容',
-				'attr'  => 'content',
-				'type'  => 'textarea',
 			],
 		],
 	] );
