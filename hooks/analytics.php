@@ -53,6 +53,7 @@ add_action( 'wp_head', function () {
         a.src = g;
         m.parentNode.insertBefore(a, m)
       })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-1766751-12', 'auto');
 	  <?php
 	  if ( is_singular( 'post' ) ) :
 	  $tags = get_the_tags( get_queried_object_id() );
@@ -62,7 +63,6 @@ add_action( 'wp_head', function () {
 	  ?>
       capitalP.setPostData( <?= get_queried_object()->ID ?>, <?= get_queried_object()->post_author ?>, '<?= $tags ?>');
 	  <?php endif; ?>
-      ga('create', 'UA-1766751-12', 'auto');
       ga('send', 'pageview');
 	  <?php endif; ?>
     </script>
