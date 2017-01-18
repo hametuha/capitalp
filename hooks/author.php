@@ -9,6 +9,7 @@ add_filter( 'user_contactmethods', function( $methods ) {
 		'twitter' => 'Twitter(URL)',
 		'instagram' => 'Instagram(URL)',
 		'github' =>  'Github(URL)',
+        'slack' => 'Slackユーザー名（ex. fumiki）',
 	];
 } );
 
