@@ -1,0 +1,43 @@
+// Placeholders
+$place-holder-color: #999;
+
+:placeholder-shown {
+  color: $place-holder-color;
+}
+
+::-webkit-input-placeholder {
+  color: $place-holder-color;
+}
+
+::-moz-placeholder {
+  color: $place-holder-color;
+}
+
+:-moz-placeholder {
+  color: $place-holder-color;
+}
+
+:-ms-input-placeholder {
+  color: $place-holder-color;
+}
+
+// Mautic form
+.mauticform {
+  &-helpmessage {
+    color: #888;
+  }
+  &-row {
+    &.col2 {
+      box-sizing: border-box;
+      width: 50%;
+      float: left;
+      padding-right: 5px;
+      & + & {
+        padding-right: 0;
+        padding-left: 5px;
+        clear: none;
+      }
+    }
+    clear: both;
+  }
+}

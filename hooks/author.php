@@ -61,6 +61,7 @@ add_shortcode( 'capitalp_interruption', function( $attributes = [], $content = '
  * Register short code
  */
 add_shortcode( 'capitalp_author', function( $attributes = [], $content = '' ) {
+    static $users = [];
 	$author_id = get_the_author_meta( 'ID' );
 	ob_start();
 	$attributes = wp_parse_args( $attributes, [
@@ -68,8 +69,18 @@ add_shortcode( 'capitalp_author', function( $attributes = [], $content = '' ) {
 	] );
 	$user = get_userdata( $attributes['user_id'] );
 	$is_main = ( $author_id == $user->ID );
+	if ( $is_main ) {
+		$index    = 0;
+	} else {
+		$index = array_search( $user->ID, $users );
+		if ( false === $index ) {
+			$users[] = $user->ID;
+			$index   = array_search( $user->ID, $users );
+		}
+		$index++;
+	}
 	?>
-	<div class="bubble <?= $is_main ? 'main' : 'guest' ?>">
+	<div data-author-index="<?= esc_attr( $index ) ?>" class="bubble <?= $is_main ? 'main' : 'guest' ?> author-index-<?= $index ?>">
 		<div class="bubble-meta">
 			<a class="bubble-link" title="この執筆者の記事一覧を見る" href="<?= esc_url( get_author_posts_url( $user->ID ) ) ?>">
 				<?= get_avatar( $user->ID, 60, '', $user->display_name, [ 'class' => 'bubble-avatar' ] ) ?>

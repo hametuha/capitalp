@@ -7,18 +7,20 @@
 /**
  * Register scripts
  */
-add_action( 'init', function() {
+add_action( 'init', function () {
 
 	$version = wp_get_theme()->get( 'Version' );
 
 	// Register main theme style
-	wp_register_style( 'twentyseventeen-style', get_template_directory_uri().'/style.css', [], wp_get_theme('twentyseventeen')->get('Version') );
+	wp_register_style( 'twentyseventeen-style', get_template_directory_uri() . '/style.css', [], wp_get_theme( 'twentyseventeen' )->get( 'Version' ) );
 	// Register this style
-	wp_register_style( 'capitalp', get_stylesheet_directory_uri().'/assets/css/style.css', ['twentyseventeen-style'], $version );
+	wp_register_style( 'capitalp', get_stylesheet_directory_uri() . '/assets/css/style.css', [ 'twentyseventeen-style' ], $version );
 
 	// Register JS
-	wp_register_script( 'capitalp-tracker', get_stylesheet_directory_uri() .'/assets/js/tracker.js', ['jquery'], $version, true );
+	wp_register_script( 'capitalp-tracker', get_stylesheet_directory_uri() . '/assets/js/tracker.js', [ 'jquery' ], $version, true );
 } );
+
+add_editor_style( 'assets/css/editor-style-capitalp.css' );
 
 /**
  * Register global assets

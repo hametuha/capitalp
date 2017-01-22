@@ -13,7 +13,7 @@
 }
 
 .bubble{
-  margin: 40px 0;
+  margin: 40px 0 10px;
   position: relative;
   @include bubble-size(60px);
   &-meta{
@@ -48,7 +48,7 @@
   }
   &-name{
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
   }
   &-content{
@@ -64,6 +64,20 @@
       background-color: #4081FF;
       color: #fff;
     }
+    @each $var in (
+                    (2 #3B5998 #fff),
+                    (3 #5e5e5e #fff),
+                    (4 #34916d #fff),
+                    (5 #a5383b #fff)
+    ) {
+      $index: nth($var, 1);
+      $bg: nth($var, 2);
+      $color: nth($var, 3);
+      .guest[data-author-index="#{$index}"] &{
+        background-color: $bg;
+        color: $color;
+      }
+    }
     .main &{
       background-color: #f9f9f9;
     }
@@ -73,6 +87,26 @@
     @include bubble-size(30px);
     &-content{
       font-size: 14px;
+    }
+  }
+}
+
+%successive-bubble{
+  margin: 10px 0;
+  .bubble{
+    &-name{
+      display: none;
+    }
+    &-avatar{
+      opacity: 0;
+    }
+  }
+}
+
+@for $index from 0 through 5 {
+  .bubble[data-author-index="#{$index}"]{
+    & + & {
+      @extend %successive-bubble;
     }
   }
 }
