@@ -49,6 +49,10 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 
 						return $response;
 					},
+					'#who#' => function( $response, $request, $post ) use ( $current_user, $user_name ) {
+						$response['text'] = $current_user ? sprintf( '@%s %sさんだワン！', $user_name, $current_user->display_name ) : 'わからないワン…';
+						return $response;
+					},
 					'#log#'        => function ( $response, $request, $post ) use ( $text, $command, $current_user ) {
 						try {
 							$command = explode( ' ', preg_replace( '#\s+#', ' ', trim( $command ) ) );
@@ -147,7 +151,7 @@ SQL;
 								[
 									'color' => 'danger',
 									'title' => '404 NOT FOUND',
-									'text'  => '該当するユーザーがいませんでした',
+									'text'  => '該当するユーザーがいなかったワン',
 								],
 							];
 
@@ -159,7 +163,7 @@ SQL;
 						$posts_arr = [
 							'post_title'   => $title,
 							'post_content' => $content,
-							'post_author'  => $users[0]->ID,
+							'post_author'  => $current_user->ID,
 							'post_type'    => 'post',
 							'post_status'  => 'draft',
 						];
@@ -179,7 +183,7 @@ SQL;
 									'color'       => 'success',
 									'title'       => get_the_title( $post_id ),
 									'title_link'  => admin_url( sprintf( 'post.php?post=%d&action=edit', $post_id ) ),
-									'author_name' => $users[0]->display_name,
+									'author_name' => $current_user->display_name,
 									'text'        => $content,
 								],
 							];
