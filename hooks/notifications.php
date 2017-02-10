@@ -53,12 +53,50 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 						$response['text'] = $current_user ? sprintf( '@%s %sさんだワン！', $user_name, $current_user->display_name ) : 'わからないワン…';
 						return $response;
 					},
+					'#list#' => function( $response, $request, $post ) use ( $current_user, $user_name ) {
+						$response['attachments'] = [];
+						foreach ( get_posts( [
+							'post_type'      => 'post',
+							'post_status'    => 'draft',
+							'posts_per_page' => 20,
+							'orderby'        => [ 'ID' => 'DESC' ],
+						] ) as $post ) {
+							$response['attachments'][] = [
+								'title'       => $post->ID . ' : '. get_the_title( $post ),
+								'title_link'  => admin_url( sprintf( 'post.php?post=%d&action=edit', $post->ID ) ),
+								'author_name' => get_the_author_meta( 'display_name', $post->post_author ),
+							];
+						}
+						$response['text'] = sprintf( '@%s 書きかけの記事はこちらだワン！', $user_name );
+						return $response;
+					},
+					'#append#' => function( $response, $request, $post ) use ( $text, $command, $current_user, $user_name ) {
+						try {
+							list( $prefix, $id ) = explode( ' ', preg_replace( '#\s+#', ' ', trim( $command ) ) );
+							if ( ! is_numeric( $id ) || ! ( $post = get_post( $id ) ) || 'post' !== $post->post_type ) {
+								throw new \Exception( '投稿が見つからなかったワン！' );
+							}
+							if ( false !== array_search( $post->post_status, [ 'publish', 'future', 'pending' ] ) ) {
+								throw new \Exception( 'すでに公開する投稿には追記できないワン！' );
+							}
+							array_unshift( $text, $post->post_content );
+							wp_update_post( [
+								'ID' => $post->ID,
+								'post_content' => implode( "\n\n", $text ),
+							] );
+							$response['text'] = sprintf( '@%s 投稿に追加したワン！', $user_name );
+						} catch ( \Exception $e ) {
+							$response['text'] = "@{$user_name} ".$e->getMessage();
+						} finally {
+							return $response;
+						}
+					},
 					'#log#'        => function ( $response, $request, $post ) use ( $text, $command, $current_user ) {
 						try {
 							$command = explode( ' ', preg_replace( '#\s+#', ' ', trim( $command ) ) );
 							$id      = $request['channel_id'];
 							if ( 3 !== count( $command ) ) {
-								throw new Exception( 'うーん、失敗したワン……こうやってほしいワン  `cappy log 2, 3`  こうすると、2時間前から3時間前のメッセージをメモするワン！' );
+								throw new Exception( 'うーん、失敗したワン……こうやってほしいワン  `cappy log 2 3`  こうすると、2時間前から3時間前のメッセージをメモするワン！' );
 							}
 							list( $log, $from, $to ) = $command;
 							if ( ! is_numeric( $from ) ) {
@@ -219,13 +257,22 @@ SQL;
 										'short' => true,
 									],
 									[
+										'title' => 'list',
+										'value' => '現在の下書きを返すワン！',
+										'short' => true,
+									],
+									[
+										'title' => 'append',
+										'value' => '二行目以降を下書きの投稿本文に追記するワン！ `cappy append xx` で投稿IDを指定してほしいワン！',
+									],
+									[
 										'title' => 'draft',
 										'value' => '投稿された内容でWordPressに下書きを作成するワン！　1行目がタイトル、2行目以降が本文に設定されるワン！',
 									],
 									[
 										'title' => 'log',
 										'value' => '指定された期間のメッセージを一つの投稿にまとめるワン！　`cappy log 1 3` って書くと、1時間前から3時間前までをまとめることになるワン。',
-									]
+									],
 								],
 							],
 						];
