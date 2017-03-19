@@ -284,9 +284,7 @@ SQL;
 							[
 								[ 'hey', 'なに？', 'hey.gif' ],
 								[ 'wait', '....', 'wait.jpg' ],
-							] as list(
-							$reg, $txt, $file
-						)
+							] as list( $reg, $txt, $file )
 						) {
 							if ( false !== strpos( $command, $reg ) ) {
 								$response['text']        = $txt;
