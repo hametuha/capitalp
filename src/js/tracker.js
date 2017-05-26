@@ -72,7 +72,6 @@ jQuery(document).ready(function ($) {
 
   // Track download event
   $('.podcast_meta').on( 'click', 'a', function(e){
-    alert('click');
     var title = $(this).attr('title');
     var blank = '_blank' == $(this).attr('target');
     var href  = $(this).attr('href');
