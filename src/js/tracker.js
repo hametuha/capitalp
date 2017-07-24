@@ -94,7 +94,7 @@ jQuery(document).ready(function ($) {
       }
     }catch(err){
       if ( window.console ) {
-        console.log(err)
+        window.console.log(err);
       }
     }
   });

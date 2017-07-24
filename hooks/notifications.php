@@ -105,10 +105,12 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 							if ( ! is_numeric( $to ) ) {
 								$to = 1;
 							}
-							$from     = current_time( 'timestamp', true ) - $from * 3600;
-							$to       = current_time( 'timestamp', true ) - $to * 3600;
+							$from       = current_time( 'timestamp', true ) - $from * 3600;
+							$from_local = current_time( 'timestamp' ) - $from * 3600;
+							$to         = current_time( 'timestamp', true ) - $to * 3600;
+							$to_local   = current_time( 'timestamp' ) - $to * 3600;
 							$messages = hameslack_channel_history( $request['channel_name'], $to, $from, [
-								'count' => 100,
+								'count' => 300,
 							] );
 							if ( is_wp_error( $messages ) ) {
 								throw new Exception( $messages->get_error_message() );
@@ -116,8 +118,9 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 							if ( empty( $messages ) ) {
 								throw new Exception( 'その期間にメッセージはなかったワン' );
 							}
+							error_log( sprintf( 'Cappy logs %d messages.', count( $messages ) ) );
 							$format  = get_option( 'time_format' );
-							$title   = sprintf( '%s %s〜%sのログ', date_i18n( 'Y年m月d日', $to, true ), date_i18n( $format, $to, true ), date_i18n( $format, $from, true ) );
+							$title   = sprintf( '%s〜%sのログ', date_i18n( $format, $to_local ), date_i18n( $format, $from_local ) );
 							// Grab users.
 							$slack_users       = [];
 							foreach ( hameslack_members() as $member ) {

@@ -1,0 +1,47 @@
+.site-content{
+  position: relative;
+}
+.cappy-lang-switcher{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  div{
+    padding: 1em;
+    background: #4e71ff;
+    color: #fff;
+  }
+  p{
+    text-align: center;
+    margin: 0;
+    line-height: 1.1;
+    font-size: 12px;
+    font-family: Consolas, Osaka, monospace;
+  }
+
+  a{
+    padding-bottom: 1px;
+    transition: border-width .2s linear;
+    &:link, &:visited{
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 2px solid #fff;
+    }
+    &:hover, &:active{
+      color: #fff;
+      text-decoration: none;
+      border-bottom-width: 4px;
+    }
+  }
+
+}
+
+.for_en, .for_jp{
+  display: none;
+}
+.english-user .for_en{
+  display: block;
+}
+.japanese-user .for_jp{
+  display: block;
+}
