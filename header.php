@@ -65,9 +65,9 @@ $child  = capitalp_translated_alternative();
           }
         };
         if ('ja' !== browserLanguage()) {
-          $('.cappy-lang-switcher').addClass('japanese-user');
-        } else {
           $('.cappy-lang-switcher').addClass('english-user');
+        } else {
+          $('.cappy-lang-switcher').addClass('japanese-user');
         }
       });
 	</script>

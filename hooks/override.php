@@ -25,3 +25,9 @@ add_action( 'admin_bar_menu', function( WP_Admin_Bar &$wp_admin_bar ) {
 		'href'   => 'https://capitalp.mautic.net/',
 	) );
 }, 11 );
+
+add_action( 'template_redirect', function() {
+	if ( 'twitter-card' == get_query_var( 'hametupack-template' ) ) {
+		header( 'X-FRAME-OPTIONS: ALLOW-FROM https://twitter.com' );
+	}
+} );

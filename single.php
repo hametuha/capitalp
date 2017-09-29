@@ -25,6 +25,17 @@ get_header(); ?>
 					if ( 'page' != get_post_type() ) {
 				    	get_template_part( 'template-parts/post/author', get_post_type() );
                     }
+                    ?>
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<ins class="adsbygoogle"
+						 style="display:block"
+						 data-ad-format="autorelaxed"
+						 data-ad-client="ca-pub-0087037684083564"
+						 data-ad-slot="7742682637"></ins>
+					<script>
+                      (adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+					<?php
 
 					// If comments are open or we have at least one comment, load up the comment template.
 					if ( comments_open() || get_comments_number() ) :
