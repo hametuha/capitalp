@@ -31,3 +31,24 @@ add_action( 'template_redirect', function() {
 		header( 'X-FRAME-OPTIONS: ALLOW-FROM https://twitter.com' );
 	}
 } );
+
+// Add shortcake for WP Poll
+
+/**
+ * Register short code UI
+ */
+add_action( 'register_shortcode_ui', function () {
+	// Author list.
+	shortcode_ui_register_for_shortcode( 'poll', [
+		'label'         => '投票ID',
+		'post_type'     => [ 'post', 'page' ],
+		'listItemImage' => '',
+		'attrs'         => [
+			[
+				'label'    => '投票ID',
+				'attr'     => 'id',
+				'type'     => 'number',
+			],
+		],
+	] );
+} );

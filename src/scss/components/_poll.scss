@@ -1,0 +1,39 @@
+.wp-polls{
+  clear: both;
+  background: #f9f9f9;
+  padding: 40px 20px;
+  margin: 40px 0;
+  input.Buttons{
+    background: #000;
+    color: #fff;
+    border-width: 2px;
+    &:hover{
+      background: #fff;
+      color: #000;
+      border-color: #000;
+    }
+  }
+
+  div.pollbar{
+    line-height: 16px;
+    height: 16px;
+    border-color: transparent;
+    background: #254891;
+  }
+
+  small{
+    color: #888;
+    margin-left: 0.5em;
+    font-size: 0.6em;
+    font-family: Consolas, monospace;
+  }
+
+  .wp-polls-ul{
+    padding: 0;
+    margin: 0;
+    li{
+      margin: 10px 0;
+    }
+  }
+
+}
