@@ -9,7 +9,7 @@
  * Show ad
  */
 add_filter( 'the_content', function ( $content ) {
-	if ( is_singular( 'post' ) ) {
+	if ( is_singular( 'post' ) && in_the_loop() ) {
 		ob_start();
 		?>
         <div class="ad-single-top">
