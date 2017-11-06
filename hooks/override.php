@@ -65,6 +65,9 @@ add_filter( 'login_headerurl', function() {
 	return home_url( '/' );
 } );
 
+/**
+ * Add login message
+ */
 add_filter( 'login_message', function( $message ) {
 	$message .= <<<HTML
 <div class="cappy-login-notice">
@@ -73,3 +76,8 @@ add_filter( 'login_message', function( $message ) {
 HTML;
 	return $message;
 } );
+
+/**
+ * Prevent ofuse CSS
+ */
+add_filter( 'ofuse_should_load_style', '__return_false' );

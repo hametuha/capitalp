@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
 
   $(document).find('a[href]').each(function(index, link){
     var href = $(this).attr('href');
-    var regexp = /^https?:\/\/(capitalp|amazon|(.*\.)?wordpress\.org|twitter\.com|www\.facebook.com|instagram\.com|github\.com|wpdocs\.osdn\.jp)/;
+    var regexp = /^https?:\/\/(capitalp|amazon|(.*\.)?wordpress\.org|twitter\.com|www\.facebook.com|www\.instagram\.com|github\.com|wpdocs\.osdn\.jp)/;
     if ( ! href.test(regexp) && href.test(/^https?:\/\//)) {
       var parts = href.split( '?' );
       var args = [];
@@ -13,6 +13,9 @@ jQuery(document).ready(function ($) {
           var vars = param.split('=');
           switch(param[0]){
             case 'utm_source':
+            case 'utm_campaign':
+            case 'utm_medium':
+              // Do nothing.
               break;
             default:
               args.push(param);
