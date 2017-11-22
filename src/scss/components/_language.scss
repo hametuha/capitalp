@@ -2,13 +2,14 @@
   position: relative;
 }
 .cappy-lang-switcher{
-  position: absolute;
-  top: 0;
+  position: fixed;
   left: 0;
   right: 0;
+  bottom: 0;
+  z-index: 100;
   div{
     padding: 1em;
-    background: #4e71ff;
+    background: #ff5e6d;
     color: #fff;
   }
   p{
@@ -38,6 +39,19 @@
 
 .for_en, .for_jp{
   display: none;
+}
+
+@keyframes blink-footer {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+.english-user,
+.japanese-user{
+  animation: blink-footer 5s linear 1 alternate;
 }
 .english-user .for_en{
   display: block;

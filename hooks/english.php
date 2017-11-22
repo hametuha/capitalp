@@ -69,6 +69,10 @@ add_action( 'template_redirect', function() {
 
 
 add_action( 'wp_footer', function () {
+	if ( !( is_single() || is_singular() || is_page() ) ) {
+		return;
+	}
+	get_template_part( 'template-parts/module/lang', 'switcher' );
 	?>
 	<script>
       jQuery(document).ready(function ($) {
