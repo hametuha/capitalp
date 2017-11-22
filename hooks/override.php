@@ -48,31 +48,3 @@ add_action( 'register_shortcode_ui', function () {
 	] );
 } );
 
-// Load header css
-add_action( 'login_enqueue_scripts', function() {
-	wp_enqueue_style( 'login-header', get_stylesheet_directory_uri() . '/assets/css/login.css', [], wp_get_theme()->get('Version') );
-} );
-
-/**
- * Change login header url.
- */
-add_filter( 'login_headerurl', function() {
-	return home_url( '/' );
-} );
-
-/**
- * Add login message
- */
-add_filter( 'login_message', function( $message ) {
-	$message .= <<<HTML
-<div class="cappy-login-notice">
-新規登録はSNSアカウントが必要だワン！
-</div>
-HTML;
-	return $message;
-} );
-
-/**
- * Prevent ofuse CSS
- */
-add_filter( 'ofuse_should_load_style', '__return_false' );

@@ -64,5 +64,21 @@ $ofuse-color: #21759B;
   }
 }
 
+.ofuse-more{
+  i{
+    display: block;
+    background: $ofuse-color url( '../img/dog-blue.png' ) center center no-repeat;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    background-size: cover;
+  }
+  background: $ofuse-color;
+  margin: 1em 0;
+  padding: 1em;
+  color: #fff;
+  text-align: center;
+}
+
 // Change login screen
 
