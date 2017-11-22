@@ -66,3 +66,35 @@ add_action( 'template_redirect', function() {
 		switch_to_locale( 'en_US' );
 	}
 } );
+
+
+add_action( 'wp_footer', function () {
+	?>
+	<script>
+      jQuery(document).ready(function ($) {
+        // Check UA and if english, show add title
+        var browserLanguage = function () {
+          var ua = window.navigator.userAgent.toLowerCase();
+          try {
+            // chrome
+            if (ua.indexOf('chrome') != -1) {
+              return ( navigator.languages[0] || navigator.browserLanguage || navigator.language || navigator.userLanguage).substr(0, 2);
+            }
+            // それ以外
+            else {
+              return ( navigator.browserLanguage || navigator.language || navigator.userLanguage).substr(0, 2);
+            }
+          }
+          catch (e) {
+            return undefined;
+          }
+        };
+        if ('ja' !== browserLanguage()) {
+          $('.cappy-lang-switcher').addClass('english-user');
+        } else {
+          $('.cappy-lang-switcher').addClass('japanese-user');
+        }
+      });
+	</script>
+	<?php
+}, 9999 );

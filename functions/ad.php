@@ -55,6 +55,20 @@ HTML;
 </script>
 HTML;
 			break;
+		case 'related':
+			echo <<<HTML
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+	 style="display:block"
+	 data-ad-format="autorelaxed"
+	 data-ad-client="ca-pub-0087037684083564"
+	 data-ad-slot="7742682637"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+HTML;
+
+			break;
 		case 'after_title':
 		default:
 			echo <<<HTML

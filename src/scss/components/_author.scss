@@ -1,6 +1,11 @@
 @mixin author-image($width, $margin: 20px){
   &-wrapper{
     padding: $margin;
+    &:after{
+      content: "";
+      clear: both;
+      display: block;
+    }
   }
   &-avatar{
     max-width: $width;

@@ -6,19 +6,23 @@
 
 // Load all file.
 foreach ( [ 'functions', 'hooks' ] as $dir ) {
-	$dir = __DIR__.'/'.$dir;
+	$dir = __DIR__ . '/' . $dir;
 	if ( is_dir( $dir ) ) {
 		foreach ( scandir( $dir ) as $file ) {
-			if ( preg_match( '#^[^.].*\.php$#u', $file ) ) {
-				require $dir.'/'.$file;
+			if ( ! preg_match( '#^[^.].*\.php$#u', $file ) ) {
+				continue;
 			}
+			if ( 'deprecated.php' == $file ) {
+				continue;
+			}
+			require $dir . '/' . $file;
 		}
 	}
 }
 
 // Load all commands on CLI.
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
-	foreach ( scandir( __DIR__. '/commands' ) as $command ) {
+	foreach ( scandir( __DIR__ . '/commands' ) as $command ) {
 		// Check if this is PHP.
 		if ( ! preg_match( '#^([^.].*)\.php$#', $command, $matches ) ) {
 			continue;
