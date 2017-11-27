@@ -1,0 +1,39 @@
+.capitalists{
+
+  &-wrapper{
+    &:after{
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+
+  &-item{
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 20%;
+    float: left;
+    text-align: center;
+    @media only screen and (max-width: 768px) {
+      width: 33%;
+      &:nth-child(3n+1) {
+        clear: left;
+      }
+    }
+    @media only screen and (min-width: 769px) {
+      &:nth-child(5n+1) {
+        clear: left;
+      }
+    }
+    img{
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 0 auto 10px;
+      border-radius: 100%;
+    }
+  }
+
+}
