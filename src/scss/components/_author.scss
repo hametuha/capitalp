@@ -48,13 +48,13 @@
 
   &-content{
     //float: left;
-
   }
 
   &-title {
     clear: none;
     font-size: 1.4em;
     line-height: 1.1;
+    margin-bottom: 10px;
     small{
       display: block;
       color: #aaa;
@@ -64,8 +64,8 @@
   }
 
   &-desc{
-    font-size: 0.85em;
     color: #888;
+    margin-bottom: 10px;
   }
 
   &-links {

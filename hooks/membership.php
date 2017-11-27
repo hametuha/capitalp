@@ -98,3 +98,34 @@ add_action( 'ofuse_member_profile_update', function( $user_id, $old_data ) {
 		delete_user_meta( $user_id, 'hidden_capitalist' );
 	}
 }, 10, 2 );
+
+add_action( 'admin_init', function() {
+	// reading 設定ページへフィールドを追加する準備として
+	// セクションを追加
+	add_settings_section(
+		'capitalp_membership',
+		'Club Capital P',
+		function() {
+			?>
+			<p class="description">Capital Pの有料会員クラブについての設定項目です。</p>
+			<?php
+		},
+		'reading'
+	);
+	
+	// その新しいセクションの中に
+	// 新しい設定の名前と関数を指定しながらフィールドを追加
+	add_settings_field(
+		'capitalp_group_id',
+		'Facebook Group ID',
+		function() {
+			?>
+			<input type="text" name="capitalp_group_id" id="capitalp_group_id" value="<?= esc_attr( get_option( 'capitalp_group_id', '' ) ) ?>" />
+			<?php
+		},
+		'reading',
+		'capitalp_membership'
+	);
+	
+	register_setting( 'reading', 'capitalp_group_id' );
+} );
