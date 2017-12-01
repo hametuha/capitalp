@@ -17,6 +17,10 @@ add_filter( 'the_content', function ( $content ) {
 			<?php capitalp_ad( 'after_title' ) ?>
         </div>
 		<?php
+		
+		if ( author_can( get_post(), 'contributor' ) ) {
+			get_template_part( 'template-parts/block/contributor' );
+		}
 		$ad = ob_get_contents();
 		ob_end_clean();
 		$content = $ad . $content;
@@ -29,12 +33,14 @@ add_filter( 'the_content', function ( $content ) {
  * Show advertisement after content
  */
 add_filter( 'the_content', function ( $content ) {
+	
 	if ( is_singular( 'post' ) ) {
 		ob_start();
 		get_template_part( 'template-parts/block/ad', 'content' );
 		$ad = ob_get_contents();
 		ob_end_clean();
 		$content .= $ad;
+		
 	}
 
 	return $content;
