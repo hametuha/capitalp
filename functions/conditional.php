@@ -40,13 +40,3 @@ function capitalp_translated_alternative() {
 	}
 	return null;
 }
-
-/**
- * Detect if capitalists wants to be public.
- *
- * @param int $user_id
- * @return bool
- */
-function capitalp_is_public_capitalist( $user_id ) {
-	return ! get_user_meta( $user_id, 'hidden_capitalist', true );
-}

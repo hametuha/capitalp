@@ -48,4 +48,18 @@ class CapitalP extends WP_CLI_Command {
 		}
 		$table->display();
 	}
+	
+	/**
+	 * Update CCP role.
+	 *
+	 * Paid member should be subscriber.
+	 */
+	public function update_role() {
+		$table = new cli\Table();
+		$table->setHeaders( [ 'No Change', 'Upgrade', 'Resign' ] );
+		$body = capitalp_update_bulk_role();
+		$table->addRow( $body );
+		$table->display();
+		WP_CLI::success( sprintf( 'Above is the CCP %d members status.', $body[0] + $body[1] + $body[2] ) );
+	}
 }

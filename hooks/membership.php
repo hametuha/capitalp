@@ -129,3 +129,43 @@ add_action( 'admin_init', function() {
 	
 	register_setting( 'reading', 'capitalp_group_id' );
 } );
+
+add_action( 'ofuse_member_profile_update', function( $user_id ) {
+
+} );
+
+/**
+ * change user status
+ */
+add_action( 'set_logged_in_cookie', function( $logged_in_cookie, $expire, $expiration, $user_id ) {
+	capitalp_assign_role( $user_id );
+}, 11, 4 );
+
+/**
+ * Hide others posts from contributor
+ */
+add_action( 'pre_get_posts', function( WP_Query &$wp_query ) {
+	if ( ! $wp_query->is_main_query() || ! is_admin() || wp_doing_ajax() ) {
+		return;
+	}
+	if ( current_user_can( 'contributor' ) ) {
+		$wp_query->set( 'author', get_current_user_id() );
+	}
+} );
+
+// Weekly cron
+add_action( 'init', function () {
+	if ( wp_next_scheduled( 'capitalp_membership' ) ) {
+		wp_schedule_event( current_time( 'timestamp', true ), 'weekly', 'capitalp_membership' );
+	}
+} );
+
+// Bulk check in a week.
+add_action( 'capitalp_membership', 'capitalp_update_bulk_role' );
+
+// Send slack notification if post is pending.
+add_action( 'transition_post_status', function( $new_status, $old_status, $post ) {
+	if ( 'pending' == $new_status && 'pending' != $old_status ) {
+		hameslack_post( sprintf( '@channel 新しい投稿が公開待ちだワン！', get_edit_post_link( $post->ID ) ) );
+	}
+}, 10, 3 );
