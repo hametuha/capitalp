@@ -23,6 +23,9 @@ jQuery(document).ready(function ($) {
           }
         });
       }
+      if( href.test(/^https:\/\/(wordpress|jetpack|woocommerce)\.com/) ) {
+        args.push('aff=4310');
+      }
       $.each([
         'utm_source=capitalp',
         'utm_campaign=SponsorUs',
