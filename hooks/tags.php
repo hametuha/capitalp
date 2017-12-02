@@ -216,16 +216,15 @@ add_shortcode( 'advent', function( $atts, $content = '' ) {
 										'title' => $author,
 									] );
 									if ( 'publish' == $post->post_status ) {
-										printf( '<a class="capitalp-calendar-link" href="%s">%s <small>%s</small></a>', get_permalink( $post ), $avatar, get_the_title( $post ) );
+										printf( '<a class="capitalp-calendar-link" href="%s" title="%s">%s</a>', get_permalink( $post ), esc_attr( get_the_title( $post ) ), $avatar );
 									} else {
-										printf( '<span class="capitalp-calendar-text">%s <small>%s</small></span>', $avatar, get_the_title( $post ) );
+										printf( '<span class="capitalp-calendar-text" title="%s">%s</span>', esc_attr( get_the_title( $post ) ), $avatar );
 									}
 								}
 							} elseif ( $active ) {
 								// Post empty!
 								?>
 								<span class="capitalp-calendar-text">
-									<img src="<?= get_stylesheet_directory_uri() ?>/assets/img/dog-blue.png" class="capitalp-calendar-image" />
 									<small>投稿なし</small>
 								</span>
 								<?php
@@ -249,3 +248,20 @@ add_shortcode( 'advent', function( $atts, $content = '' ) {
 } );
 
 
+add_action( 'snow_monkey_entry_meta_items', function() {
+	$tags = get_the_tags( get_the_ID() );
+	if ( ! $tags || is_wp_error( $tags ) ) {
+		return;
+	}
+	?>
+	<li class="c-meta__item c-meta__item--tags">
+		<span class="screen-reader-text"><?php esc_html_e( 'Categories', 'snow-monkey' ); ?></span>
+		<i class="fa fa-tags" aria-hidden="true"></i>
+		<?php
+		echo implode( ', ', array_map( function ( $tag ) {
+			return sprintf( '<a rel="tag" href="%s">%s</a>', esc_url( get_term_link( $tag ) ), esc_html( $tag->name ) );
+		}, $tags ) );
+		?>
+	</li>
+	<?php
+}, 50 );
