@@ -166,6 +166,6 @@ add_action( 'capitalp_membership', 'capitalp_update_bulk_role' );
 // Send slack notification if post is pending.
 add_action( 'transition_post_status', function( $new_status, $old_status, $post ) {
 	if ( 'pending' == $new_status && 'pending' != $old_status ) {
-		hameslack_post( sprintf( '@channel 新しい投稿が公開待ちだワン！', get_edit_post_link( $post->ID ) ) );
+		hameslack_post( sprintf( '@channel 新しい投稿が公開待ちだワン！ %s', get_edit_post_link( $post->ID ) ) );
 	}
 }, 10, 3 );
