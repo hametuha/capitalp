@@ -169,3 +169,19 @@ add_action( 'transition_post_status', function( $new_status, $old_status, $post 
 		hameslack_post( sprintf( '@channel 新しい投稿が公開待ちだワン！ %s', get_edit_post_link( $post->ID ) ) );
 	}
 }, 10, 3 );
+
+add_filter( 'hamail_user_field', function( $field, $user ) {
+	$field['membership'] = (int) $field['membership'];
+	$field['user_registered'] = mysql2date( 'm/d/Y', $field['user_registered'] );
+	return $field;
+}, 10, 2 );
+
+
+/**
+ * Post to slack if contact created.
+ */
+add_action( 'transition_post_status', function( $new_status, $old_status, $post ) {
+	if ( ( 'feedback' === $post->post_tpe ) && ( 'publish' == $new_status ) && ( 'publish' != $old_status ) ) {
+		hameslack_post( sprintf( '@channel ユーザーから問い合わせがあったワン！ %s', admin_url( 'edit.php?post_type=feedback' ) ) );
+	}
+}, 10, 3 );

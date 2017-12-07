@@ -11,16 +11,6 @@ add_filter( 'wpas_default_suffix', function( $suffix ){
 	return $suffix;
 }, 10, 4 );
 
-// Add mautic bar
-add_action( 'admin_bar_menu', function( WP_Admin_Bar &$wp_admin_bar ) {
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'site-name',
-		'id'     => 'mautic',
-		'title'  => 'Mautic',
-		'href'   => 'https://capitalp.mautic.net/',
-	) );
-}, 11 );
-
 add_action( 'template_redirect', function() {
 	if ( 'twitter-card' == get_query_var( 'hametupack-template' ) ) {
 		header( 'X-FRAME-OPTIONS: ALLOW-FROM https://twitter.com' );
@@ -48,3 +38,22 @@ add_action( 'register_shortcode_ui', function () {
 	] );
 } );
 
+/**
+ * Avoid oEmbed to work if wp_mail context.
+ *
+ * @param string $context
+ */
+add_action( 'hamail_body_before_send', function( $context ) {
+	if ( 'html' === $context ) {
+		wp_embed_unregister_handler( 'wp_oembed_blog_card' );
+	}
+} );
+
+/**
+ * Password reset mail
+ *
+ * @param string $message
+ */
+add_filter( 'retrieve_password_message', function( $message ) {
+	return preg_replace( '#<(https?://.*)>#u', '$1', $message );
+} );

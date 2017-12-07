@@ -255,7 +255,7 @@ add_action( 'snow_monkey_entry_meta_items', function() {
 	}
 	?>
 	<li class="c-meta__item c-meta__item--tags">
-		<span class="screen-reader-text"><?php esc_html_e( 'Categories', 'snow-monkey' ); ?></span>
+		<span class="screen-reader-text"><?php esc_html_e( 'Tags', 'snow-monkey' ); ?></span>
 		<i class="fa fa-tags" aria-hidden="true"></i>
 		<?php
 		echo implode( ', ', array_map( function ( $tag ) {

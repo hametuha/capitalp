@@ -34,13 +34,12 @@ add_filter( 'the_content', function ( $content ) {
  */
 add_filter( 'the_content', function ( $content ) {
 	
-	if ( is_singular( 'post' ) ) {
+	if ( is_singular( 'post' ) && in_the_loop() ) {
 		ob_start();
 		get_template_part( 'template-parts/block/ad', 'content' );
 		$ad = ob_get_contents();
 		ob_end_clean();
 		$content .= $ad;
-		
 	}
 
 	return $content;

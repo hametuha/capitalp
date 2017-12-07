@@ -14,7 +14,6 @@ add_filter( 'user_contactmethods', function ( $methods ) {
 		'twitter'   => 'Twitter(URL)',
 		'instagram' => 'Instagram(URL)',
 		'github'    => 'Github(URL)',
-		'slack'     => 'Slackユーザー名（ex. fumiki）',
 	];
 } );
 
@@ -162,4 +161,30 @@ add_action( 'register_shortcode_ui', function () {
 			],
 		],
 	] );
+} );
+
+/**
+ * Filter license request.
+ */
+add_filter( 'hameslack_user_can_request_invitation', function( $can, $user_id ) {
+	return ofuse_is_user_valid( $user_id );
+}, 10, 2 );
+
+/**
+ * Show instruction
+ */
+add_action( 'show_user_profile', function( $user ) {
+	if ( ofuse_is_user_valid( $user->ID ) ) {
+		// If user is valid, show nothing.
+		return;
+	}
+	?>
+	<h3>Slackへ参加</h3>
+	<p class="description">
+		<a href="<?= home_url( '/ccp' ) ?>" target="_blank">Capital Pのライセンス</a>をご購入いただくと、Slackに参加できます。
+	</p>
+	<p>
+		<a href="<?= home_url( '/ccp' ) ?>" class="button" target="_blank">ライセンスを購入</a>
+	</p>
+	<?php
 } );
