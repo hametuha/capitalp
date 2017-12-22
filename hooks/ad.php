@@ -60,9 +60,26 @@ add_action( 'init', function () {
 	] );
 }, 11 );
 
+
+
 /**
  * Register widgetss
  */
 add_action( 'widgets_init', function () {
 	register_widget( CapitalP_WidgetAdsence::class );
 } );
+
+add_action( 'get_template_part_template-parts/entry-summary', function($slug, $name) {
+	if ( ( is_singular() || is_page() ) && ! is_front_page() ) {
+		return;
+	}
+	static $counter = 0;
+	$counter++;
+	if ( ( 0 === $counter % 4 ) && ( 1 < $counter ) ) {
+		?>
+		<?php capitalp_ad( 'infeed' ) ?>
+		</li>
+		<li class="c-entries__item">
+		<?php
+	}
+}, 10, 2 );

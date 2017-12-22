@@ -247,7 +247,9 @@ add_shortcode( 'advent', function( $atts, $content = '' ) {
 	return implode( "\n", array_filter( array_map( 'trim', explode( "\n", $content ) ) ) );
 } );
 
-
+/**
+ * Display tags on entry-meta
+ */
 add_action( 'snow_monkey_entry_meta_items', function() {
 	$tags = get_the_tags( get_the_ID() );
 	if ( ! $tags || is_wp_error( $tags ) ) {
@@ -265,3 +267,29 @@ add_action( 'snow_monkey_entry_meta_items', function() {
 	</li>
 	<?php
 }, 50 );
+
+/**
+ * Filter tag cloud
+ */
+add_filter( 'tag_cloud_sort', function( $tags, $args ) {
+	return array_filter( $tags, function( WP_Term $tag ) {
+		return get_option( 'capitalp_tag_limit', 5 ) <= $tag->count;
+	} );
+}, 10, 2 );
+
+/**
+ * Add setting for tag
+ */
+add_action( 'admin_init', function() {
+	add_settings_section( 'tag_display', 'Capital P タグ設定', function() {
+		?>
+		<p class="description">タグの表示についての設定です。</p>
+		<?php
+	}, 'reading' );
+	add_settings_field( 'capitalp_tag_limit', 'タグクラウドの最低表示数', function() {
+		?>
+		<input type="number" name="capitalp_tag_limit" id="capitalp_tag_limit" value="<?php echo esc_attr( get_option( 'capitalp_tag_limit', 5 ) ) ?>" placeholder="5" />
+		<?php
+	}, 'reading', 'tag_display' );
+	register_setting( 'reading', 'capitalp_tag_limit' );
+} );

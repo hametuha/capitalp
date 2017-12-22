@@ -13,6 +13,20 @@
  */
 function capitalp_ad( $position ) {
 	switch ( $position ) {
+		case 'infeed':
+			echo <<<HTML
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-7t+26-g1+6y+14k"
+     data-ad-client="ca-pub-0087037684083564"
+     data-ad-slot="3217726954"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+HTML;
+			break;
 		case 'inside_loop':
 			echo <<<HTML
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>

@@ -170,6 +170,8 @@ add_action( 'transition_post_status', function( $new_status, $old_status, $post 
 	}
 }, 10, 3 );
 
+
+
 add_filter( 'hamail_user_field', function( $field, $user ) {
 	$field['membership'] = (int) $field['membership'];
 	$field['user_registered'] = mysql2date( 'm/d/Y', $field['user_registered'] );

@@ -62,4 +62,67 @@ class CapitalP extends WP_CLI_Command {
 		$table->display();
 		WP_CLI::success( sprintf( 'Above is the CCP %d members status.', $body[0] + $body[1] + $body[2] ) );
 	}
+	
+	/**
+	 * Get analytics test.
+	 *
+	 *
+	 * @synopsis [--start-date=<start-date>] [--end-date=<end-date>] [--metrics=<metrics>] [--max-results=<max-results>] [--dimensions=<dimensions>] [--filters=<filters>]
+	 * @param array $args
+	 * @param array $assoc
+	 */
+	public function analytics( $args, $assoc ) {
+		$fetcher = capitalp_analytics();
+		if ( ! $fetcher ) {
+			WP_CLI::error( 'Failed to get Google Analytics fetcher. Please check setting.' );
+		}
+		$args = [];
+		foreach ( wp_parse_args( $assoc, [
+			'start-date'  => date_i18n( 'Y-m-d', strtotime( '7 days ago' ) ),
+			'end-date'    => date_i18n( 'Y-m-d' ),
+			'metrics'     => 'ga:pageviews',
+			'max-results' => 20,
+			'dimensions'  => 'ga:pagePath',
+			'filters'     => '',
+			'sort'        => '-ga:pageviews',
+			'start-index' => '',
+		] ) as $key => $value ) {
+			switch ( $key ) {
+				case 'start-date':
+					$start_date = $value;
+					break;
+				case 'end-date':
+					$end_date = $value;
+					break;
+				case 'metrics':
+					$metrics = $value;
+					break;
+				default:
+					if ( '' !== $value ) {
+						$args[ $key ] = $value;
+					}
+					break;
+			}
+		}
+		try {
+			$result = $fetcher->fetch( $start_date, $end_date, $metrics, $args, true );
+			if ( ! $result ) {
+				WP_CLI::error( 'No data found.' );
+			}
+			$table = new cli\Table();
+			$header = [];
+			foreach ( [ $args['dimensions'], $metrics ] as $csv ) {
+				foreach ( explode( ',', $csv ) as $col ) {
+					if ( $col ) {
+						$header[] = $col;
+					}
+				}
+			}
+			$table->setHeaders( $header );
+			$table->setRows( $result );
+			$table->display();
+		} catch ( Exception $e ) {
+			WP_CLI::error( $e->getMessage() );
+		}
+	}
 }
