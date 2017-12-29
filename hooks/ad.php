@@ -33,7 +33,6 @@ add_filter( 'the_content', function ( $content ) {
  * Show advertisement after content
  */
 add_filter( 'the_content', function ( $content ) {
-	
 	if ( is_singular( 'post' ) && in_the_loop() ) {
 		ob_start();
 		get_template_part( 'template-parts/block/ad', 'content' );
@@ -41,7 +40,6 @@ add_filter( 'the_content', function ( $content ) {
 		ob_end_clean();
 		$content .= $ad;
 	}
-
 	return $content;
 }, 11 );
 
@@ -60,15 +58,9 @@ add_action( 'init', function () {
 	] );
 }, 11 );
 
-
-
 /**
- * Register widgetss
+ * Display infeed ads.
  */
-add_action( 'widgets_init', function () {
-	register_widget( CapitalP_WidgetAdsence::class );
-} );
-
 add_action( 'get_template_part_template-parts/entry-summary', function($slug, $name) {
 	if ( ( is_singular() || is_page() ) && ! is_front_page() ) {
 		return;

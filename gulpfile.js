@@ -32,7 +32,9 @@ gulp.task('js', function () {
     .pipe($.sourcemaps.init({
       loadMaps: true
     }))
-    .pipe($.uglify())
+    .pipe($.uglify({
+      preserveComments: 'some'
+    }))
     .on('error', $.util.log)
     .pipe($.sourcemaps.write('./map'))
     .pipe(gulp.dest('./assets/js/'));

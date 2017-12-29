@@ -1,0 +1,54 @@
+// ウィジェット
+.widget-testimonial {
+  $size: 80px;
+  &-item {
+    margin: 1em 0;
+    position: relative;
+    padding-left: $size + 20px;
+  }
+  &-img {
+    max-width: $size;
+    min-width: $size;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    border-radius: 50%;
+  }
+  &-quote{
+    $bg-color: #f9f9f9;
+    $arrow-size: 10px;
+    position: relative;
+    padding: 1em;
+    background: $bg-color;
+    margin: 0;
+    border-left: none;
+    &:before{
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      display: block;
+      top: 50%;
+      transform: translateY(-50%);
+      left: $arrow-size * -2;
+      border: $arrow-size solid transparent;
+      border-right-color: $bg-color;
+    }
+    p{
+      margin: 0.25em 0;
+    }
+  }
+  &-cite{
+    display: block;
+    font-size: 0.85em;
+    color: #888;
+    font-weight: bold;
+    font-style: normal;
+  }
+  &:after {
+
+  }
+}

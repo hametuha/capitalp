@@ -125,4 +125,6 @@ class CapitalP extends WP_CLI_Command {
 			WP_CLI::error( $e->getMessage() );
 		}
 	}
+	
+	
 }

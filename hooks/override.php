@@ -11,6 +11,7 @@ add_filter( 'wpas_default_suffix', function( $suffix ){
 	return $suffix;
 }, 10, 4 );
 
+// Allow external embed.
 add_action( 'template_redirect', function() {
 	if ( 'twitter-card' == get_query_var( 'hametupack-template' ) ) {
 		header( 'X-FRAME-OPTIONS: ALLOW-FROM https://twitter.com' );

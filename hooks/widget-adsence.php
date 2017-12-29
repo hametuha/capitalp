@@ -18,7 +18,7 @@ class CapitalP_WidgetAdsence extends WP_Widget {
 	public function __construct(){
 		parent::__construct(
 			'adsense_widget',
-			'Google Adsence',
+			'Capital P: Google Adsence',
 			[
 				'description' => 'Google Adsenceの広告です。サイドバーの一番下とかに使ってください',
 			]
