@@ -111,7 +111,8 @@ class CapitalP_WidgetTestimonial extends WP_Widget {
 			?>
 			<div class="widget-testimonial-item">
 				<?php if ( has_post_thumbnail( $testimonial ) ) : ?>
-					<?php echo get_the_post_thumbnail( $testimonial, 'post-thumbnail', [ 'class' => 'widget-testimonial-img' ] ) ?>
+					<div class="widget-testimonial-img" style="background-image: url('<?php echo esc_attr( get_the_post_thumbnail_url( $testimonial, 'post-thumbnail' ) ) ?>');">
+					</div>
 				<?php endif; ?>
 				<blockquote class="widget-testimonial-quote">
 					<?php echo wp_kses_post( wpautop( $testimonial->post_content ) ) ?>

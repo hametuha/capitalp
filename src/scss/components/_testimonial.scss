@@ -7,17 +7,20 @@
     padding-left: $size + 20px;
   }
   &-img {
-    max-width: $size;
-    min-width: $size;
-    width: auto;
-    height: auto;
+    width: $size;
+    height: $size;
     position: absolute;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
     border-radius: 50%;
   }
   &-quote{
+    box-sizing: border-box;
+    min-height: $size;
     $bg-color: #f9f9f9;
     $arrow-size: 10px;
     position: relative;
