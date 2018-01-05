@@ -1,6 +1,36 @@
-.capitalp-cotributor{
+.capitalp-condition{
   font-size: 0.85em;
   margin: 1.8rem 0;
-  font-weight: bold;
-  color: #888;
+  padding: 1rem;
+  background-color: #fcfcfc;
+  border: 1px solid #eee;
+  color: #111;
+}
+.capitalp-series{
+  &-container{
+    margin-bottom: 3.6rem;
+    text-align: center;
+  }
+  &-title{
+    $size: 20px;
+    padding-bottom: $size;
+    margin-bottom: $size;
+    position: relative;
+    &:after{
+      $width: 1.2em;
+      content: "";
+      display: inline-block;
+      width: $width;
+      height: 10px;
+      border-bottom: 5px solid #111;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: $width / -2;
+    }
+  }
+  &-desc{
+    color: #444;
+    font-size: 14px;
+  }
 }

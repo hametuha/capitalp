@@ -6,30 +6,6 @@
  */
 
 /**
- * Show ad
- */
-add_filter( 'the_content', function ( $content ) {
-	if ( is_singular( 'post' ) && in_the_loop() ) {
-		ob_start();
-		?>
-        <div class="ad-single-top">
-            <span class="ad-title">SPONSORED LINK</span>
-			<?php capitalp_ad( 'after_title' ) ?>
-        </div>
-		<?php
-		
-		if ( author_can( get_post(), 'contributor' ) ) {
-			get_template_part( 'template-parts/block/contributor' );
-		}
-		$ad = ob_get_contents();
-		ob_end_clean();
-		$content = $ad . $content;
-	}
-
-	return $content;
-} );
-
-/**
  * Show advertisement after content
  */
 add_filter( 'the_content', function ( $content ) {

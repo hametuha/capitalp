@@ -34,3 +34,18 @@ function capitalp_counter( $action = 'increment', $value = 1 ) {
 	}
 	return $counter;
 }
+
+/**
+ * Get template counter.
+ *
+ * @param string $file
+ * @return int
+ */
+function capitalp_template_counter( $file ) {
+	static $counter = [];
+	if ( ! isset( $counter[ $file ] ) ) {
+		$counter[ $file ] = 0;
+	}
+	$counter[ $file ]++;
+	return $counter[ $file ];
+}

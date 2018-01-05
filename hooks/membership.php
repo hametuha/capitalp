@@ -130,10 +130,6 @@ add_action( 'admin_init', function() {
 	register_setting( 'reading', 'capitalp_group_id' );
 } );
 
-add_action( 'ofuse_member_profile_update', function( $user_id ) {
-
-} );
-
 /**
  * change user status
  */
