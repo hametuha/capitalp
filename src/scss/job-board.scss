@@ -1,0 +1,20 @@
+.toggle{
+  &-enter-active,
+  &-leave-active{
+    transition: opacity .3s linear,
+                transform .3s linear;
+  }
+  &-enter-active{
+    transition-delay: .3s;
+  }
+  &-enter,
+  &-leave-to{
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  &-enter-to,
+  &-leave{
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

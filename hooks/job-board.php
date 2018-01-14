@@ -22,24 +22,36 @@ add_action( 'admin_menu', function() {
 			<h2>ジョブボード</h2>
 			
 			<div id="job-board-container" class="jb-container">
-				<p>
-					<input type="text" v-model="newTitle"/>
-					<button type="button" v-on:click="addNew">新規追加</button>
-				</p>
-				<div v-if="!recruitment.length">
-					データがありません。
-				</div>
-				<div v-if="recruitment.length">
-					<ul>
-						<li v-for="item in recruitment">
-							#{{item.ID}} <strong>{{item.post_title}}</strong>
-							<p>
-								<button type="button" v-on:click="editPost(item.ID)">編集</button>
-								<button type="button" v-on:click="removePost(item.ID)">削除</button>
-							</p>
-						</li>
-					</ul>
-				</div>
+				<transition name="toggle">
+
+					<div v-if="!post">
+						<p>
+							<input type="text" v-model="newTitle"/>
+							<button type="button" v-on:click="addNew">新規追加</button>
+						</p>
+						<div v-if="!recruitment.length">
+							データがありません。
+						</div>
+						<div v-if="recruitment.length">
+							<ul>
+								<li v-for="item in recruitment">
+									#{{item.ID}} <strong>{{item.post_title}}</strong>
+									<p>
+										<button type="button" v-on:click="editPost(item.ID)">編集</button>
+										<button type="button" v-on:click="removePost(item.ID)">削除</button>
+									</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</transition>
+
+				<transition name="toggle">
+					<div v-if="post">
+						<button type="button" v-on:click="finishEdit">編集終了</button>
+						<job-board-editor :post="post" v-on:post-changed="postChangeHandler"></job-board-editor>
+					</div>
+				</transition>
 			</div>
 			
 		</div>
@@ -59,6 +71,7 @@ add_action( 'admin_enqueue_scripts', function( $page ) {
 		'endpoint'  => rest_url(),
 		'nonce' => wp_create_nonce( 'wp_rest' ),
 	] );
+	wp_enqueue_style( 'capitalp-job-board', get_stylesheet_directory_uri() . '/assets/css/job-board.css', [], wp_get_theme()->get('Version') );
 } );
 
 add_action( 'rest_api_init', function() {
@@ -91,7 +104,7 @@ add_action( 'rest_api_init', function() {
 					],
 					'suppress_filters' => false,
 				] );
-				return new WP_REST_Response( $posts );
+				return new WP_REST_Response( array_map( 'capitalp_job_mapper', $posts ) );
 			},
 		],
 		[
@@ -120,6 +133,72 @@ add_action( 'rest_api_init', function() {
 				} else {
 					return new WP_REST_Response( get_post( $result ) );
 				}
+			}
+		],
+		[
+			'methods' => 'PUT',
+			'args' => [
+				'id' => [
+					'validate_callback' => function( $var ) {
+						if ( ! is_numeric( $var ) ) {
+							return false;
+						}
+						$post = get_post( $var );
+						if ( ! $post || 'recruitment' !== $post->post_type || get_current_user_id() != $post->post_author ) {
+							return new WP_Error( 'invalid_request', '求人票へのリクエストは許可されていません。', [
+								'status' => 403,
+							] );
+						}
+						// ここまできたらオーケー。
+						return true;
+					},
+					'required' => true,
+				],
+				'title' => [
+					'required' => false,
+				],
+				'content' => [
+					'required' => false,
+				],
+				'status' => [
+					'required' => false,
+					'validate_callback' => function( $var ) {
+						$status = get_post_status_object( $var );
+						return $status;
+					}
+				],
+			],
+			'callback' => function( WP_REST_Request $request ) {
+				$post_id = $request->get_param( 'id' );
+				$post_arr = [];
+				// Titleを設定
+				$title = $request->get_param( 'title' );
+				if ( $title ) {
+					$post_arr['post_title'] = $title;
+				}
+				$content = $request->get_param( 'content' );
+				if ( $content ) {
+					$post_arr['post_content'] = $content;
+				}
+				$status = $request->get_param( 'status' );
+				if ( $status ) {
+					// なんかちぇっく
+					$checked = true;
+					if (! $checked ) {
+						return new WP_Error( 'invalid_job', '無効な求人票です。', [
+							'status' => 400,
+						] );
+					}
+					$post_arr['post_status'] = $status;
+				}
+				if ( $post_arr ) {
+					$post_arr['ID'] = $post_id;
+					wp_update_post( $post_arr );
+				}
+				return new WP_REST_Response( capitalp_job_mapper( get_post( $post_id ) ) );
+			},
+			'permission_callback' => function( WP_REST_Request $request ) {
+				return current_user_can( 'contributor' );
 			}
 		],
 	] );
@@ -164,3 +243,10 @@ add_action( 'rest_api_init', function() {
 		],
 	] );
 } );
+
+function capitalp_job_mapper( $post ) {
+	$status = get_post_status_object( $post->post_status )->label;
+	$post->status = $status;
+	$post->editable = ! in_array( $post->post_status, [ 'publish', 'future', 'pending' ] );
+	return $post;
+}
