@@ -1,0 +1,16 @@
+{
+    "name": "hametuha/capitalp",
+    "description": "A theme for Capital P",
+    "type": "wordpress-theme",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "fumikito",
+            "email": "guy@hametuha.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "hametuha/wp-enqueue-manager": "dev-master"
+    }
+}

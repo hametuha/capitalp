@@ -32,6 +32,10 @@ gulp.task('js', function () {
     .pipe($.sourcemaps.init({
       loadMaps: true
     }))
+    // ここでES6にする
+    .pipe($.babel({
+      "presets": ["es2015"]
+    }))
     .pipe($.uglify({
       preserveComments: 'some'
     }))

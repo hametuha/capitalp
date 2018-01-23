@@ -20,44 +20,22 @@ add_action( 'admin_menu', function() {
 		?>
 		<div class="wrap">
 			<h2>ジョブボード</h2>
-			
-			<div id="job-board-container" class="jb-container">
-				<transition name="toggle">
-
-					<div v-if="!post">
-						<p>
-							<input type="text" v-model="newTitle"/>
-							<button type="button" v-on:click="addNew">新規追加</button>
-						</p>
-						<div v-if="!recruitment.length">
-							データがありません。
-						</div>
-						<div v-if="recruitment.length">
-							<ul>
-								<li v-for="item in recruitment">
-									#{{item.ID}} <strong>{{item.post_title}}</strong>
-									<p>
-										<button type="button" v-on:click="editPost(item.ID)">編集</button>
-										<button type="button" v-on:click="removePost(item.ID)">削除</button>
-									</p>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</transition>
-
-				<transition name="toggle">
-					<div v-if="post">
-						<button type="button" v-on:click="finishEdit">編集終了</button>
-						<job-board-editor :post="post" v-on:post-changed="postChangeHandler"></job-board-editor>
-					</div>
-				</transition>
+			<div id="job-board-container">
+				<job-board-container></job-board-container>
 			</div>
-			
 		</div>
-		
 		<?php
 	}, 'dashicons-groups', 50 );
+} );
+
+// Register JS
+add_action( 'init', function() {
+	wp_register_script( 'vue-js', 'https://cdn.jsdelivr.net/npm/vue', [], 'latest', true );
+	Hametuha\WpEnqueueManager::register_js( get_stylesheet_directory() . '/assets/js/job-board', 'capitalp-', wp_get_theme()->get( 'Version' ), true );
+	wp_localize_script( 'capitalp-rest-api', 'CapitapRest', [
+		'endpoint'  => rest_url(),
+		'nonce' => wp_create_nonce( 'wp_rest' ),
+	] );
 } );
 
 // Load JS
@@ -65,12 +43,7 @@ add_action( 'admin_enqueue_scripts', function( $page ) {
 	if ( 'toplevel_page_job-board' !== $page ) {
 		return;
 	}
-	wp_enqueue_script( 'vue-js', 'https://cdn.jsdelivr.net/npm/vue', [], 'latest', true );
-	wp_enqueue_script( 'capitalp-job-board-admin', get_stylesheet_directory_uri() . '/assets/js/job-board-admin.js', [ 'jquery', 'vue-js' ], wp_get_theme()->get( 'Version' ), true );
-	wp_localize_script( 'capitalp-job-board-admin', 'JobBoardVars', [
-		'endpoint'  => rest_url(),
-		'nonce' => wp_create_nonce( 'wp_rest' ),
-	] );
+	wp_enqueue_script( 'capitalp-job-board-admin' );
 	wp_enqueue_style( 'capitalp-job-board', get_stylesheet_directory_uri() . '/assets/css/job-board.css', [], wp_get_theme()->get('Version') );
 } );
 

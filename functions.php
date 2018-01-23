@@ -3,6 +3,11 @@
  * Functions
  */
 
+// Load auto loader.
+$autloader = __DIR__ . '/vendor/autoload.php';
+if ( file_exists( $autloader ) ) {
+	require $autloader;
+}
 
 // Load all file.
 foreach ( [ 'functions', 'hooks' ] as $dir ) {
