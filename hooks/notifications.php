@@ -327,3 +327,14 @@ SQL;
 
 	return $response;
 }, 10, 3 );
+
+/**
+ * Send slack if feedback sent.
+ */
+add_action( 'grunion_pre_message_sent', function( $post_id ) {
+	if ( 'publish' == get_post_status( $post_id ) ) {
+		$edit_link = admin_url( "post.php?post={$post_id}&action=edit" );
+		$content = "@here ユーザーからタレコミまたはフィードバックがあるワン！ {$edit_link}";
+		do_action( 'hameslack',  $content );
+	}
+}, 10 );
