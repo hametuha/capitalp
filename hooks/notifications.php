@@ -105,11 +105,11 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 							if ( ! is_numeric( $to ) ) {
 								$to = 1;
 							}
-							$from       = current_time( 'timestamp', true ) - $from * 3600;
+							$from_gmt   = current_time( 'timestamp', true ) - $from * 3600;
 							$from_local = current_time( 'timestamp' ) - $from * 3600;
-							$to         = current_time( 'timestamp', true ) - $to * 3600;
+							$to_gmt     = current_time( 'timestamp', true ) - $to * 3600;
 							$to_local   = current_time( 'timestamp' ) - $to * 3600;
-							$messages = hameslack_channel_history( $request['channel_name'], $to, $from, [
+							$messages = hameslack_channel_history( $request['channel_name'], $to_gmt, $from_gmt, [
 								'count' => 300,
 							] );
 							if ( is_wp_error( $messages ) ) {
@@ -118,7 +118,7 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 							if ( empty( $messages ) ) {
 								throw new Exception( 'その期間にメッセージはなかったワン' );
 							}
-							error_log( sprintf( 'Cappy logs %d messages.', count( $messages ) ) );
+//							error_log( sprintf( 'Cappy logs %d messages.', count( $messages ) ) );
 							$format  = get_option( 'time_format' );
 							$title   = sprintf( '%s〜%sのログ', date_i18n( $format, $to_local ), date_i18n( $format, $from_local ) );
 							// Grab users.
@@ -129,6 +129,7 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 									'wp_id' => 0,
 								];
 							}
+//							error_log( sprintf( 'Users: %s', var_export( $slack_users, true ) ) );
 							global $wpdb;
 							$query = <<<SQL
 								SELECT user_id, meta_value FROM {$wpdb->usermeta}
@@ -151,6 +152,7 @@ SQL;
 							// Create content.
 							$content = [];
 							foreach ( $messages as $message ) {
+//								error_log( sprintf( '[Cappy Message] %s', var_export( $message, true ) ) );
 								if ( $user_id = $get_user_id( $message->user ) ) {
 									$content[] = sprintf( '[capitalp_author user_id=%d]%s[/capitalp_author]', $user_id, $message->text );
 								} else {
