@@ -139,3 +139,33 @@ add_shortcode( 'recent-hero', function ( $atts, $content = '' ) {
 	}
 	return $cache;
 } );
+
+// Add post type for ranking.
+add_action( 'init', function() {
+	register_post_type( 'ranking', [
+		'label'  => 'ランキング',
+		'public' => true,
+		'supports' => [ 'title', 'editor', 'author' ],
+		'capability_type' => 'page',
+		'map_meta_cap' => true,
+		'capabilities' => [
+			'create_posts' => 'create_ranking',
+		],
+	] );
+} );
+
+/**
+ * ランキングが公開されたらつぶやく
+ */
+add_action( 'transition_post_status', function( $new_status, $old_status, $post ) {
+	if ( ( 'ranking' === $post->post_tpe ) && ( 'publish' == $new_status ) && ( 'future' != $old_status ) ) {
+		if ( ! function_exists( 'gianism_update_twitter_status' ) ) {
+			return;
+		}
+		gianism_update_twitter_status( sprintf(
+			'%sのランキングが更新されたワン！ %s',
+			date_i18n( get_option( 'date_format' ) ),
+			get_permalink( $post )
+		) );
+	}
+}, 10, 3 );

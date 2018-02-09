@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Command utility for Capital P.
  */
@@ -126,5 +125,74 @@ class CapitalP extends WP_CLI_Command {
 		}
 	}
 	
-	
+	/**
+	 * Get latest ranking
+	 */
+	public function fetch_ranking() {
+		$weekly_ranking = capitalp_get_ranking( 20, date_i18n( 'Y-m-d', strtotime( '7 days ago' ) ) );
+		$total_ranking = capitalp_get_ranking( 20, '2016-12-07' );
+		if ( ! $weekly_ranking || ! $total_ranking ) {
+			WP_CLI::error( 'ランキングを取得できませんでした。' );
+		}
+		// 投稿本文を作成
+		$title = sprintf( '%s時点のランキング', date_i18n( get_option( 'date_format' ) ) );
+		ob_start();
+		foreach ( [
+					'週間ランキング' => $weekly_ranking,
+					'全期間ランキング' => $total_ranking,
+				  ] as $label => $ranking ) :
+		?>
+			<h2><?= $label ?></h2>
+			<table>
+				<thead>
+				<tr>
+					<th>順位</th>
+					<th>タイトル</th>
+					<th>PV</th>
+				</tr>
+				</thead>
+				<tbody>
+					<?php $counter = 0; foreach ( $ranking as $rank ) : $counter++; ?>
+						<tr>
+							<th><?= $counter ?>位</th>
+							<td>
+								<a href="<?= get_permalink( $rank ) ?>">
+									<?= esc_html( get_the_title( $rank ) ) ?>
+								</a>
+							</td>
+							<td>
+								<?= number_format_i18n( $rank->pv ) ?>
+							</td>
+						</tr>
+					<?php
+					if ( 10 <= $counter ) {
+						break;
+					}
+					endforeach; ?>
+				</tbody>
+			</table>
+		<?php
+		endforeach;
+		$content = ob_get_contents();
+		ob_end_clean();
+		$content = implode( "\n", array_filter( array_map( 'trim', explode( "\n", $content ) ) ) );
+		// 次の月曜日を算出
+		$date = date_i18n( 'Y-m-d 10:i:s' );
+		$gmt  = get_gmt_from_date( $date );
+		// データベースに挿入
+		$result = wp_insert_post( [
+			'post_title' => $title,
+			'post_content' => $content,
+			'post_status' => 'future',
+			'post_name' => 'of-' . date_i18n( 'Y-m-d' ),
+			'post_type' => 'ranking',
+			'post_date' => $date,
+			'post_date_gmt' => $gmt,
+		], true );
+		if ( is_wp_error( $result ) ) {
+			WP_CLI::error( $result->get_error_message() );
+		}
+		// 成功
+		WP_CLI::success( 'ランキングを作成しました。' );
+	}
 }
