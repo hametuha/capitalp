@@ -272,7 +272,7 @@ add_action( 'snow_monkey_entry_meta_items', function() {
  * Filter tag cloud
  */
 add_filter( 'tag_cloud_sort', function( $tags, $args ) {
-	return array_filter( $tags, function( WP_Term $tag ) {
+	return array_filter( $tags, function( $tag ) {
 		return get_option( 'capitalp_tag_limit', 5 ) <= $tag->count;
 	} );
 }, 10, 2 );

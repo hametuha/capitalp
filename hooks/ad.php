@@ -51,3 +51,18 @@ add_action( 'get_template_part_template-parts/entry-summary', function($slug, $n
 		<?php
 	}
 }, 10, 2 );
+
+/**
+ * Automatic ad
+ */
+add_action( 'wp_head', function() {
+	?>
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-0087037684083564",
+        enable_page_level_ads: true
+      });
+	</script>
+	<?php
+} );

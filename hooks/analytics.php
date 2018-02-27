@@ -158,7 +158,7 @@ add_action( 'init', function() {
  * ランキングが公開されたらつぶやく
  */
 add_action( 'transition_post_status', function( $new_status, $old_status, $post ) {
-	if ( ( 'ranking' === $post->post_tpe ) && ( 'publish' == $new_status ) && ( 'future' != $old_status ) ) {
+	if ( ( 'ranking' === $post->post_type ) && ( 'publish' == $new_status ) && ( 'publish' != $old_status ) ) {
 		if ( ! function_exists( 'gianism_update_twitter_status' ) ) {
 			return;
 		}
