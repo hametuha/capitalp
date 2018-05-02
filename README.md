@@ -14,7 +14,7 @@ npm run watch
 
 ## Current Template
 
-Capital P is a child theme of [Snow Monkey]().
+Capital P is a child theme of [Snow Monkey](https://snow-monkey.2inc.org/).
 
 ## How to Contribute
 
