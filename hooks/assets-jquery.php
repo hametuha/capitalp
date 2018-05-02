@@ -20,3 +20,13 @@ add_action( 'init', function() {
 	wp_register_script( 'jquery', false, [ 'jquery-core' ], $jquery_ver, true );
 	wp_register_script( 'jquery-core', $jquery_src, [], $jquery_ver, true );
 } );
+
+/**
+ * Move Jetpack share scripts to footer.
+ */
+add_action( 'wp_footer', function() {
+	if ( has_action( 'wp_footer', 'sharing_add_footer' ) ) {
+		remove_action( 'wp_footer', 'sharing_add_footer' );
+		add_action( 'wp_footer', 'sharing_add_footer', 20 );
+	}
+}, 1 );
