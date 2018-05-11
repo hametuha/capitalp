@@ -4,7 +4,7 @@
  */
 add_action( 'init', function() {
 	// 管理画面ではjQueryを削除できない。
-	if ( is_admin() ) {
+	if ( is_admin() || 'wp-login.php' === basename( $_SERVER['SCRIPT_FILENAME'] ) ) {
 		return;
 	}
 	// 現在のバージョンとURIを保存。
