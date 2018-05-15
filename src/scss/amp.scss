@@ -1,0 +1,169 @@
+body{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+}
+
+.amp-wp-article-content{
+  p{
+    text-align: justify;
+    text-justify: inter-ideograph;
+  }
+  pre{
+    background-color: #eee;
+    padding: 1em;
+  }
+}
+
+.cappy-amp-readmore{
+  $ofuse-color: #21759B;
+  background-color: $ofuse-color;
+  margin: 20px 0;
+  padding: 20px;
+  text-align: center;
+  &-description{
+    text-align: left;
+    color: #fff;
+    line-height: 1.2;
+    margin: 0.5em 0;
+  }
+  &-button{
+    display: inline-block;
+    padding: 5px 10px;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    transition: color .3s linear, background-color .3s linear;
+    &:link, &:visited{
+      text-decoration: none;
+      color: #fff;
+      background-color: $ofuse-color;
+    }
+    &:hover, &:active{
+      text-decoration: none;
+      color: $ofuse-color;
+      background: #fff;
+    }
+  }
+}
+
+.cappy-amp-list{
+  &-wrapper{
+    padding: 20px 15px;
+  }
+  &-title{
+    color: #888;
+  }
+  &-item{
+    $border-style:1px solid #ddd;
+    list-style: none;
+    border: $border-style;
+    border-bottom: none;
+    &:last-child{
+      border-bottom: $border-style;
+    }
+  }
+  $img-size: 100px;
+  &-img{
+    width: $img-size;
+    height: $img-size;
+    float: left;
+    img{
+      width: auto;
+      height: auto;
+      max-width: 100%;
+    }
+  }
+
+  &-text{
+    line-height: 1.1;
+  }
+
+  &-term{
+    display: inline-block;
+    margin-left: 0.25em;
+    padding: 2px 3px;
+    background: #888;
+    color: #ccc;
+    border-radius: 2px;
+  }
+
+  &-body{
+    padding: 5px;
+    font-size: 13px;
+    amp-img + &{
+      margin-left: $img-size;
+    }
+  }
+
+  &-date{
+    color: #aaa;
+    display: block;
+    font-size: 0.85em;
+  }
+
+  a{
+    display: block;
+    &:after{
+      content: "";
+      display: block;
+      clear: both;
+    }
+    &:link{
+      color: #06c;
+      text-decoration: none;
+    }
+    &:visited{
+      color: #aaa;
+      text-decoration: none;
+    }
+    &:hover, &:active{
+      background: #f9f9f9;
+    }
+  }
+}
+
+.amp-wp-footer-tagline{
+  color: #888;
+  font-size: 0.85em;
+}
+
+//
+// Affiliate
+// ----------------
+//
+.tmkm-amazon{
+  &-view {
+    background: #f9f9f9;
+    margin: 10px 0;
+    padding: 10px;
+    p {
+      line-height: 1.1;
+      font-size: 0.85em;
+      margin: 0.5em 0;
+      span.label{
+        color: #888;
+        margin-right: 0.25em;
+        &:after{
+          content: ": ";
+        }
+      }
+      em{
+        color: #000;
+        font-style: normal;
+      }
+      &.tmkm-amazon-title {
+        margin-bottom: 1em;
+        font-weight: bold;
+        small{
+          margin-left: 0.5em;
+        }
+      }
+      &.vendor{
+        text-align: center;
+        font-size: 0.8em;
+      }
+    }
+  }
+  &-img amp-img {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+}
