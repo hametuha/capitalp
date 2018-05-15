@@ -68,5 +68,29 @@ $this->load_parts( array( 'html-start' ) );
 	</amp-ad>
 </amp-sticky-ad>
 
+<amp-analytics type="googleanalytics">
+	<script type="application/json">
+		{
+			"vars": {
+				"account": "UA-1766751-12"
+			},
+			"extraUrlParams": {
+				"cd1": "<?= get_queried_object_id() ?>",
+				"cd2": "<?= get_queried_object()->post_author ?>"
+			},
+			"triggers": {
+				"trackPageviewWithCustomUrl": {
+					"on": "visible",
+					"request": "pageview",
+					"vars": {
+						"title": "<?php echo wp_get_document_title(); ?>",
+						"documentLocation": "<?php echo get_permalink( get_queried_object() ) ?>"
+					}
+				}
+			}
+		}
+	</script>
+</amp-analytics>
+
 <?php
 $this->load_parts( array( 'html-end' ) );
