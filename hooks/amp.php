@@ -51,3 +51,13 @@ HTML;
 		return $content;
 	}, 20 );
 } );
+
+/**
+ * Podcastを除外する
+ */
+add_filter( 'amp_post_status_default_enabled', function( $enabled, $post ) {
+	if ( 'post' === $post->post_type && in_category( 'podcast', $post ) ) {
+		return false;
+	}
+	return $enabled;
+}, 10, 2 );
