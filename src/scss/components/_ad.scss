@@ -1,7 +1,31 @@
+$cappy-ad-breakpoint: 64em;
+
 ins.adsbygoogle{
   background-color: transparent;
   ins{
     background-color: transparent;
+  }
+}
+
+.capitalp-ad-default{
+  background-color: #f7f7f7;
+  padding: 20px;
+  color: #666;
+  vertical-align: middle;
+  display: inline-block;
+  min-height: 320px;
+  @media only screen and (max-width: $cappy-ad-breakpoint) {
+    min-height: 0;
+  }
+  a{
+    &:link, &:visited{
+      color: #000;
+      text-decoration: underline;
+    }
+    &:hover, &:active{
+      text-decoration: none;
+      color: #c65253;
+    }
   }
 }
 
@@ -19,10 +43,36 @@ ins.adsbygoogle{
     line-height: 20px;
   }
 
+  // コンテンツ直下
   &-content{
     &-wrapper{
+      .ad-title{
+        margin-bottom: 20px;
+      }
       margin: 20px 0;
       clear: both;
+      &:after{
+        content: "";
+        clear: both;
+        display: block;
+        height: 0;
+      }
+    }
+    &-item{
+      width: 50%;
+      float: left;
+      min-height: 320px;
+      @media only screen and (max-width: $cappy-ad-breakpoint) {
+        width: auto;
+        float: none;
+        min-height: 0;
+      }
+    }
+    &-inner{
+      padding: 0 15px;
+      @media only screen and (max-width: $cappy-ad-breakpoint) {
+        padding: 0;
+      }
     }
   }
 

@@ -5,19 +5,16 @@
  * @package capitalp
  */
 
+
 /**
- * Show advertisement after content
+ * Load ad template
  */
-add_filter( 'the_content', function ( $content ) {
-	if ( is_singular( 'post' ) && in_the_loop() ) {
-		ob_start();
+add_action( 'get_template_part_template-parts/entry-tags', function( $slug, $name ) {
+	if ( is_singular( 'post' ) ) {
+		remove_filter( 'the_content', 'sharing_display', 19 );
 		get_template_part( 'template-parts/block/ad', 'content' );
-		$ad = ob_get_contents();
-		ob_end_clean();
-		$content .= $ad;
 	}
-	return $content;
-}, 11 );
+}, 10, 2 );
 
 /**
  * Register sidebar for widget
@@ -65,4 +62,17 @@ add_action( 'wp_head', function() {
       });
 	</script>
 	<?php
+} );
+
+/**
+ * Register positions.
+ */
+add_filter( 'taf_default_positions', function( $positions ) {
+	$positions = array_merge( $positions, [
+		'after_content' => [
+			'name'        => 'コンテンツ直下',
+			'description' => 'コンテンツ直下に表示されます。',
+		],
+	] );
+	return $positions;
 } );
