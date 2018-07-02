@@ -12,6 +12,8 @@
 add_action( 'get_template_part_template-parts/entry-tags', function( $slug, $name ) {
 	if ( is_singular( 'post' ) ) {
 		remove_filter( 'the_content', 'sharing_display', 19 );
+		remove_filter( 'the_content', chiramise_filter_content_function(), 1 );
+		remove_filter( 'the_content', 'capitalp_chiramise_content', 2 );
 		get_template_part( 'template-parts/block/ad', 'content' );
 	}
 }, 10, 2 );

@@ -35,7 +35,7 @@ add_filter( 'ofuse_should_load_style', '__return_false' );
 /**
  * Add separator for member only contents
  */
-add_filter( 'the_content', function( $content ) {
+function capitalp_chiramise_content( $content ) {
 	if ( ! chiramise_should_check() ) {
 		return $content;
 	}
@@ -48,7 +48,8 @@ add_filter( 'the_content', function( $content ) {
 	$block = implode( "\n", array_filter( array_map( 'trim', explode( "\n", ob_get_contents() ) ) ) );
 	ob_end_clean();
 	return str_replace( '<!--more-->', $block, get_post()->post_content );
-}, 2 );
+}
+add_filter( 'the_content', 'capitalp_chiramise_content', 2 );
 
 /**
  * Display member list

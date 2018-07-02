@@ -50,6 +50,12 @@ gulp.task('jshint', function () {
 
 // Copy libraries
 gulp.task('copylib', function () {
+  return eventStream.merge(
+    gulp.src( [
+      'node_modules/fg-loadcss/dist/cssrelpreload.min.js'
+    ] )
+      .pipe(gulp.dest('assets/js'))
+  );
   // return eventStream.merge(
   // );
 });

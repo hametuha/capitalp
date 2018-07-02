@@ -6,7 +6,7 @@
   "scripts": {
     "start": "gulp build",
     "watch": "gulp watch",
-	"gulp": "gulp",
+    "gulp": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +24,7 @@
   "homepage": "https://github.com/fumikito/capitalp#readme",
   "devDependencies": {
     "event-stream": "^3.3.2",
+    "fg-loadcss": "^2.0.1",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
@@ -42,5 +43,4 @@
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.0"
   }
-
 }
