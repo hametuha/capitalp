@@ -54,27 +54,3 @@ add_filter( 'ssp_media_player', function( $player, $src, $episode_id ) {
 	);
 	return $player;
 }, 10, 3 );
-
-/**
- * Add preloader to style tag.
- */
-add_filter( 'style_loader_tag', function( $tag, $handle, $href, $media ) {
-	static $loader_js = '';
-	if ( false !== array_search( $handle, [ 'capitalp', 'snow-monkey' ] ) ) {
-		return $tag;
-	}
-	if ( false === strpos( $href, home_url() ) ) {
-		return $tag;
-	}
-	$pre_loader = str_replace( "rel='stylesheet'", 'rel="preload" as="style" onload="this.onload=null; this.rel=\'stylesheet\'"', $tag );
-	if ( ! $loader_js ) {
-		$loader_js = file_get_contents( get_stylesheet_directory() . '/assets/js/cssrelpreload.min.js' );
-	}
-	return <<<HTML
-{$pre_loader}
-<noscript>{$tag}</noscript>
-<script>
-{$loader_js}
-</script>
-HTML;
-}, 10, 4 );
