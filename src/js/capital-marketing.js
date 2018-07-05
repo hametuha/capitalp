@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
 
   $(document).find('a[href]').each(function(index, link){
     var href = $(this).attr('href');
-    var regexp = /^https?:\/\/(capitalp|amazon|(.*\.)?wordpress\.org|twitter\.com|www\.facebook.com|www\.instagram\.com|github\.com|wpdocs\.osdn\.jp)/;
+    var regexp = /^https?:\/\/(akismet\.com|wordbench\.org|capitalp|hametuha|amazon|(.*\.)?wordpress\.org|itunes\.apple\.com|twitter\.com|www\.facebook.com|www\.instagram\.com|github\.com|wpdocs\.osdn\.jp|b\.hatena\.ne\.jp)/;
     if ( ! href.test(regexp) && href.test(/^https?:\/\//)) {
       var parts = href.split( '?' );
       var args = [];
