@@ -30,6 +30,19 @@ add_action( 'init', function () {
 		'capability_type'   => 'post',
 		'supports'          => $supports,
 	] );
+	$args = [
+		'label' => '申し込み',
+		'public' => false,
+		'show_ui' => true,
+		'capability_type' => 'post',
+		'show_in_menu' => 'edit.php?post_type=job',
+	];
+	if ( ! current_user_can( 'manage_options' ) ) {
+		$args['capabilities'] = [
+			'create_posts' => 'create_submissions',
+		];
+	}
+	register_post_type( 'submission', $args );
 	register_taxonomy( 'company', [ 'job' ], [
 		'label'             => '企業',
 		'hierarchical'      => true,
@@ -208,7 +221,9 @@ add_filter(
 add_filter(
 	'post_row_actions', function ( $actions, $post ) {
 	if ( 'job' === $post->post_type && ! current_user_can( 'edit_others_posts' ) ) {
-		unset( $actions[ 'inline hide-if-no-js' ] );
+		if ( isset( $actions[ 'inline hide-if-no-js'] ) ) {
+			unset( $actions[ 'inline hide-if-no-js' ] );
+		}
 	}
 	return $actions;
 }, 10, 2 );
@@ -217,6 +232,41 @@ add_filter(
  * Remove bulk edit
  */
 add_filter( 'bulk_actions-edit-job', function( $actions ) {
-	unset( $actions[ 'edit' ] );
+	if ( isset( $actions[ 'edit' ] ) ) {
+		unset( $actions[ 'edit' ] );
+	}
 	return $actions;
+} );
+
+/**
+ * Register job board endpoint
+ */
+add_action( 'rest_api_init', function() {
+	register_rest_route( 'capitalp/v1', 'job/(?P<job_id>\d+)', [
+		[
+			'methods' => 'POST',
+			'args'    => [
+				'job_id' => [
+					'required' => true,
+					'validate_callback' => function( $var ) {
+						return 'job' === get_post_type( $var );
+					},
+				],
+			],
+			'permission_callback' => function() {
+				return current_user_can( 'read' );
+			},
+			'callback' => function( WP_REST_Request $request ) {
+				$job = get_post( $request->get_param( 'job_id' ) );
+				if ( 'publish' !== $job->post_status || ! capitalp_job_is_open( $job ) ) {
+					return new WP_Error( 'job_is_closed', 'この求人は現在募集をしていません。', [
+						'status'   => 403,
+						'response' => 403,
+					] );
+				}
+				$response = capitalp_submit_job( $job, get_current_user_id() );
+				return is_wp_error( $response ) ? $response : new WP_REST_Response( $response );
+			},
+		],
+	] );
 } );

@@ -3,6 +3,17 @@ a.tag-cloud-link{
     margin-left: 0.25em;
   }
 }
+
+#capitalp-job-submit-button{
+  transition: opacity .3s linear;
+  &.disabled{
+    opacity: .2;
+    &:after{
+      content: "読み込み中……"
+    }
+  }
+}
+
 .c-entry__header--description{
   background: #eee;
   font-size: 0.85em;

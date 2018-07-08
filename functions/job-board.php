@@ -128,13 +128,62 @@ function capitalp_job_reward( $post = null ) {
 }
 
 /**
- *
+ * Detect if user has submitted to the job.
  *
  * @param null|int|WP_Post $post
- * @return bool
+ * @param int $user_id
+ * @return WP_Post|null
  */
-function capitalp_is_participating( $post = null ) {
-	return false;
+function capitalp_get_submission( $post = null, $user_id = 0 ) {
+	$post = get_post( $post );
+	if ( ! $user_id ) {
+		$user_id = get_current_user_id();
+	}
+	foreach ( get_posts( [
+		'post_type'      => 'submission',
+		'post_parent'    => $post->ID,
+		'author'         => $post->post_author,
+		'posts_per_page' => 1,
+		'meta_query'     => [
+			[
+				'key'   => '_job_submitter',
+				'value' => $user_id,
+			],
+		],
+	] ) as $submission ) {
+		return $submission;
+	}
+	return null;
+}
+
+/**
+ * Submit to job
+ *
+ * @param null|int|WP_Post $post
+ * @param int              $user_id
+ * @return WP_Post|WP_Error
+ */
+function capitalp_submit_job( $post = null, $user_id = 0 ) {
+	$post = get_post( $post );
+	// Check existing.
+	$submission = capitalp_get_submission( $post, $user_id );
+	if ( $submission ) {
+		return $submission;
+	}
+	// Create new one.
+	$submission_id = wp_insert_post( [
+		'post_type'   => 'submission',
+		'post_parent' => $post->ID,
+		'post_author' => $post->post_author,
+		'post_status' => 'publish',
+		'post_title'  => sprintf( '%s - %s', get_the_title( $post ), date_i18n( 'Y-m-d H:i:s' ) ),
+	], true );
+	if ( is_wp_error( $submission_id ) ) {
+		return $submission_id;
+	} else {
+		update_post_meta( $submission_id, '_job_submitter', $user_id );
+		return get_post( $submission_id );
+	}
 }
 
 /**
