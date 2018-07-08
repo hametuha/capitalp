@@ -1,0 +1,96 @@
+a.tag-cloud-link{
+  & + &{
+    margin-left: 0.25em;
+  }
+}
+.c-entry__header--description{
+  background: #eee;
+  font-size: 0.85em;
+  font-weight: bold;
+  padding: 1em;
+  &.center{
+    text-align: center;
+  }
+}
+
+.job-expired{
+  @at-root strong#{&}{
+    margin-left: 0.5em;
+    color: #fff;
+    background: $notice-color;
+    display: inline-block;
+    padding: 0.1em 0.5em;
+    font-size: 0.8em;
+  }
+  @at-root del#{&}{
+    color: #ccc;
+  }
+}
+
+// Loop on related posts.
+.job-list{
+
+  &__wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    @media only screen and ( max-width: $too-small-column){
+      display: block;
+    }
+  }
+
+  &__link{
+    position: relative;
+    display: block;
+    text-decoration: none !important;
+    padding: 1em;
+    margin: 1em 0.5em;
+    @at-root .c-entries__item &{
+      margin: 1em 0;
+      padding: 1em 0;
+    }
+  }
+
+  &__title{
+    @at-root .job-container &{
+      margin-top: 0.25em;
+      font-size: 1.1em !important;
+    }
+  }
+
+  &__loop{
+    width: 100%;
+  }
+
+  &__content{
+    margin-bottom: 0.25em !important;
+  }
+
+  &__keywords{
+    padding: 0;
+    font-size: 0.7em;
+    margin: 0.5em 0;
+    li{
+      list-style: none;
+      svg{
+        color: #ccc;
+      }
+    }
+  }
+
+}
+
+.job-search{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  @media only screen and ( max-width: $too-small-column){
+    display: block;
+  }
+  &-taxonomy{
+    width: 100%;
+  }
+  &__title{
+    &:before, &:after{
+      display: none !important;
+    }
+  }
+}

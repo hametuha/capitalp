@@ -251,21 +251,24 @@ add_shortcode( 'advent', function( $atts, $content = '' ) {
  * Display tags on entry-meta
  */
 add_action( 'snow_monkey_entry_meta_items', function() {
-	$tags = get_the_tags( get_the_ID() );
-	if ( ! $tags || is_wp_error( $tags ) ) {
-		return;
-	}
-	?>
-	<li class="c-meta__item c-meta__item--tags">
-		<span class="screen-reader-text"><?php esc_html_e( 'Tags', 'snow-monkey' ); ?></span>
-		<i class="fa fa-tags" aria-hidden="true"></i>
-		<?php
-		echo implode( ', ', array_map( function ( $tag ) {
-			return sprintf( '<a rel="tag" href="%s">%s</a>', esc_url( get_term_link( $tag ) ), esc_html( $tag->name ) );
-		}, $tags ) );
+	foreach ( [
+		'tags'      => get_the_tags( get_the_ID() ),
+		'briefcase' => get_the_terms( get_the_ID(), 'type' ),
+	] as $key => $tags ) {
+		if ( ! $tags || is_wp_error( $tags ) ) {
+			continue;
+		}
 		?>
-	</li>
-	<?php
+		<li class="c-meta__item c-meta__item--tags">
+			<i class="fa fa-<?= $key ?>" aria-hidden="true"></i>
+			<?php
+			echo implode( ', ', array_map( function ( $tag ) {
+				return sprintf( '<a rel="tag" href="%s">%s</a>', esc_url( get_term_link( $tag ) ), esc_html( $tag->name ) );
+			}, $tags ) );
+			?>
+		</li>
+		<?php
+	}
 }, 50 );
 
 /**

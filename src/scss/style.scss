@@ -2,4 +2,8 @@ body{
   font-variant-ligatures: none;
 }
 
+$too-small-column: 767px;
+$notice-hover-color: #ff5e6d;
+$notice-color: darken( $notice-hover-color, 10 );
+
 @import "components/*";

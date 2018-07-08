@@ -21,7 +21,7 @@ add_filter( 'login_headerurl', function() {
 add_filter( 'login_message', function( $message ) {
 	$message .= <<<HTML
 <div class="cappy-login-notice">
-新規登録はSNSアカウントが必要だワン！
+新規登録はSNSアカウントでのログインが必要だワン！
 </div>
 HTML;
 	return $message;
@@ -162,13 +162,15 @@ add_action( 'capitalp_membership', 'capitalp_update_bulk_role' );
 
 // Send slack notification if post is pending.
 add_action( 'transition_post_status', function( $new_status, $old_status, $post ) {
-	if ( 'pending' == $new_status && 'pending' != $old_status ) {
+	if ( 'pending' == $new_status && 'pending' != $old_status && function_exists( 'hameslack_post' ) ) {
 		hameslack_post( sprintf( '@channel 新しい投稿が公開待ちだワン！ %s', get_edit_post_link( $post->ID ) ) );
 	}
 }, 10, 3 );
 
 
-
+/**
+ * Add hamail user field/
+ */
 add_filter( 'hamail_user_field', function( $field, $user ) {
 	$field['membership'] = (int) $field['membership'];
 	$field['user_registered'] = mysql2date( 'm/d/Y', $field['user_registered'] );
