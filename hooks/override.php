@@ -6,7 +6,7 @@
  */
 
 // Customize publicize.
-add_filter( 'wpas_default_suffix', function( $suffix ){
+add_filter( 'wpas_default_suffix', function( $suffix ) {
 	$suffix .= ' #capitalp ';
 	return $suffix;
 }, 10, 4 );

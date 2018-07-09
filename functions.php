@@ -6,7 +6,6 @@
 $composer = __DIR__ . '/vendor/autoload.php';
 if ( file_exists( $composer ) ) {
 	require $composer;
-	
 }
 
 // Load all file.

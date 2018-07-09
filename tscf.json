@@ -1,0 +1,248 @@
+[
+    {
+        "name": "requirements",
+        "label": "募集要項",
+        "type": "post",
+        "post_types": [
+            "job"
+        ],
+        "context": "normal",
+        "priority": "core",
+        "description": "",
+        "fields": [
+            {
+                "name": "excerpt",
+                "label": "職種・業務内容についての説明",
+                "col": 1,
+                "clear": false,
+                "required": true,
+                "default": "",
+                "placeholder": "",
+                "description": "募集する職種・仕事についての説明を書いてください。",
+                "max": "400",
+                "min": "80",
+                "type": "text_area",
+                "rows": "10"
+            },
+            {
+                "name": "_requirements",
+                "label": "応募資格",
+                "col": 1,
+                "clear": false,
+                "required": true,
+                "default": "",
+                "placeholder": "例・「5名以上のマネージメント経験」「英語（TOEIC 700点以上）」",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text_area",
+                "rows": "5"
+            },
+            {
+                "name": "_job_number",
+                "label": "募集人数",
+                "col": 2,
+                "clear": false,
+                "required": true,
+                "default": "",
+                "placeholder": "「若干名」、「5名」など",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_job_place",
+                "label": "勤務地",
+                "col": 2,
+                "clear": false,
+                "required": true,
+                "default": "",
+                "placeholder": "「東京」「自宅」など",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_job_reward",
+                "label": "報酬",
+                "col": 2,
+                "clear": true,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "number",
+                "unit": "円"
+            },
+            {
+                "name": "_job_reward_type",
+                "label": "報酬単位",
+                "col": 2,
+                "clear": false,
+                "required": "",
+                "default": "",
+                "description": "",
+                "type": "select",
+                "options": {
+                    "hour": "時給",
+                    "day": "日給",
+                    "month": "月給",
+                    "unit": "1件あたり",
+                    "project": "プロジェクト全体"
+                }
+            },
+            {
+                "name": "_min_salary",
+                "label": "年収下限",
+                "col": 2,
+                "clear": true,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "number",
+                "unit": "万円"
+            },
+            {
+                "name": "_max_salary",
+                "label": "年収上限",
+                "col": 2,
+                "clear": false,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "number",
+                "unit": "万円"
+            }
+        ]
+    },
+    {
+        "name": "job_period",
+        "label": "公開権限",
+        "type": "post",
+        "post_types": [
+            "job"
+        ],
+        "context": "side",
+        "priority": "high",
+        "description": "",
+        "fields": [
+            {
+                "name": "_job_expires",
+                "label": "募集終了",
+                "col": 1,
+                "clear": false,
+                "required": true,
+                "default": "",
+                "placeholder": "",
+                "description": "募集終了日時を決めてください。終了期限が過ぎるとコメントができなくなります。",
+                "max": "",
+                "min": "",
+                "type": "date",
+                "date_format": "yy-mm-dd"
+            },
+            {
+                "name": "_job_starts",
+                "label": "業務開始",
+                "col": 1,
+                "clear": false,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "date",
+                "date_format": "yy-mm-dd"
+            },
+            {
+                "name": "_job_ends",
+                "label": "業務終了",
+                "col": 1,
+                "clear": false,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "雇用の場合は入力する必要はありません。",
+                "max": "",
+                "min": "",
+                "type": "date",
+                "date_format": "yy-mm-dd"
+            }
+        ]
+    },
+    {
+        "name": "submission_fields",
+        "label": "応募先",
+        "type": "post",
+        "post_types": [
+            "job"
+        ],
+        "context": "advanced",
+        "priority": "high",
+        "description": "",
+        "fields": [
+            {
+                "name": "_assignee",
+                "label": "担当者名",
+                "col": 1,
+                "clear": false,
+                "required": true,
+                "default": "",
+                "placeholder": "人事部 採用係 キャピ太郎",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_tel",
+                "label": "電話番号",
+                "col": 1,
+                "clear": false,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "応募を電話で受け付けたい場合に入力してください。",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_email",
+                "label": "メールアドレス",
+                "col": 1,
+                "clear": false,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "応募をメールで受け付けたい場合に入力してください。",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_url",
+                "label": "URL",
+                "col": 1,
+                "clear": false,
+                "required": "",
+                "default": "",
+                "placeholder": "",
+                "description": "応募をURLで受け付けたい場合に入力してください。申し込みフォームなど。",
+                "max": "",
+                "min": "",
+                "type": "url"
+            }
+        ]
+    }
+]

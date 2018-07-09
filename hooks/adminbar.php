@@ -1,8 +1,36 @@
 <?php
 /**
+ * Show admin bar
+ *
+ * @package capitalp
+ */
+
+/**
+ * Always sho admin bar
+ */
+add_filter( 'show_admin_bar', '__return_true', 9999 );
+
+
+/**
  * Adminbar related functions.
  */
 add_action( 'admin_bar_menu', function ( WP_Admin_Bar &$admin_bar ) {
+	
+	if ( ! is_user_logged_in() ) {
+		// Remove WordPress extras.
+		foreach ( [ 'feedback', 'support-forums', 'documentation', 'wporg' ] as $menu_id ) {
+			$admin_bar->remove_menu( $menu_id );
+		}
+		
+		// Add login link.
+		$admin_bar->add_menu( [
+			'parent' => 'top-secondary',
+			'id'     => 'user-login',
+			'title'  => 'ログイン',
+			'href'   => wp_login_url( $_SERVER['REQUEST_URI'] ),
+		] );
+	}
+	
 	// Add External sites.
 	$admin_bar->add_group( [
 		'id' => 'external',

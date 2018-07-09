@@ -17,6 +17,26 @@ ins.adsbygoogle{
   @media only screen and (max-width: $cappy-ad-breakpoint) {
     min-height: 0;
   }
+  img{
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    @media only screen and (max-width: $too-small-column) {
+      display: block;
+      margin: 0 auto;
+      max-width: 320px;
+      height: auto;
+    }
+  }
+
+  a.block{
+    display: block;
+    transition: opacity .3s linear;
+    text-decoration: none;
+    &:hover{
+      opacity: .8;
+    }
+  }
   a{
     &:link, &:visited{
       color: #000;
