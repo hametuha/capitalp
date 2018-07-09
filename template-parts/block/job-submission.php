@@ -45,10 +45,15 @@ if ( ! is_user_logged_in() ) : ?>
 						</div>
 						<ul class="wp-profile-box__sns-accounts">
 							<li class="wp-profile-box__sns-accounts-item wp-profile-box__sns-accounts-item--url">
-								<a href="<?= esc_url( get_term_meta( $company->term_id, 'url', true ) ) ?>" target="_blank">
+								<?php if ( $url = get_term_meta( $company->term_id, '_url', true ) ) : ?>
+								<a href="<?= esc_url( $url ) ?>" target="_blank">
 									<i class="fa fa-globe fa-w-16"></i>
 									ウェブサイト
 								</a>
+								<?php else : ?>
+									<i class="fa fa-globe fa-w-16"></i>
+									ウェブサイトなし
+								<?php endif; ?>
 							</li>
 						</ul>
 					</div>

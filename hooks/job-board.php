@@ -265,3 +265,23 @@ add_action( 'rest_api_init', function() {
 		],
 	] );
 } );
+
+// Show company field
+add_action( 'company_edit_form_fields', function( $term, $taxonomy ) {
+	?>
+	<tr>
+		<th><label for="company_url">Webサイト</label></th>
+		<td>
+			<?php wp_nonce_field( 'company_update', '_companynonce', false ); ?>
+			<input id="company_url" name="company_url" type="url" class="regular-text" value="<?= esc_attr( get_term_meta( $term->term_id, '_url', true ) ) ?>" />
+		</td>
+	</tr>
+	<?php
+}, 10, 2 );
+
+// Save company field.
+add_action( 'edit_term', function( $term_id, $tt_id, $taxonomy ) {
+	if ( ( 'company' === $taxonomy ) && isset( $_REQUEST['_companynonce'] ) && wp_verify_nonce( $_REQUEST['_companynonce'], 'company_update' ) ) {
+		update_term_meta( $term_id, '_url', $_POST['company_url'] );
+	}
+}, 10, 3 );
