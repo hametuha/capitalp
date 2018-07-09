@@ -48,24 +48,7 @@ add_action( 'init', function () {
 		'hierarchical'      => true,
 		'show_in_nav_menus' => false,
 		'show_admin_column' => true,
-		'meta_box_cb'       => function ( $post ) {
-			$terms = get_terms( [
-				'taxonomy'   => 'company',
-				'hide_empty' => false,
-			] );
-			if ( $terms && ! is_wp_error( $terms ) ) {
-				foreach ( $terms as $term ) {
-					printf(
-						'<p><label class="selectit"><input value="%1$d" type="radio" name="tax_input[company][]" id="in-type-%1$d" %3$s> %2$s</label></p>',
-						$term->term_id,
-						esc_html( $term->name ),
-						checked( has_term( $term, $term->taxonomy, $post ), true, false )
-					);
-				}
-			} else {
-				echo '<p>登録されていません。</p>';
-			}
-		},
+		'meta_box_cb'       => 'capitalp_taxonomy_meta_box',
 	] );
 	// Add job type.
 	register_taxonomy( 'type', [ 'job' ], [
@@ -73,24 +56,7 @@ add_action( 'init', function () {
 		'hierarchical'      => true,
 		'show_in_nav_menus' => false,
 		'show_admin_column' => true,
-		'meta_box_cb'       => function ( $post ) {
-			$terms = get_terms( [
-				'taxonomy'   => 'type',
-				'hide_empty' => false,
-			] );
-			if ( $terms && ! is_wp_error( $terms ) ) {
-				foreach ( $terms as $term ) {
-					printf(
-						'<p><label class="selectit"><input value="%1$d" type="radio" name="tax_input[type][]" id="in-type-%1$d" %3$s> %2$s</label></p>',
-						$term->term_id,
-						esc_html( $term->name ),
-						checked( has_term( $term, $term->taxonomy, $post ), true, false )
-					);
-				}
-			} else {
-				echo '<p>登録されていません。</p>';
-			}
-		},
+		'meta_box_cb'       => 'capitalp_taxonomy_meta_box',
 	] );
 	// Add ability
 	register_taxonomy( 'ability', [ 'job' ], [
@@ -108,6 +74,35 @@ add_action( 'init', function () {
 		'show_admin_column' => true,
 	] );
 } );
+
+/**
+ * Render taxonomy meta box.
+ *
+ * @internal
+ * @param WP_Post $post
+ * @param $args
+ */
+function capitalp_taxonomy_meta_box( $post, $args ) {
+	$taxonomy = $args['args']['taxonomy'];
+	$terms = get_terms( [
+		'taxonomy'   => $taxonomy,
+		'hide_empty' => false,
+	] );
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		foreach ( $terms as $term ) {
+			printf(
+				'<p><label class="selectit"><input value="%1$d" type="radio" name="tax_input[%4$s][]" id="in-%4$s-%1$d" %3$s> %2$s</label></p>',
+				$term->term_id,
+				esc_html( $term->name ),
+				checked( has_term( $term, $term->taxonomy, $post ), true, false ),
+				$taxonomy
+			);
+		}
+	} else {
+		echo '<p>登録されていません。</p>';
+	}
+}
+
 
 
 /**
