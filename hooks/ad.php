@@ -5,6 +5,24 @@
  * @package capitalp
  */
 
+/**
+ * Add PR to title.
+ *
+ * @param string $title
+ * @param null|int $post_id
+ * @return string
+ */
+function capitalp_add_pr_to_title( $title, $post_id = null ) {
+	$post = get_post( $post_id );
+	if ( has_tag( 'pr', $post ) ) {
+		$title = '[PR]' . $title;
+	}
+	return $title;
+}
+add_filter( 'the_title', 'capitalp_add_pr_to_title', 10, 2 );
+add_filter( 'the_title_rss', 'capitalp_add_pr_to_title', 10 );
+
+
 
 /**
  * Load ad template

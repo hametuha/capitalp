@@ -167,7 +167,7 @@ function capitalp_submit_job( $post = null, $user_id = 0 ) {
 	$post = get_post( $post );
 	// Check existing.
 	$submission = capitalp_get_submission( $post, $user_id );
-	if ( $submission ) {
+	if ( $submission && ! is_wp_error( $submission ) ) {
 		return $submission;
 	}
 	// Create new one.

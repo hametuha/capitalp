@@ -15,6 +15,11 @@ if ( chiramise_should_check() ) {
 	$conditions[] = sprintf( 'この記事は<a href="%s">会員専用コンテンツ</a>を含んでいます。', home_url( 'ccp' ) );
 }
 
+// 広告
+if ( has_tag( 'pr' ) ) {
+	$conditions[] = sprintf( 'この記事は<a href="%s">記事広告</a>です。', get_tag_link( 'pr' ) );
+}
+
 if ( ! $conditions ) {
 	return;
 }
