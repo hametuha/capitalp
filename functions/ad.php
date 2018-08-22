@@ -100,3 +100,13 @@ HTML;
 			break;
 	}
 }
+
+/**
+ * Detect if this post is PR.
+ *
+ * @param null|int|WP_Post $post
+ * @return bool
+ */
+function capitalp_is_pr( $post = null ) {
+	return has_tag( 'pr', $post );
+}
