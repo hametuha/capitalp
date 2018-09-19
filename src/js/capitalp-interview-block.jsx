@@ -3,10 +3,21 @@
  */
 
 /*global wp: false*/
+/*global CapitalpInterview: false*/
 
 (() => {
 
-  let RichText = wp.editor.RichText;
+
+
+  const { RichText, InspectorControls }   = wp.editor;
+  const { PanelBody, SelectControl } = wp.components;
+  const { Fragment, Component } = wp.element;
+  const options = CapitalpInterview.users.map(function(user){
+    return {
+      label: user.display_name,
+      value: parseInt(user.ID),
+    }
+  });
 
   wp.blocks.registerBlockType( 'capitalp/interview', {
     title: 'インタビュー',
@@ -20,20 +31,30 @@
       },
       user: {
         type: 'integer',
+        default: 0,
       },
     },
     edit: ( { attributes, setAttributes } ) => {
-      let onChangeContent = ( newContent ) => {
+      const onChangeContent = ( newContent ) => {
         setAttributes( { content: newContent } );
       };
       return (
-        <div className={'bubble'}>
-          <RichText tagName={'p'} className={'bubble'} value={attributes.content} onChange={onChangeContent}></RichText>
-        </div>
+        <Fragment>
+          <InspectorControls>
+            <PanelBody title={ 'ユーザー' }>
+              <SelectControl
+                label={'ユーザーID'} value={attributes.user}
+                options={options} onChange={(id) => { setAttributes({user: id}) }}></SelectControl>
+            </PanelBody>
+          </InspectorControls>
+          <div className={'bubble'}>
+            <RichText tagName={'p'} className={'bubble'} value={attributes.content} onChange={onChangeContent}></RichText>
+          </div>
+        </Fragment>
       );
     },
     save: ( { attributes } ) => {
-      return <div className={'bubble'}><p>{ attributes.content }</p></div>
+      return <div className={'bubble'}><p>{attributes.content}</p></div>;
     },
   } );
 
