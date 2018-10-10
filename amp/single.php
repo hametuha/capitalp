@@ -64,7 +64,9 @@ $this->load_parts( array( 'html-start' ) );
 			height="50"
 			type="adsense"
 			data-ad-client="ca-pub-0087037684083564"
-			data-ad-slot="1170092238">
+			data-ad-slot="1170092238"
+			data-auto-format="rspv"
+			data-full-width>
 	</amp-ad>
 </amp-sticky-ad>
 
