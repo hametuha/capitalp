@@ -67,6 +67,7 @@ $this->load_parts( array( 'html-start' ) );
 			data-ad-slot="1170092238"
 			data-auto-format="rspv"
 			data-full-width>
+		<div overflow></div>
 	</amp-ad>
 </amp-sticky-ad>
 
