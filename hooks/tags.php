@@ -34,6 +34,7 @@ add_filter( 'register_taxonomy_args', function ( $args, $taxonomy ) {
 					opacity: 0;
 				}
 				.capitalp-inline-label span {
+					display: inline-block;
 					padding: 5px 10px;
 					background: #fff;
 					color: #888;
