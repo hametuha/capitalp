@@ -1,1 +1,1 @@
-{"version":3,"sources":["interview.css"],"names":[],"mappings":"AAAA,KAAK,cAAc,CAAC","file":"../../blocks/interview.css","sourcesContent":["body{background:red}\n"]}
+{"version":3,"sources":["blocks/interview.scss"],"names":[],"mappings":"AAAA,KACE,cAAe,CAChB","file":"../../blocks/interview.css","sourcesContent":["body{\n  background: red;\n}"]}
