@@ -28,7 +28,6 @@ jQuery(document).ready(function ($) {
         }
       }
       parts[1] = params.join('&');
-      console.log(parts);
       $(link).attr('href', parts.join('?'));
     }
   });
