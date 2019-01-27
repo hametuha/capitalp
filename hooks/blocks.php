@@ -21,3 +21,12 @@ add_action( 'enqueue_block_editor_assets', function() {
 		'users' => $users->get_results(),
 	] );
 } );
+
+if ( function_exists( 'register_block_type' ) ) {
+	register_block_type(
+		'capitalp/interview', [
+		'render_callback' => function ( $attributes, $content = '' ) {
+			return sprintf( '[capitalp_author user_id=%d]%s[/capitalp_author]', $attributes[ 'user' ], $content );
+		},
+	] );
+}

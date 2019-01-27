@@ -285,3 +285,98 @@ add_action( 'edit_term', function( $term_id, $tt_id, $taxonomy ) {
 		update_term_meta( $term_id, '_url', $_POST['company_url'] );
 	}
 }, 10, 3 );
+
+// Override JSON-LD
+add_filter( 'inc2734_wp_seo_json_ld', function( $json ) {
+	if ( ! is_singular( 'job' ) ) {
+		return $json;
+	}
+	// Customize JSON-LD.
+	$json['@type'] = 'JobPosting';
+	/** @var WP_Post $post */
+	$post                = get_queried_object();
+	$json['title']       = get_the_title( $post );
+	$json['datePosted']  = mysql2date( DateTime::ATOM, $post->post_date );
+	$json['description'] = wpautop( $post->post_excerpt );
+	// Set date inforamtion.
+	$expires = get_post_meta( $post->ID, '_job_expires', true );
+	if ( $expires ) {
+		$json['validThrough'] = $expires . 'T23:59:59+09:00';
+	}
+	// Requirements.
+	$json['experienceRequirements'] = get_post_meta( $post->ID, '_requirements', true );
+	// Set job type.
+	$terms = get_the_terms( $post, 'type' );
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		$json['employmentType'] = array_map( function( $term ) {
+			return strtoupper( str_replace( '-', '_', $term->slug ) );
+		}, $terms );
+	}
+	// Company.
+	$companies = get_the_terms( $post, 'company' );
+	if ( $companies && ! is_wp_error( $companies ) ) {
+		foreach ( $companies as $company ) {
+			$json['hiringOrganization'] = [
+				'@type'  => 'Organization',
+				'name'   => $company->name,
+				'sameAs' => get_term_meta( $company->term_id, '_url', true ),
+			];
+		}
+	}
+	// Set salary.
+	$max = get_post_meta( $post->ID, '_max_salary', true ) * 10000;
+	$min = get_post_meta( $post->ID, '_min_salary', true ) * 10000;
+	if ( $max && $min ) {
+		// Salary.
+		$salary = [
+			'@type'    => 'MonetaryAmount',
+			'minValue' => $min,
+			'maxValue' => $max,
+			'unitText' => 'YEAR',
+		];
+	} else {
+		$salary = [
+			'@type'    => 'MonetaryAmount',
+			'value'    => get_post_meta( $post->ID, '_job_reward', true ),
+			'unitText' => strtoupper( get_post_meta( $post->ID, '_job_reward_type', true ) ),
+		];
+	}
+	$salary['currency']     = 'JPY';
+	$json['salaryCurrency'] = 'JPY';
+	$json['baseSalary']     = $salary;
+	// Set address.
+	$address             = [
+		'@type'           => 'PostalAddress',
+		'streetAddress'   => implode( ' ', array_filter( [
+			get_post_meta( $post->ID, '_job_street', true ),
+			get_post_meta( $post->ID, '_job_bldg', true ),
+		] ) ),
+		'addressLocality' => get_post_meta( $post->ID, '_job_city', true ),
+		'addressRegion'   => get_post_meta( $post->ID, '_job_pref', true ),
+		'postalCode'      => get_post_meta( $post->ID, '_job_zip', true ),
+		'addressCountry'  => get_post_meta( $post->ID, '_job_country', true ) ?: 'JP',
+	];
+	$json['jobLocation'] = [
+		'@type'   => 'Place',
+		'address' => $address,
+	];
+	// Is this remote work?
+	if ( has_term( 'remote-work', 'feature', $post ) ) {
+		$json['jobLocationType'] = 'TELECOMMUTE';
+	}
+	// Skill.
+	$skills = get_the_terms( $post, 'ability' );
+	if ( $skills && ! is_wp_error( $skills ) ) {
+		$json['skills'] = implode( ', ', array_map( function( $skill ) {
+			return $skill->name;
+		}, $skills ) );
+	}
+	$json['workHours'] = get_post_meta( $post->ID, '_work_hours', true );
+	$json['industry']  = 'WordPress';
+	foreach ( [ 'author', 'publisher', 'headline', 'datePublished', 'dateModified' ] as $not_needed ) {
+		if ( isset( $json[ $not_needed ] ) ) {
+			unset( $json[ $not_needed ] );
+		}
+	}
+	return $json;
+}, 10, 2 );

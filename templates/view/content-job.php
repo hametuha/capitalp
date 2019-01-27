@@ -66,7 +66,16 @@
 			</tr>
 			<tr>
 				<th>勤務地</th>
-				<td><?= esc_html( tscfp( '_job_place' ) ) ?></td>
+				<td><?php
+					foreach ( [
+							[ 'pref', '', '' ],
+							[ 'city', '', '' ],
+					 ] as list( $key, $prefix, $suffix ) ) {
+						if ( $val = tscfp( '_job_' . $key ) ) {
+							echo esc_html( $prefix . $val . $suffix );
+						}
+					}
+				?></td>
 			</tr>
 			<?php foreach ( [
 				'ability' => '職能',

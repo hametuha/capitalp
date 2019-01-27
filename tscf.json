@@ -41,7 +41,7 @@
             {
                 "name": "_job_number",
                 "label": "募集人数",
-                "col": 2,
+                "col": 1,
                 "clear": false,
                 "required": true,
                 "default": "",
@@ -52,17 +52,87 @@
                 "type": "text"
             },
             {
-                "name": "_job_place",
+                "type": "separator",
                 "label": "勤務地",
+                "name": "_job_place"
+            },
+            {
+                "name": "_job_zip",
+                "label": "郵便番号",
                 "col": 2,
-                "clear": false,
-                "required": true,
+                "clear": true,
                 "default": "",
-                "placeholder": "「東京」「自宅」など",
+                "placeholder": "「104-0062」など",
                 "description": "",
                 "max": "",
                 "min": "",
                 "type": "text"
+            },
+            {
+                "name": "_job_country",
+                "label": "国",
+                "col": 2,
+                "clear": false,
+                "default": "",
+                "placeholder": "「US」など",
+                "description": "日本以外の場合だけISO 3166-1コードを指定してください。",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_job_pref",
+                "label": "都道府県",
+                "col": 2,
+                "clear": true,
+                "default": "",
+                "placeholder": "「東京都」など",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_job_city",
+                "label": "市区町村",
+                "col": 2,
+                "clear": false,
+                "default": "",
+                "placeholder": "「中央区」など",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_job_street",
+                "label": "住所",
+                "col": 2,
+                "clear": true,
+                "default": "",
+                "placeholder": "「銀座1-3-3」など",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "name": "_job_bldg",
+                "label": "ビル名等",
+                "col": 2,
+                "clear": false,
+                "default": "",
+                "placeholder": "「G1ビル7F」など",
+                "description": "",
+                "max": "",
+                "min": "",
+                "type": "text"
+            },
+            {
+                "type": "separator",
+                "label": "報酬",
+                "name": "_job_reward_sep",
+                "clear": true
             },
             {
                 "name": "_job_reward",
@@ -122,6 +192,22 @@
                 "min": "",
                 "type": "number",
                 "unit": "万円"
+            },
+            {
+                "name": "_work_hours",
+                "label": "勤務時間",
+                "col": 2,
+                "clear": true,
+                "required": true,
+                "placeholder": "例・午前9時〜午後6時"
+            },
+            {
+                "name": "_work_holidays",
+                "label": "休み",
+                "col": 2,
+                "clear": false,
+                "required": true,
+                "placeholder": "例・土日祝"
             }
         ]
     },

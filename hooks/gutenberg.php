@@ -8,6 +8,7 @@
  */
 add_filter( 'gutenberg_can_edit_post_type', function( $can_edit, $post_type ) {
 	switch ( $post_type ) {
+		case 'post':
 		case 'bible':
 			return true;
 		default:
