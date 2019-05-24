@@ -5,6 +5,10 @@
     margin: 1em 0;
     position: relative;
     padding-left: $size + 20px;
+    @media only screen and (min-width: 64em) {
+      padding-left: 0;
+      padding-top: $size + 20px;
+    }
   }
   &-img {
     width: $size;
@@ -17,6 +21,11 @@
     left: 0;
     transform: translateY(-50%);
     border-radius: 50%;
+    @media only screen and (min-width: 64em) {
+      left: 50%;
+      top: 0;
+      transform: translateX( -50% );
+    }
   }
   &-quote{
     box-sizing: border-box;
@@ -39,6 +48,13 @@
       left: $arrow-size * -2;
       border: $arrow-size solid transparent;
       border-right-color: $bg-color;
+      @media only screen and (min-width: 64em) {
+        top: $arrow-size * -2;
+        left: 50%;
+        transform: translateX( -50% );
+        border-right-color: transparent;
+        border-bottom-color: $bg-color;
+      }
     }
     p{
       margin: 0.25em 0;
