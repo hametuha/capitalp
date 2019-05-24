@@ -6,38 +6,20 @@
  */
 
 /**
- * Always sho admin bar
+ * Always hide admin bar
  */
-add_filter( 'show_admin_bar', '__return_true', 9999 );
-
+add_filter( 'show_admin_bar', '__return_false' );
 
 /**
- * Adminbar related functions.
+ * Admin bar related functions.
  */
 add_action( 'admin_bar_menu', function ( WP_Admin_Bar &$admin_bar ) {
-	
-	if ( ! is_user_logged_in() ) {
-		// Remove WordPress extras.
-		foreach ( [ 'feedback', 'support-forums', 'documentation', 'wporg' ] as $menu_id ) {
-			$admin_bar->remove_menu( $menu_id );
-		}
-		
-		// Add login link.
-		$admin_bar->add_menu( [
-			'parent' => 'top-secondary',
-			'id'     => 'user-login',
-			'title'  => 'ログイン',
-			'href'   => wp_login_url( $_SERVER['REQUEST_URI'] ),
-		] );
-	}
-	
 	// Add External sites.
 	$admin_bar->add_group( [
 		'id' => 'external',
 		'title' => '外部サイト',
 		'parent' => 'site-name',
 	] );
-	
 	$admin_bar->add_menu( [
 		'id' => 'slack',
 		'parent' => 'external',
@@ -48,7 +30,6 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar &$admin_bar ) {
 			'target' => '_blank',
 		],
 	] );
-	
 	$admin_bar->add_menu( [
 		'id' => 'sendgrid',
 		'parent' => 'external',
@@ -59,7 +40,6 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar &$admin_bar ) {
 			'target' => '_blank',
 		],
 	] );
-	
 	$admin_bar->add_menu( [
 		'id' => 'fb-page',
 		'parent' => 'external',
