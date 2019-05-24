@@ -203,14 +203,14 @@ function capitalp_job_is_open( $post = null ) {
  * @return string
  */
 function capitalp_job_board_title() {
-	$title = [ snow_monkey_get_page_title_from_breadcrumbs() ];
-	if ( is_post_type_archive( 'job' ) ) {
-		array_unshift( $title, 'WordPress求人専門' );
-	} elseif ( is_tax( [ 'ability', 'feature', 'type' ] ) ) {
-		$term = get_queried_object();
+	$title = [ 'WordPress求人専門' ];
+	if ( is_tax( [ 'ability', 'feature', 'type' ] ) ) {
+		$term     = get_queried_object();
 		$taxonomy = get_taxonomy( $term->taxonomy );
 		array_unshift( $title, sprintf( '%s別WordPress求人', $taxonomy->label ) );
+		array_unshift( $title, $term->name );
+	} elseif ( is_singular( 'job' ) ) {
+		array_unshift( $title, single_post_title( '', false ) );
 	}
-	
 	return esc_html( implode( ' - ', $title ) );
 }
