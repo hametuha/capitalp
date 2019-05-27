@@ -1,0 +1,42 @@
+@keyframes keyframe-moving-gradient {
+  0%{
+    background-color: #fff;
+  }
+  33%{
+    background-color: #f1f1f1;
+  }
+  66%{
+    background-color:#eee;
+  }
+  100%{
+    background-color: #fff;
+  }
+}
+
+
+// Link height.
+.p-header-sub-nav a{
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  opacity: 0;
+}
+
+.capitalp-login{
+
+  &-label{
+    padding: 0 10px;
+    opacity: 1 !important;
+  }
+
+  &-avatar{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.5em;
+  }
+
+  &-loading{
+    animation: keyframe-moving-gradient 1s ease-in-out 0s infinite;
+  }
+}

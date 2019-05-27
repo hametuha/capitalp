@@ -51,3 +51,5 @@ add_action( 'admin_bar_menu', function ( WP_Admin_Bar &$admin_bar ) {
 		],
 	] );
 }, 9999 );
+
+

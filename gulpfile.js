@@ -36,7 +36,9 @@ gulp.task('js', function () {
       loadMaps: true
     }))
     .pipe($.uglify({
-      preserveComments: 'some'
+      output:{
+        comments: /^!/
+      }
     }))
     .on('error', $.util.log)
     .pipe($.sourcemaps.write('./map'))
@@ -45,7 +47,7 @@ gulp.task('js', function () {
 
 // Transpile JSX
 gulp.task('jsx', function () {
-  return gulp.src(['./src/js/**/*.jsx'])
+  return gulp.src(['./src/js/**/*.jsx', '!./src/js/**/_*.jsx'])
     .pipe($.plumber({
       errorHandler: $.notify.onError('<%= error.message %>')
     }))
@@ -106,12 +108,12 @@ gulp.task('imagemin', function () {
 // watch
 gulp.task('watch', function () {
   // Make SASS
-  gulp.watch('./src/scss/**/*.scss', ['sass']);
+  gulp.watch('src/scss/**/*.scss', ['sass']);
   // JS
-  gulp.watch(['./src/js/**/*.js'], ['js', 'jshint']);
-  gulp.watch(['./src/js/**/*.jsx'], ['jsx']);
+  gulp.watch(['src/js/**/*.js'], ['js', 'jshint']);
+  gulp.watch(['src/js/**/*.jsx'], ['jsx']);
   // Minify Image
-  gulp.watch('./src/img/**/*', ['imagemin']);
+  gulp.watch('src/img/**/*', ['imagemin']);
 });
 
 

@@ -31,6 +31,4 @@ jQuery(document).ready(function ($) {
       $(link).attr('href', parts.join('?'));
     }
   });
-
-
 });

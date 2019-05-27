@@ -23,7 +23,6 @@
           };
         },
         processResults: function (data, params) {
-          console.log(data, params);
           // parse the results into the format expected by Select2
           // since we are using custom formatting functions we do not need to
           // alter the remote JSON data, except to indicate that infinite
