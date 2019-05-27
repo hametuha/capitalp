@@ -58,3 +58,14 @@ add_action( 'hamail_body_before_send', function( $context ) {
 add_filter( 'retrieve_password_message', function( $message ) {
 	return preg_replace( '#<(https?://.*)>#u', '$1', $message );
 } );
+
+/**
+ * Fix single page post thumbnail
+ */
+add_filter( 'snow_monkey_pre_page_header_image_url', function( $url ) {
+	if ( is_singular() && has_post_thumbnail( get_queried_object() ) ) {
+		$url = wp_get_attachment_image_url( get_post_thumbnail_id( get_queried_object_id() ), 'xlarge' );
+	}
+	return $url;
+} );
+
