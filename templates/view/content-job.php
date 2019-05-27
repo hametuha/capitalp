@@ -1,9 +1,13 @@
 <?php
 /**
- * @package snow-monkey
+ * Job single page.
+ *
+ * @package capitalp
  * @author inc2734
  * @license GPL-2.0+
  */
+
+use Framework\Helper;
 ?>
 <?php get_template_part( 'template-parts/title-top-widget-area' ); ?>
 
@@ -30,9 +34,13 @@
 		</p>
 
 		<?php
-		wpvc_get_template_part( 'template-parts/google-adsense', [
-			'position' => 'content-top',
-		] );
+		Helper::get_template_part(
+			'template-parts/common/google-adsense',
+			null,
+			[
+				'position' => 'content-top',
+			]
+		);
 		?>
 
 		<?php
@@ -122,7 +130,7 @@
 		<?php get_template_part( 'template-parts/entry-tags' ); ?>
 
 		<?php
-		wpvc_get_template_part( 'template-parts/google-adsense', [
+		Helper::get_template_part( 'template-parts/google-adsense', null, [
 			'position' => 'content-bottom',
 		] );
 		?>
