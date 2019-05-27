@@ -152,7 +152,7 @@ add_action( 'pre_get_posts', function( WP_Query &$wp_query ) {
 
 // Weekly cron
 add_action( 'init', function () {
-	if ( wp_next_scheduled( 'capitalp_membership' ) ) {
+	if ( ! wp_next_scheduled( 'capitalp_membership' ) ) {
 		wp_schedule_event( current_time( 'timestamp', true ), 'weekly', 'capitalp_membership' );
 	}
 } );
