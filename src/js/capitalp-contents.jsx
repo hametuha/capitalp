@@ -10,6 +10,9 @@ const { __, sprintf } = wp.i18n;
 
 function retriveContents() {
   let $container = $( '.ofuse-instruction');
+  if ( ! $container.length ) {
+    return;
+  }
   $container.addClass( 'loading' );
   CookieTasting.testBefore().then( res => {
     return wp.apiFetch({
