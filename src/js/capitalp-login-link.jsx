@@ -24,6 +24,9 @@ class LoginButton extends Component {
     }, () => {
       CookieTasting.testBefore().then(res => {
         // Logged in. Do nothing.
+        this.setState( {
+          loggedin: CookieTasting.isLoggedIn(),
+        } );
       }).catch(res => {
         window.location.href = url;
       }).finally(res => {
