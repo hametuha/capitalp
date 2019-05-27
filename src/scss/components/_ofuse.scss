@@ -73,6 +73,17 @@ $ofuse-color: #21759B;
       margin-bottom: 10px;
     }
   }
+  &-link{
+    transition: color .3s linear;
+    &:link, &:visited{
+      color: #fff;
+      text-decoration: underline;
+    }
+    &:hover, &:active{
+      color: red;
+      text-decoration: none;
+    }
+  }
   &-button{
     transition: color .5s linear, background-color .5s linear;
     margin: 1em 0 0.5em;

@@ -19,21 +19,24 @@ function retriveContents() {
   }).then(res => {
     $('.gumroad-product-embed, .gumroad-embed-iframe').remove();
     const thankYou = __( 'Thank you for supporting us!', 'capitalp' );
-    const message = `
+    const $message = $( `
       <div class="ofuse-more">
         <i></i> ${thankYou}
       </div>
-    `;
+    ` );
     const instruction = `
       <div class="ofuse-success">
-          <p>` + sprintf( __( 'Howdy, %s!', 'capitalp' ), CookieTasting.userName() ) + `</p>
+          <p>` + sprintf( __( 'Howdy, %s!', 'capitalp' ), CookieTasting.userName().replace( '+', ' ' ) ) + `</p>
           <ol>
-            <li>` + sprintf( __( 'To get premium files, please go to %s and login. In your library, you can find Capital P resources.', 'capitalp' ), '<a href="https://gumroad.com/library" target="_blank"></a>') + `</li>
-            <li>` + sprintf( __( 'You can manage and check your license in <a href="%s">profile page</a>.', 'capitalp' ), '/wp-admin/profile.php') + `</li>
+            <li>` + sprintf( __( 'To get premium files, please go to %s and login. Then you can find Capital P resources in your library.', 'capitalp' ), '<a class="ofuse-link" href="https://gumroad.com/library" target="_blank">Gumroad</a>') + `</li>
+            <li>` + sprintf( __( 'You can manage and check your license at <a href="%s" class="ofuse-link">profile page</a>.', 'capitalp' ), '/wp-admin/profile.php' ) + `</li>
           </ol>
       </div> 
     `;
-    $container.before( message ).after( instruction ).replaceWith( res.content );
+    $container.before( $message ).after( instruction ).replaceWith( res.content );
+    $message.nextAll( '.EnlighterJSRAW' ).each( function( index, pre ) {
+      pre.enlight();
+    } );
   }).catch(res => {
     // User is not customer.
     let message = `

@@ -8,6 +8,9 @@ if ( file_exists( $composer ) ) {
 	require $composer;
 }
 
+// Enable translation.
+load_child_theme_textdomain( 'capitalp', get_stylesheet_directory() . '/languages' );
+
 // Load all file.
 foreach ( [ 'functions', 'hooks' ] as $dir ) {
 	$dir = __DIR__ . '/' . $dir;

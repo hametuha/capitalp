@@ -9,9 +9,15 @@ jQuery(document).ready(function ($) {
 
   "use strict";
 
-  function makeUrl(url){
+  /**
+   * Get URL
+   *
+   * @param {String} url
+   * @returns {String}
+   */
+  var makeUrl = function( url ) {
     return url.replace(/^https?:\/\/[^\/]+/, '');
-  }
+  };
 
   // Track pod cast events
   $('.podcast_player').each(function(index, player){
