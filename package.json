@@ -7,7 +7,8 @@
     "start": "gulp build",
     "watch": "gulp watch",
     "gulp": "gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "i18n": "po2json languages/ja.po languages/capitalp-ja-capitalp-login.json -f jed"
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,7 @@
     "imagemin-pngquant": "^4.0.0",
     "jshint": "^2.9.7",
     "jshint-stylish": "^2.0",
+    "po2json": "^1.0.0-alpha",
     "vinyl-named": "^1.1.0",
     "webpack": "^4.27.1",
     "webpack-stream": "^5.2.1"

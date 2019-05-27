@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Capital P\n"
+"POT-Creation-Date: 2019-05-28 02:24+0900\n"
+"PO-Revision-Date: 2019-05-28 02:29+0900\n"
+"Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"Language-Team: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: vendor\n"
+
+#: hooks/tags.php:188
+msgid "Mon"
+msgstr "月"
+
+#: hooks/tags.php:189
+msgid "Tue"
+msgstr "火"
+
+#: hooks/tags.php:190
+msgid "Wed"
+msgstr "水"
+
+#: hooks/tags.php:191
+msgid "Thu"
+msgstr "木"
+
+#: hooks/tags.php:192
+msgid "Fri"
+msgstr "金"
+
+#: hooks/tags.php:193
+msgid "Sat"
+msgstr "土"
+
+#: hooks/tags.php:194
+msgid "Sun"
+msgstr "日"
+
+#: template-parts/content/related-posts.php:2
+msgid "Related posts"
+msgstr "関連する投稿"
+
+#: src/js/capitalp-contents.jsx:21
+msgid "Thank you for supporting us!"
+msgstr "サポートありがとうございます！"
+
+#: src/js/capitalp-contents.jsx:29 src/js/capitalp-login-link.jsx:45
+#, python-format
+msgid "Howdy, %s!"
+msgstr "こんにちは、%sさん！"
+
+#: src/js/capitalp-contents.jsx:31
+#, python-format
+msgid ""
+"To get premium files, please go to %s and login. Then you can find Capital P "
+"resources in your library."
+msgstr ""
+"会員専用ファイルを受け取るには、%sに行ってログインしてください。ライブラリか"
+"らCapital Pのリソースを見つけることができます。"
+
+#: src/js/capitalp-contents.jsx:32
+#, python-format
+msgid ""
+"You can manage and check your license at <a href=\"%s\" class=\"ofuse-link"
+"\">profile page</a>."
+msgstr ""
+"ライセンスの管理と確認は<a href=\"%s\" class=\"ofuse-link\">プロフィールペー"
+"ジ</a>から行えます。"
+
+#: src/js/capitalp-contents.jsx:51
+msgid "License Required!"
+msgstr "ライセンスが必要です！"
+
+#: src/js/capitalp-contents.jsx:52
+msgid ""
+"To read full contents, buy new license at gumroad and save it on your "
+"profile page."
+msgstr ""
+"すべてのコンテンツを読むためには、ライセンスをGumroadで入手し、プロフィール"
+"ページで保存してください。"
+
+#: src/js/capitalp-contents.jsx:53
+msgid "Save License at Profile Page"
+msgstr "プロフィールページでライセンスを保存"
+
+#: src/js/capitalp-login-link.jsx:50
+msgid "Login"
+msgstr "ログイン"
+
+#. Theme Name of the plugin/theme
+#. Author of the plugin/theme
+msgid "Capital P"
+msgstr "Capital P"
+
+#. Theme URI of the plugin/theme
+msgid "https://github.com/fumikito/capialp"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A WordPress theme for Capital P"
+msgstr "Capital PのWordPressテーマ"
+
+#. Author URI of the plugin/theme
+msgid "https://capitalp.jp/"
+msgstr ""
