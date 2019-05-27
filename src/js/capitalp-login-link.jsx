@@ -42,7 +42,7 @@ class LoginButton extends Component {
     return this.state.loggedin ? (
       <a className={ linkClass.join( ' ' ) } href='/wp-admin/'>
         <img src={CookieTasting.get('avatar')} className='capitalp-login-avatar' alt={name}/>
-        {sprintf(__('Howday, %s!', 'capitalp'), name)}
+        {sprintf(__('Howdy, %s!', 'capitalp'), name)}
       </a>
     ) : (
         <a className={ linkClass.join( ' ' ) } href={`/wp-login.php?redirect_to=${path}`}
@@ -51,7 +51,6 @@ class LoginButton extends Component {
         </a>
     );
   }
-
 }
 
 document.querySelectorAll( '.capitalp-login-link' ).forEach( ( link ) => {
