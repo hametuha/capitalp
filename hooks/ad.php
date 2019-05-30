@@ -79,7 +79,7 @@ add_action( 'init', function () {
 /**
  * Display infeed ads.
  */
-add_action( 'get_template_part_template-parts/entry-summary', function($slug, $name) {
+add_action( 'get_template_part_template-parts/loop/entry-summary', function( $slug, $name ) {
 	if ( ( is_singular() || is_page() ) && ! is_front_page() ) {
 		return;
 	}
@@ -87,7 +87,7 @@ add_action( 'get_template_part_template-parts/entry-summary', function($slug, $n
 	$counter++;
 	if ( ( 0 === $counter % 4 ) && ( 1 < $counter ) ) {
 		?>
-		<?php capitalp_ad( 'infeed' ) ?>
+		<?php capitalp_ad( 'infeed' ); ?>
 		</li>
 		<li class="c-entries__item">
 		<?php
