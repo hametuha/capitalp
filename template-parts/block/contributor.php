@@ -17,7 +17,7 @@ if ( chiramise_should_check() ) {
 
 // 広告
 if ( has_tag( 'pr' ) ) {
-	$conditions[] = sprintf( 'この記事は<a href="%s">記事広告</a>です。', get_tag_link( 'pr' ) );
+	$conditions[] = sprintf( 'この記事は<a href="%s">スポンサー記事</a>です。商品の提供などを受けた上で書かれていますことをご了承ください。', get_term_link( 'pr', 'post_tag' ) );
 }
 
 if ( ! $conditions ) {
