@@ -54,7 +54,7 @@ add_action( 'wp_footer', function() {
  */
 add_filter( 'style_loader_tag', function( $tag, $handle, $href, $media ) {
 	static $loader_js = '';
-	if ( false !== array_search( $handle, [ 'capitalp', 'snow-monkey' ] ) ) {
+	if ( false !== array_search( $handle, [ 'snow-monkey' ] ) ) {
 		return $tag;
 	}
 	if ( false === strpos( $href, home_url() ) ) {
