@@ -42,13 +42,16 @@ add_action( 'register_shortcode_ui', function () {
 /**
  * Avoid oEmbed to work if wp_mail context.
  *
+ * @param string $body
  * @param string $context
+ * @return string
  */
-add_action( 'hamail_body_before_send', function( $context ) {
+add_filter( 'hamail_body_before_send', function( $body, $context ) {
 	if ( 'html' === $context ) {
 		wp_embed_unregister_handler( 'wp_oembed_blog_card' );
 	}
-} );
+	return $body;
+}, 10, 2 );
 
 /**
  * Password reset mail
