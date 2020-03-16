@@ -53,7 +53,9 @@ add_action( 'wp_footer', function() {
  * Add preloader to style tag.
  */
 add_filter( 'style_loader_tag', function( $tag, $handle, $href, $media ) {
-	static $loader_js = '';
+	if ( ! file_exists( get_stylesheet_directory() . '/assets/js/cssrelpreload.min.js' ) ) {
+		return $tag;
+	}
 	if ( false !== array_search( $handle, [ 'snow-monkey' ] ) ) {
 		return $tag;
 	}
@@ -61,14 +63,18 @@ add_filter( 'style_loader_tag', function( $tag, $handle, $href, $media ) {
 		return $tag;
 	}
 	$pre_loader = str_replace( "rel='stylesheet'", 'rel="preload" as="style" onload="this.onload=null; this.rel=\'stylesheet\'"', $tag );
-	if ( ! $loader_js ) {
-		$loader_js = file_get_contents( get_stylesheet_directory() . '/assets/js/cssrelpreload.min.js' );
-	}
 	return <<<HTML
 {$pre_loader}
 <noscript>{$tag}</noscript>
-<script>
-{$loader_js}
-</script>
 HTML;
 }, 10, 4 );
+
+/**
+ * Render script loader css.
+ */
+add_action( 'wp_footer', function() {
+	if ( ! file_exists( get_stylesheet_directory() . '/assets/js/cssrelpreload.min.js' ) ) {
+		return;
+	}
+	printf( "<script>\n%s\n</script>", file_get_contents( get_stylesheet_directory() . '/assets/js/cssrelpreload.min.js' ) );
+}, 100 );
