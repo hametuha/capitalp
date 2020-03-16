@@ -65,6 +65,19 @@ add_filter( 'ssp_media_player', function( $player, $src, $episode_id ) {
 	return $player;
 }, 10, 3 );
 
+
+/**
+ * Remove not serif jp to be loaded.
+ */
+add_filter( 'gettext_with_context', function( $translation, $text, $context, $domain ) {
+	switch ( $context ) {
+		case 'Google Font Name and Variants':
+			$translation = 'off';
+			break;
+	}
+	return $translation;
+}, 10, 4 );
+
 /**
  * Replace img tag with attributes.
  */
@@ -75,14 +88,8 @@ add_action( 'wp_footer', function() {
 	$body     = ob_get_contents();
 	$replaced = preg_replace_callback( '#<img([^>]+)>#u', function( $matches ) {
 		list( $match, $attr ) = $matches;
-		foreach ( [
-			'loading'  => 'lazy',
-			'decoding' => 'async',
-		] as $key => $val ) {
-			if ( false !== strpos( $attr, $key . '=' ) ) {
-				continue;
-			}
-			$attr = sprintf( ' %s="%s"%s', $key, $val, $attr );
+		if ( false === strpos( $attr, 'loading=' ) ) {
+			$attr = sprintf( ' loading="lazy"%s', $attr );
 		}
 		return sprintf( '<img%s>', $attr );
 	}, $body );
