@@ -8,3 +8,43 @@
   text-align: justify;
   text-justify: inter-ideograph;
 }
+
+.tmkm-amazon {
+
+  &-view {
+    max-width: 700px;
+    border: 1px solid #111;
+  }
+
+  &-image {
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  &-title {
+    margin-bottom: 20px;
+  }
+
+  &-vendor {
+    text-align: right !important;
+  }
+
+  &-row {
+    margin-bottom: 0.5em;
+    font-size: 0.85rem;
+  }
+
+  &-value {
+    font-style: normal;
+  }
+
+  &-price-number {
+    font-size: 1rem;
+    color: #da2d32;
+    font-weight: bold;
+  }
+
+  &-btn {
+    font-size: 0.85em;
+  }
+}

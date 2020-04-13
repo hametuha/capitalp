@@ -31,9 +31,9 @@ add_action( 'register_shortcode_ui', function () {
 		'listItemImage' => '',
 		'attrs'         => [
 			[
-				'label'    => '投票ID',
-				'attr'     => 'id',
-				'type'     => 'number',
+				'label' => '投票ID',
+				'attr'  => 'id',
+				'type'  => 'number',
 			],
 		],
 	] );
@@ -71,4 +71,3 @@ add_filter( 'snow_monkey_pre_page_header_image_url', function( $url ) {
 	}
 	return $url;
 } );
-
