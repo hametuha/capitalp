@@ -34,6 +34,9 @@ add_filter( 'ofuse_should_load_style', '__return_false' );
 
 /**
  * Add separator for member only contents
+ *
+ * @param string $content
+ * @return string
  */
 function capitalp_chiramise_content( $content ) {
 	if ( ! chiramise_should_check() ) {
@@ -46,6 +49,9 @@ function capitalp_chiramise_content( $content ) {
 	ob_start();
 	get_template_part( 'template-parts/module/separator', 'more' );
 	$block = implode( "\n", array_filter( array_map( 'trim', explode( "\n", ob_get_contents() ) ) ) );
+	echo '<pre>';
+	print_r( esc_html( $block ) );
+	echo '<.pre>';
 	ob_end_clean();
 	return str_replace( '<!--more-->', $block, get_post()->post_content );
 }

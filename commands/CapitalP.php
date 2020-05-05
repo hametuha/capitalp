@@ -126,6 +126,25 @@ class CapitalP extends WP_CLI_Command {
 	}
 	
 	/**
+	 * Get slack members
+	 *
+	 * Get slack users' data and combine their information with WP data.
+	 */
+	public function slack_members() {
+		$members = capitalp_get_slack_members();
+		if ( ! $members ) {
+			WP_CLI::error( 'ユーザーが見つかりません。' );
+		}
+		$table = new cli\Table();
+		$table->setHeaders( [ '#', 'Slack Name', 'Slack Display Name', 'WP ID', 'WP Display Name' ] );
+		foreach ( $members as $name => $member ) {
+			$id = $member['wp_id'];
+			$table->addRow( [ $member['slack_id'], $name, $member['real_name'], $id, $id ? get_the_author_meta( 'display_name', $id ) : '---' ] );
+		}
+		$table->display();
+	}
+	
+	/**
 	 * Get latest ranking
 	 */
 	public function fetch_ranking() {

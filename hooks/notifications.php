@@ -122,25 +122,7 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 							$format  = get_option( 'time_format' );
 							$title   = sprintf( '%s〜%sのログ', date_i18n( $format, $to_local ), date_i18n( $format, $from_local ) );
 							// Grab users.
-							$slack_users       = [];
-							foreach ( hameslack_members() as $member ) {
-								$slack_users[ $member->name ] = [
-									'slack_id' => $member->id,
-									'wp_id' => 0,
-								];
-							}
-//							error_log( sprintf( 'Users: %s', var_export( $slack_users, true ) ) );
-							global $wpdb;
-							$query = <<<SQL
-								SELECT user_id, meta_value FROM {$wpdb->usermeta}
-								WHERE meta_key    = 'slack'
-								  AND meta_value != ''
-SQL;
-							foreach ( $wpdb->get_results( $query ) as $user ) {
-								if ( array_key_exists( $user->meta_value, $slack_users ) ) {
-									$slack_users[ $user->meta_value ]['wp_id'] = $user->user_id;
-								}
-							}
+							$slack_users = capitalp_get_slack_members();
 							$get_user_id = function( $slack_id ) use ( $slack_users ) {
 								foreach ( $slack_users as $name => $user ) {
 									if ( $slack_id == $user['slack_id'] ) {
@@ -153,11 +135,7 @@ SQL;
 							$content = [];
 							foreach ( $messages as $message ) {
 //								error_log( sprintf( '[Cappy Message] %s', var_export( $message, true ) ) );
-								if ( $user_id = $get_user_id( $message->user ) ) {
-									$content[] = sprintf( '[capitalp_author user_id=%d]%s[/capitalp_author]', $user_id, $message->text );
-								} else {
-									$content[] = "\n{$message->text}\n";
-								}
+								$content[] = sprintf( '[capitalp_author user_id=%d slack_id=%s]%s[/capitalp_author]', $get_user_id( $message->user ), $message->user, $message->text );
 							}
 							$new_content = [];
 							foreach ( $content as $c ) {

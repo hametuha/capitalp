@@ -106,3 +106,45 @@ function capitalp_update_bulk_role() {
 	}
 	return $body;
 }
+
+/**
+ * Get slack members.
+ *
+ * @return array
+ */
+function capitalp_get_slack_members() {
+	if ( ! function_exists( 'hameslack_members' ) ) {
+		return [];
+	}
+	// Grab users.
+	$slack_users = [];
+	foreach ( hameslack_members() as $member ) {
+		$slack_users[ $member->name ] = [
+			'slack_id' => $member->id,
+			'wp_id' => 0,
+			'real_name' => $member->real_name,
+		];
+	}
+	global $wpdb;
+	$query = <<<SQL
+		SELECT user_id, meta_value FROM {$wpdb->usermeta}
+		WHERE  meta_key   = 'slack'
+		  AND  meta_value != ''
+SQL;
+	foreach ( $wpdb->get_results( $query ) as $user ) {
+		$wp_name = $user->meta_value;
+		if ( array_key_exists( $wp_name, $slack_users ) ) {
+			// Search with name.
+			$slack_users[ $wp_name ]['wp_id'] = (int) $user->user_id;
+		} else {
+			// Or else, check 1 by 1.
+			foreach ( $slack_users as &$slack_user) {
+				if ( $slack_user['real_name'] == $wp_name ) {
+					$slack_user['wp_id'] = (int) $user->user_id;
+					break 1;
+				}
+			}
+		}
+	}
+	return $slack_users;
+}
