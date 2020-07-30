@@ -1,6 +1,11 @@
 .site-content{
   position: relative;
 }
+
+body.has-lang-message {
+  padding-bottom: 2.9em;
+}
+
 .cappy-lang-switcher{
   position: fixed;
   left: 0;

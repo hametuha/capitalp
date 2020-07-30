@@ -10,7 +10,6 @@
 		<h1 class="c-entry__title">
 			<?php echo capitalp_job_board_title() ?>
 		</h1>
-		
 	</header>
 
 	<p class="c-entry__header--description center">

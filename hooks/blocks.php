@@ -26,7 +26,10 @@ if ( function_exists( 'register_block_type' ) ) {
 	register_block_type(
 		'capitalp/interview', [
 		'render_callback' => function ( $attributes, $content = '' ) {
-			return sprintf( '[capitalp_author user_id=%d]%s[/capitalp_author]', $attributes[ 'user' ], $content );
+			$attributes = wp_parse_args( $attributes, [
+				'user_id' => 0,
+			] );
+			return sprintf( '[capitalp_author user_id=%d]%s[/capitalp_author]', $attributes[ 'user_id' ], $content );
 		},
 	] );
 }
