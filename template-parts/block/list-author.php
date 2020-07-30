@@ -9,15 +9,15 @@
 	?>
 		<div class="author-wrapper">
 
-			<?= get_avatar( $user->ID, 96, '', $user->display_name, [ 'class' => 'author-avatar' ] ) ?>
+			<?= get_avatar( $user->ID, 96, '', $user->display_name, [ 'class' => 'authors-avatar' ] ) ?>
 
 			<div class="authors-content">
-				<h2 class="author-title">
+				<h2 class="authors-title">
 					<?= esc_html( $user->display_name ) ?>
                 </h2>
-				<div class="author-desc"><?= apply_filters( 'the_content', $user->description ) ?></div>
+				<div class="authors-desc"><?= apply_filters( 'the_content', $user->description ) ?></div>
 				<p>
-					<a class="c-btn" href="<?= esc_url( get_author_posts_url( $user->ID, $user->nicename ) ) ?>">
+					<a class="btn btn-secondary" href="<?= esc_url( get_author_posts_url( $user->ID, $user->nicename ) ) ?>">
 						投稿一覧
 					</a>
 				</p>

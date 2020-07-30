@@ -16,6 +16,7 @@ add_action( 'init', function() {
 	    'menu_icon' => 'dashicons-translation',
 	    'supports'  => [ 'title', 'editor', 'thumbnails', 'author', 'revision' ],
 	    'capability_type' => 'post',
+	    'show_in_rest' => true,
 	    'taxonomies' => [ 'category', 'post_tag' ],
 	    'has_archive' => true,
 	    'rewrite' => [
@@ -24,24 +25,26 @@ add_action( 'init', function() {
 	] );
 } );
 
-
 add_action( 'add_meta_boxes', function( $post_type ) {
 	if ( 'en' === $post_type ) {
 		add_meta_box( 'english', '英語設定', function( $post ) {
 			// Set parent pages.
 			wp_enqueue_style( 'select2' );
 			wp_enqueue_script( 'cappy-post-selector', get_stylesheet_directory_uri() . '/assets/js/post-picker.js', [ 'select2', 'wp-api' ], wp_get_theme()->get( 'Version' ), true );
-			$style = <<<CSS
-				.select2-container{
-					min-width: 100%;
-				}
-CSS;
-			wp_add_inline_style( 'select2', $style );
+			add_action( 'admin_footer', function() {
+				?>
+				<style>
+					.select2-container{
+						max-width: 100%;
+					}
+				</style>
+				<?php
+			} );
 			?>
 			<p>
 			<label>
 				オリジナルの日本語投稿<br />
-				<select name="post_parent" class="cappy-post-picker">
+				<select name="post_parent" class="cappy-post-picker" style="max-width: 100%;">
 					<option value="0" <?php selected( ! $post->post_parent ) ?>>未設定</option>
 					<?php if ( $post->post_parent ) : ?>
 						<option value="<?= esc_attr( $post->post_parent ) ?>" selected>
@@ -60,45 +63,21 @@ CSS;
 	}
 } );
 
-
+/**
+ * Template redirect.
+ */
 add_action( 'template_redirect', function() {
 	if ( capitalp_is_english_page() ) {
 		switch_to_locale( 'en_US' );
 	}
 } );
 
-
+/**
+ * Load template for english posts.
+ */
 add_action( 'wp_footer', function () {
 	if ( !( is_single() || is_singular() || is_page() ) ) {
 		return;
 	}
 	get_template_part( 'template-parts/module/lang', 'switcher' );
-	?>
-	<script>
-      jQuery(document).ready(function ($) {
-        // Check UA and if english, show add title
-        var browserLanguage = function () {
-          var ua = window.navigator.userAgent.toLowerCase();
-          try {
-            // chrome
-            if (ua.indexOf('chrome') != -1) {
-              return ( navigator.languages[0] || navigator.browserLanguage || navigator.language || navigator.userLanguage).substr(0, 2);
-            }
-            // それ以外
-            else {
-              return ( navigator.browserLanguage || navigator.language || navigator.userLanguage).substr(0, 2);
-            }
-          }
-          catch (e) {
-            return undefined;
-          }
-        };
-        if ('ja' !== browserLanguage()) {
-          $('.cappy-lang-switcher').addClass('english-user');
-        } else {
-          $('.cappy-lang-switcher').addClass('japanese-user');
-        }
-      });
-	</script>
-	<?php
 }, 9999 );

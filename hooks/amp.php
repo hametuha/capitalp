@@ -23,7 +23,7 @@ add_action( 'amp_post_template_css', function() {
 	}
 	$css = file_get_contents( $css_path );
 	$css = preg_replace( '@/\*#.*\*/@u', '', $css );
-	echo $css;
+//	echo $css;
 } );
 
 

@@ -13,7 +13,7 @@ add_action( 'init', function () {
 	$version = wp_get_theme()->get( 'Version' );
 
 	// Register this style
-	wp_register_style( 'capitalp', get_stylesheet_directory_uri() . '/assets/css/style.css', [ 'snow-monkey' ], $version );
+	wp_register_style( 'capitalp', get_stylesheet_directory_uri() . '/assets/css/style.css', [ 'ku-mag' ], $version );
 
 	// Register JS
 	wp_register_script( 'capitalp-tracker', get_stylesheet_directory_uri() . '/assets/js/tracker.js', [ 'jquery' ], $version, true );
@@ -64,35 +64,3 @@ add_filter( 'ssp_media_player', function( $player, $src, $episode_id ) {
 	);
 	return $player;
 }, 10, 3 );
-
-
-/**
- * Remove not serif jp to be loaded.
- */
-add_filter( 'gettext_with_context', function( $translation, $text, $context, $domain ) {
-	switch ( $context ) {
-		case 'Google Font Name and Variants':
-			$translation = 'off';
-			break;
-	}
-	return $translation;
-}, 10, 4 );
-
-/**
- * Replace img tag with attributes.
- */
-add_action( 'wp_head', function() {
-	ob_start();
-}, 9999 );
-add_action( 'wp_footer', function() {
-	$body     = ob_get_contents();
-	$replaced = preg_replace_callback( '#<img([^>]+)>#u', function( $matches ) {
-		list( $match, $attr ) = $matches;
-		if ( false === strpos( $attr, 'loading=' ) ) {
-			$attr = sprintf( ' loading="lazy"%s', $attr );
-		}
-		return sprintf( '<img%s>', $attr );
-	}, $body );
-	ob_end_clean();
-	echo $replaced;
-}, 9999 );
