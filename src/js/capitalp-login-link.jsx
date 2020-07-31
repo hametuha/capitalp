@@ -17,7 +17,7 @@ class LoginButton extends Component {
 	}
 
 	loginHandler( e ) {
-		const url = e.target.href;
+		const url = e.currentTarget.href;
 		e.preventDefault();
 		this.setState( {
 			loading: true,
