@@ -5,88 +5,89 @@
  * @package capitalp
  */
 
-add_action( 'admin_head', function() {
+/**
+ * Calculate login at admin screen and wp-login.
+ *
+ */
+function capitalp_render_ga_tag(): void {
 	?>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-6QLLHXE9QQ"></script>
 	<script>
-	(function (i, s, o, g, r, a, m) {
-		i['GoogleAnalyticsObject'] = r;
-		i[r] = i[r] || function () {
-			(i[r].q = i[r].q || []).push(arguments)
-          }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-	ga('create', 'UA-1766751-12', 'auto');
-	ga('send', 'pageview');
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push( arguments );
+		}
+
+		gtag( 'js', new Date() );
+		gtag( 'config', 'G-6QLLHXE9QQ' );
+		gtag( 'config', 'UA-1766751-12' );
 	</script>
 	<?php
-} );
+}
+
+add_action( 'admin_head', 'capitalp_render_ga_tag' );
+add_action( 'login_head', 'capitalp_render_ga_tag' );
 
 /**
  * Display analytics code
  */
 add_action( 'wp_head', function () {
 	?>
-    <script>
-      window.capitalP = {
-        post         : 0,
-        author       : 0,
-        tags         : '',
-        setDimension : function (slot, value) {
-          try {
-            ga('set', 'dimension' + slot, value);
-          } catch (err) {
-          }
-        },
-        setPostData  : function (postId, authorId, tags) {
-          this.post = postId;
-          this.author = authorId;
-          this.tags = tags;
-          this.setDimension(1, postId);
-          this.setDimension(2, authorId);
-          if (tags) {
-            this.setDimension(3, tags);
-          }
-        },
-        resetPostData: function () {
-          if (this.post && this.author) {
-            this.setDimension(1, this.post);
-            this.setDimension(2, this.author);
-            if (this.tags) {
-              this.setDimension(3, this.tags);
-            }
-          }
-        }
-      };
-	  <?php if ( ! is_preview() ) : ?>
-      (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-          }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-      ga('create', 'UA-1766751-12', 'auto');
-	  <?php
-	  if ( is_singular( 'post' ) ) :
-	  $tags = get_the_tags( get_queried_object_id() );
-	  $tags = ( $tags && ! is_wp_error( $tags ) ) ? implode( ',', array_map( function ( $tag ) {
-		  return $tag->term_id;
-	  }, $tags ) ) : '';
-	  ?>
-      capitalP.setPostData( <?= get_queried_object()->ID ?>, <?= get_queried_object()->post_author ?>, '<?= $tags ?>');
-	  <?php endif; ?>
-      ga('send', 'pageview');
-	  <?php endif; ?>
-    </script>
-	<?php
+	<script>
+		window.capitalP = {
+			config: {
+				custom_map: {}
+			},
+			post: 0,
+			author: 0,
+			tags: '',
+			setDimension: function ( slot, key, value ) {
+				this.config.custom_map['dimension' + slot] = key;
+				this.config[key] = value;
+			},
+			setPostData: function ( postId, authorId, tags ) {
+				this.post = postId;
+				this.author = authorId;
+				this.tags = tags;
+				this.setDimension( 1, 'post_id', postId );
+				this.setDimension( 2, 'post_author', authorId );
+				if ( tags ) {
+					this.setDimension( 3, 'post_tags', tags );
+				}
+			},
+			resetPostData: function () {
+				// Do nothing. Left for backward compatibility.
+			}
+		};
+	</script>
+	<?php if ( ! is_preview() ) : ?>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-6QLLHXE9QQ"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push( arguments );
+		}
+		gtag( 'js', new Date() );
+		<?php
+		// If this is not preview, render
+		if ( is_singular( 'post' ) ) {
+			
+			$tags = get_the_tags( get_queried_object_id() );
+			$tags = ( $tags && ! is_wp_error( $tags ) ) ? implode(
+				',', array_map( function ( $tag ) {
+				return $tag->term_id;
+			}, $tags ) ) : '';
+			// Setup single page data.
+			printf( 'capitalP.setPostData( %d, %d, "%s" );', get_queried_object_id(), get_queried_object()->post_author, esc_js( $tags ) );
+		}
+		?>
+		gtag( 'config', 'G-6QLLHXE9QQ', capitalP.config );
+		gtag( 'config', 'UA-1766751-12', capitalP.config );
+	</script>
+	<?php endif;
 }, 99 );
 
 /**
@@ -94,7 +95,7 @@ add_action( 'wp_head', function () {
  */
 add_filter( 'document_title_parts', function ( $title ) {
 	if ( ! is_front_page() ) {
-		$title['suffix'] = 'WordPressメディア';
+		$title[ 'suffix' ] = 'WordPressメディア';
 	}
 	return $title;
 } );
@@ -161,9 +162,9 @@ add_shortcode( 'recent-hero', function ( $atts, $content = '' ) {
 } );
 
 // Add post type for ranking.
-add_action( 'init', function() {
+add_action( 'init', function () {
 	register_post_type( 'ranking', [
-		'label'  => 'ランキング',
+		'label' => 'ランキング',
 		'public' => true,
 		'supports' => [ 'title', 'editor', 'author' ],
 		'capability_type' => 'page',
@@ -177,15 +178,16 @@ add_action( 'init', function() {
 /**
  * ランキングが公開されたらつぶやく
  */
-add_action( 'transition_post_status', function( $new_status, $old_status, $post ) {
+add_action( 'transition_post_status', function ( $new_status, $old_status, $post ) {
 	if ( ( 'ranking' === $post->post_type ) && ( 'publish' == $new_status ) && ( 'publish' != $old_status ) ) {
 		if ( ! function_exists( 'gianism_update_twitter_status' ) ) {
 			return;
 		}
-		gianism_update_twitter_status( sprintf(
-			'%sのランキングが更新されたワン！ %s',
-			date_i18n( get_option( 'date_format' ) ),
-			get_permalink( $post )
-		) );
+		gianism_update_twitter_status(
+			sprintf(
+				'%sのランキングが更新されたワン！ %s',
+				date_i18n( get_option( 'date_format' ) ),
+				get_permalink( $post )
+			) );
 	}
 }, 10, 3 );
