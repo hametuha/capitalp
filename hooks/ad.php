@@ -48,3 +48,13 @@ add_filter( 'document_title_parts', function ( $title ) {
 	}
 	return $title;
 } );
+
+/**
+ * Render related contents
+ */
+add_filter( 'kumag_show_related_articles', function() {
+	if ( function_exists( 'get_the_related_post_patch' ) ) {
+		echo get_the_related_post_patch( null, 8, 2 );
+	}
+	return false;
+} );
