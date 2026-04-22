@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "@wordpress/stylelint-config/scss"
+  ],
+  "rules": {
+    "no-descending-specificity": null,
+    "selector-class-pattern": null,
+    "scss/at-import-partial-extension": null,
+    "scss/at-import-no-partial-leading-underscore": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "declaration-property-unit-allowed-list": null,
+    "at-rule-empty-line-before": null,
+    "rule-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "scss/dollar-variable-empty-line-before": null,
+    "block-no-empty": null,
+    "no-empty-source": null,
+    "no-invalid-position-at-import-rule": null
+  }
+}

@@ -2,12 +2,19 @@
   "name": "capitalp",
   "version": "1.0.0",
   "description": "A WordPress theme for Capital P",
-  "main": "gulpfile.js",
   "scripts": {
-    "start": "gulp build",
-    "watch": "gulp watch",
-    "gulp": "gulp",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "npm run build:css && npm run build:js && npm run build:img && npm run dump",
+    "build:css": "sass ./src/scss/:./assets/css/ --style=compressed --no-source-map && postcss ./assets/css/**/*.css --use autoprefixer --replace --no-map",
+    "build:js": "grab-deps js src/js assets/js",
+    "build:img": "mkdir -p assets/img && cp -R src/img/. assets/img/",
+    "dump": "grab-deps dump assets",
+    "watch": "npm-watch",
+    "lint": "npm run lint:css && npm run lint:js",
+    "lint:css": "wp-scripts lint-style './src/scss/**/*.scss'",
+    "lint:js": "wp-scripts lint-js ./src/js",
+    "fix": "npm run fix:js && npm run fix:css",
+    "fix:js": "eslint --fix ./src/js",
+    "fix:css": "stylelint --fix ./src/scss",
     "i18n": "po2json languages/ja.po languages/capitalp-ja-capitalp-login.json -f jed"
   },
   "repository": {
@@ -23,31 +30,44 @@
     "url": "https://github.com/fumikito/capitalp/issues"
   },
   "homepage": "https://github.com/fumikito/capitalp#readme",
+  "engines": {
+    "node": ">=18.0"
+  },
   "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/plugin-transform-react-jsx": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "babel-loader": "^8.0.4",
-    "event-stream": "^4.0.1",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-imagemin": "^7.1.0",
-    "gulp-jshint": "^2.1.0",
-    "gulp-load-plugins": "^2.0.3",
-    "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-sass": "^4.0.2",
-    "gulp-sass-glob": "^1.1.0",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.1",
-    "gulp-util": "^3.0",
-    "imagemin-pngquant": "^9.0.0",
-    "jshint": "^2.9.7",
-    "jshint-stylish": "^2.0",
+    "@kunoichi/grab-deps": "^3.0.0",
+    "@wordpress/scripts": "^30.0.0",
+    "autoprefixer": "^10.4.16",
+    "npm-watch": "^0.13.0",
     "po2json": "^1.0.0-alpha",
-    "vinyl-named": "^1.1.0",
-    "webpack": "^4.27.1",
-    "webpack-stream": "^5.2.1"
+    "postcss": "^8.4.33",
+    "postcss-cli": "^11.0.0",
+    "sass": "^1.69.7"
+  },
+  "watch": {
+    "build:js": {
+      "extensions": "js,jsx",
+      "patterns": [
+        "src/js"
+      ]
+    },
+    "build:css": {
+      "extensions": "scss",
+      "patterns": [
+        "src/scss"
+      ]
+    },
+    "build:img": {
+      "extensions": "png,jpg,jpeg,gif,svg,webp",
+      "patterns": [
+        "src/img"
+      ]
+    },
+    "dump": {
+      "extensions": "js,css",
+      "patterns": [
+        "assets/js",
+        "assets/css"
+      ]
+    }
   }
 }
