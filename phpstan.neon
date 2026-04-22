@@ -1,0 +1,31 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    phpVersion: 80200
+
+    paths:
+        - functions.php
+        - functions
+        - hooks
+        - amp
+        - commands
+        - template-parts
+        - templates
+
+    excludePaths:
+        - vendor/
+        - node_modules/
+        - assets/
+        - src/
+        - tests/
+
+    bootstrapFiles:
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php
+
+    ignoreErrors:
+        # Third-party plugin / parent theme globals referenced from hooks.
+        - '#^Function (kumag|ku_mag|side_business|chiramise|hamail|cookie_tasting|gianism|tscf|tsfc|get_the_related_post_patch|hametuha|hamazon)_#'

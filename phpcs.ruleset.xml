@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<ruleset name="Capital P Theme Coding Standards">
+  <description>WordPress coding standards for the Capital P child theme.</description>
+
+  <rule ref="WordPress-Core">
+    <exclude name="Universal.Arrays.DisallowShortArraySyntax" />
+    <exclude name="Squiz.Commenting.FileComment.Missing" />
+    <exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames" />
+    <exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
+  </rule>
+  <rule ref="WordPress-Docs">
+    <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
+    <exclude name="Generic.Commenting.DocComment.ShortNotCapital" />
+    <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+  </rule>
+  <rule ref="WordPress-Extra">
+    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+    <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+    <exclude name="Universal.Operators.DisallowShortTernary" />
+  </rule>
+
+  <arg name="extensions" value="php"/>
+  <file>./functions.php</file>
+  <file>./functions</file>
+  <file>./hooks</file>
+  <file>./amp</file>
+  <file>./commands</file>
+  <file>./template-parts</file>
+  <file>./templates</file>
+
+  <arg value="ps"/>
+  <arg name="colors"/>
+
+  <exclude-pattern>*/node_modules/*</exclude-pattern>
+  <exclude-pattern>*/vendor/*</exclude-pattern>
+  <exclude-pattern>*/tests/*</exclude-pattern>
+</ruleset>
