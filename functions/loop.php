@@ -46,6 +46,6 @@ function capitalp_template_counter( $file ) {
 	if ( ! isset( $counter[ $file ] ) ) {
 		$counter[ $file ] = 0;
 	}
-	$counter[ $file ]++;
+	++$counter[ $file ];
 	return $counter[ $file ];
 }

@@ -1,0 +1,51 @@
+{
+  "env": {
+    "browser": true,
+    "jquery": true
+  },
+  "globals": {
+    "jQuery": false,
+    "CookieTasting": false,
+    "CapitalpInterview": false,
+    "CapitalpContents": false,
+    "CapitalP": false,
+    "capitalP": false,
+    "JobBoard": false,
+    "gtag": false,
+    "ga": false,
+    "wpApiSettings": true
+  },
+  "extends": [
+    "plugin:@wordpress/eslint-plugin/recommended-with-formatting"
+  ],
+  "rules": {
+    "no-alert": "off",
+    "prettier/prettier": "off",
+    "object-shorthand": "off",
+    "jsdoc/require-jsdoc": "off",
+    "jsdoc/no-undefined-types": "off",
+    "jsdoc/check-tag-names": "off",
+    "jsdoc/require-param": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-sort-props": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "import/order": "off",
+    "no-prototype-builtins": "off",
+    "object-curly-newline": "off",
+    "object-property-newline": "off",
+    "yoda": "off",
+    "strict": "off",
+    "no-unused-expressions": "off",
+    "no-unused-vars": [
+      "error",
+      { "args": "none", "varsIgnorePattern": "^(_|res|response)" }
+    ],
+    "@wordpress/i18n-translator-comments": "off",
+    "@wordpress/no-unused-vars-before-return": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "18.0"
+    }
+  }
+}

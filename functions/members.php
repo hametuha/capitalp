@@ -20,10 +20,10 @@ function capitalp_is_public_capitalist( $user_id ) {
  * @return int
  */
 function capitalp_assign_role( $user_id ) {
-	$status = 0;
-	$subject = 'Capital P 会員権限変更のお知らせ';
-	$body = '';
-	$user = null;
+	$status      = 0;
+	$subject     = 'Capital P 会員権限変更のお知らせ';
+	$body        = '';
+	$user        = null;
 	$profile_url = admin_url( 'profile.php' );
 	if ( ofuse_is_user_valid( $user_id ) ) {
 		// This is valid user.
@@ -32,7 +32,7 @@ function capitalp_assign_role( $user_id ) {
 			$user = new WP_User( $user_id );
 			$user->set_role( 'contributor' );
 			$status = 1;
-			$body = <<<TXT
+			$body   = <<<TXT
 {$user->display_name} 様
 
 Capital Pです。
@@ -54,7 +54,7 @@ TXT;
 			$user = new WP_User( $user_id );
 			$user->set_role( 'subscriber' );
 			$status = -1;
-			$body = <<<TXT
+			$body   = <<<TXT
 {$user->display_name} 様
 
 Capital Pです。
@@ -72,10 +72,15 @@ TXT;
 		}
 	}
 	if ( $body && $user ) {
-		wp_mail( $user->user_email, $subject, $body, [
-			'From: ' . get_option( 'admin_email' ),
-			'Reply-To: ' . get_option( 'admin_email' ),
-		] );
+		wp_mail(
+			$user->user_email,
+			$subject,
+			$body,
+			[
+				'From: ' . get_option( 'admin_email' ),
+				'Reply-To: ' . get_option( 'admin_email' ),
+			]
+		);
 	}
 	return $status;
 }
@@ -86,21 +91,23 @@ TXT;
  * @return array
  */
 function capitalp_update_bulk_role() {
-	$users = new WP_User_Query( [
-		'role__in' => [ 'subscriber', 'contributor' ],
-		'number' => -1,
-	] );
-	$body = [ 0, 0, 0 ];
+	$users = new WP_User_Query(
+		[
+			'role__in' => [ 'subscriber', 'contributor' ],
+			'number'   => -1,
+		]
+	);
+	$body  = [ 0, 0, 0 ];
 	foreach ( $users->get_results() as $user ) {
 		switch ( capitalp_assign_role( $user->ID ) ) {
 			case 1:
-				$body[1]++;
+				++$body[1];
 				break;
 			case -1:
-				$body[2]++;
+				++$body[2];
 				break;
 			default:
-				$body[0]++;
+				++$body[0];
 				break;
 		}
 	}
@@ -120,8 +127,8 @@ function capitalp_get_slack_members() {
 	$slack_users = [];
 	foreach ( hameslack_members() as $member ) {
 		$slack_users[ $member->name ] = [
-			'slack_id' => $member->id,
-			'wp_id' => 0,
+			'slack_id'  => $member->id,
+			'wp_id'     => 0,
 			'real_name' => $member->real_name,
 		];
 	}
@@ -138,7 +145,7 @@ SQL;
 			$slack_users[ $wp_name ]['wp_id'] = (int) $user->user_id;
 		} else {
 			// Or else, check 1 by 1.
-			foreach ( $slack_users as &$slack_user) {
+			foreach ( $slack_users as &$slack_user ) {
 				if ( $slack_user['real_name'] == $wp_name ) {
 					$slack_user['wp_id'] = (int) $user->user_id;
 					break 1;

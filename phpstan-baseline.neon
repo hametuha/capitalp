@@ -1,0 +1,311 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to method get\\(\\) on an unknown class AMP_Post_Template\\.$#"
+			count: 2
+			path: amp/single.php
+
+		-
+			message: "#^Call to method load_parts\\(\\) on an unknown class AMP_Post_Template\\.$#"
+			count: 7
+			path: amp/single.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$this contains unknown class AMP_Post_Template\\.$#"
+			count: 1
+			path: amp/single.php
+
+		-
+			message: "#^Call to method addRow\\(\\) on an unknown class cli\\\\Table\\.$#"
+			count: 4
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Call to method display\\(\\) on an unknown class cli\\\\Table\\.$#"
+			count: 5
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Call to method fetch\\(\\) on an unknown class Gianism\\\\Plugins\\\\AnalyticsFetcher\\.$#"
+			count: 1
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Call to method setHeaders\\(\\) on an unknown class cli\\\\Table\\.$#"
+			count: 5
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Call to method setRows\\(\\) on an unknown class cli\\\\Table\\.$#"
+			count: 1
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Function ofuse_members not found\\.$#"
+			count: 1
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Instantiated class cli\\\\Table not found\\.$#"
+			count: 5
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Variable \\$end_date might not be defined\\.$#"
+			count: 1
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Variable \\$metrics might not be defined\\.$#"
+			count: 2
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Variable \\$start_date might not be defined\\.$#"
+			count: 1
+			path: commands/CapitalP.php
+
+		-
+			message: "#^Access to an undefined property WP_Post\\:\\:\\$pv\\.$#"
+			count: 1
+			path: functions/analytics.php
+
+		-
+			message: "#^Call to method fetch\\(\\) on an unknown class Gianism\\\\Plugins\\\\AnalyticsFetcher\\.$#"
+			count: 1
+			path: functions/analytics.php
+
+		-
+			message: "#^Function capitalp_analytics\\(\\) has invalid return type Gianism\\\\Plugins\\\\AnalyticsFetcher\\.$#"
+			count: 1
+			path: functions/analytics.php
+
+		-
+			message: "#^Function capitalp_analytics\\(\\) should return Gianism\\\\Plugins\\\\AnalyticsFetcher but returns null\\.$#"
+			count: 2
+			path: functions/analytics.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: functions/analytics.php
+
+		-
+			message: "#^Variable \\$result might not be defined\\.$#"
+			count: 1
+			path: functions/analytics.php
+
+		-
+			message: "#^Call to function is_wp_error\\(\\) with WP_Post will always evaluate to false\\.$#"
+			count: 1
+			path: functions/job-board.php
+
+		-
+			message: "#^Function tscfp not found\\.$#"
+			count: 5
+			path: functions/job-board.php
+
+		-
+			message: "#^Parameter \\#1 \\$postarr of function wp_insert_post expects array\\{ID\\?\\: int, post_author\\?\\: int, post_date\\?\\: string, post_date_gmt\\?\\: string, post_content\\?\\: string, post_content_filtered\\?\\: string, post_title\\?\\: string, post_excerpt\\?\\: string, \\.\\.\\.\\}, array\\{post_type\\: 'submission', post_parent\\: int, post_author\\: string, post_status\\: 'publish', post_title\\: non\\-falsy\\-string\\} given\\.$#"
+			count: 1
+			path: functions/job-board.php
+
+		-
+			message: "#^is_wp_error\\(WP_Post\\) will always evaluate to false\\.$#"
+			count: 1
+			path: functions/job-board.php
+
+		-
+			message: "#^Function ofuse_is_user_valid not found\\.$#"
+			count: 1
+			path: functions/members.php
+
+		-
+			message: "#^Function capitalp_get_series\\(\\) never returns WP_Error so it can be removed from the return type\\.$#"
+			count: 1
+			path: functions/series.php
+
+		-
+			message: "#^Function capitalp_get_series\\(\\) never returns false so it can be removed from the return type\\.$#"
+			count: 1
+			path: functions/series.php
+
+		-
+			message: "#^Call to method fetch\\(\\) on an unknown class Gianism\\\\Plugins\\\\AnalyticsFetcher\\.$#"
+			count: 1
+			path: hooks/analytics.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: hooks/analytics.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function add_action expects callable\\(\\)\\: mixed, 'sharing_add_footer' given\\.$#"
+			count: 1
+			path: hooks/assets-jquery.php
+
+		-
+			message: "#^Function ofuse_is_user_valid not found\\.$#"
+			count: 2
+			path: hooks/author.php
+
+		-
+			message: "#^Function shortcode_ui_register_for_shortcode not found\\.$#"
+			count: 3
+			path: hooks/author.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_attr expects string, \\(float\\|int\\) given\\.$#"
+			count: 1
+			path: hooks/author.php
+
+		-
+			message: "#^Callback expects 1 parameter, \\$accepted_args is set to 2\\.$#"
+			count: 1
+			path: hooks/job-board.php
+
+		-
+			message: "#^Parameter \\#1 \\$term of function has_term expects array\\|int\\|string, WP_Term given\\.$#"
+			count: 1
+			path: hooks/job-board.php
+
+		-
+			message: "#^Action callback returns array but should not return anything\\.$#"
+			count: 1
+			path: hooks/membership.php
+
+		-
+			message: "#^Function hameslack_post not found\\.$#"
+			count: 1
+			path: hooks/membership.php
+
+		-
+			message: "#^Function ofuse_members not found\\.$#"
+			count: 1
+			path: hooks/membership.php
+
+		-
+			message: "#^Anonymous function has an unused use \\$current_user\\.$#"
+			count: 2
+			path: hooks/notifications.php
+
+		-
+			message: "#^Anonymous function has an unused use \\$text\\.$#"
+			count: 1
+			path: hooks/notifications.php
+
+		-
+			message: "#^Function hameslack_channel_history not found\\.$#"
+			count: 1
+			path: hooks/notifications.php
+
+		-
+			message: "#^Parameter \\#1 \\$post of function get_post expects int\\|WP_Post\\|null, string given\\.$#"
+			count: 1
+			path: hooks/notifications.php
+
+		-
+			message: "#^Parameter \\#2 \\$user_id of function get_the_author_meta expects int\\|false, string given\\.$#"
+			count: 1
+			path: hooks/notifications.php
+
+		-
+			message: "#^The overwriting return is on this line\\.$#"
+			count: 2
+			path: hooks/notifications.php
+
+		-
+			message: "#^This throw is overwritten by a different one in the finally block below\\.$#"
+			count: 6
+			path: hooks/notifications.php
+
+		-
+			message: "#^Callback expects 1 parameter, \\$accepted_args is set to 4\\.$#"
+			count: 1
+			path: hooks/override.php
+
+		-
+			message: "#^Function shortcode_ui_register_for_shortcode not found\\.$#"
+			count: 1
+			path: hooks/override.php
+
+		-
+			message: "#^Call to function is_wp_error\\(\\) with WP_Term will always evaluate to false\\.$#"
+			count: 1
+			path: hooks/tags.php
+
+		-
+			message: "#^Parameter \\#1 \\$args of function get_posts expects array\\{numberposts\\?\\: int, category\\?\\: int\\|string, include\\?\\: array\\<int\\>, exclude\\?\\: array\\<int\\>, suppress_filters\\?\\: bool, attachment_id\\?\\: int, author\\?\\: int\\|string, author_name\\?\\: string, \\.\\.\\.\\}\\|null, array\\{post_type\\: 'post', post_status\\: array\\{'publish', 'pending', 'future'\\}, year\\: string, monthnum\\: int, tax_query\\: array\\{array\\{taxonomy\\: string, terms\\: int, field\\: 'term_id'\\}\\}, posts_per_page\\: \\-1, suppress_filters\\: false, 0\\: mixed\\} given\\.$#"
+			count: 1
+			path: hooks/tags.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_html expects string, int\\<1, max\\> given\\.$#"
+			count: 1
+			path: hooks/tags.php
+
+		-
+			message: "#^Parameter \\#2 \\$user_id of function get_the_author_meta expects int\\|false, string given\\.$#"
+			count: 1
+			path: hooks/tags.php
+
+		-
+			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: hooks/tags.php
+
+		-
+			message: "#^is_wp_error\\(WP_Term\\) will always evaluate to false\\.$#"
+			count: 1
+			path: hooks/tags.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$control_options$#"
+			count: 1
+			path: hooks/widget-adsence.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$id_base$#"
+			count: 1
+			path: hooks/widget-adsence.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$name$#"
+			count: 1
+			path: hooks/widget-adsence.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$widget_options$#"
+			count: 1
+			path: hooks/widget-adsence.php
+
+		-
+			message: "#^Method CapitalP_WidgetTestimonial\\:\\:form\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: hooks/widget-testimonial.php
+
+		-
+			message: "#^Function tscfp not found\\.$#"
+			count: 3
+			path: template-parts/block/job-submission.php
+
+		-
+			message: "#^Function tscfp not found\\.$#"
+			count: 1
+			path: template-parts/entry-summary-job.php
+
+		-
+			message: "#^Call to static method get_template_part\\(\\) on an unknown class Framework\\\\Helper\\.$#"
+			count: 2
+			path: templates/view/content-job.php
+
+		-
+			message: "#^Function tscfp not found\\.$#"
+			count: 4
+			path: templates/view/content-job.php

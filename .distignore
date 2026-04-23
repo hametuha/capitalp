@@ -1,0 +1,36 @@
+# Files and directories excluded from production deploy (rsync --exclude-from).
+# Syntax is rsync's; patterns are matched against paths relative to the theme root.
+
+# VCS / CI
+.git/
+.github/
+.gitignore
+.distignore
+
+# Local dev environment
+.docker/
+.DS_Store
+
+# Source files (built output lives in assets/)
+src/
+tests/
+
+# Build toolchain configs
+.browrserlistrc
+.eslintrc
+.node-version
+.stylelintrc.json
+gulpfile.js
+package.json
+package-lock.json
+node_modules/
+
+# PHP lint / analysis configs
+composer.json
+composer.lock
+phpcs.ruleset.xml
+phpstan.neon
+phpstan-baseline.neon
+
+# Generated dep manifests (PHP enqueues hardcode handles currently)
+wp-dependencies.json

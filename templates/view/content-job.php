@@ -30,7 +30,7 @@ use Framework\Helper;
 	<div class="c-entry__content">
 		
 		<p class="c-entry__header--description">
-			<?= esc_html( get_post_type_object( 'job' )->description ) ?>
+			<?php echo esc_html( get_post_type_object( 'job' )->description ); ?>
 		</p>
 
 		<?php
@@ -50,14 +50,14 @@ use Framework\Helper;
 		?>
 		
 		<h2>募集要項</h2>
-		<?= wpautop( wp_kses_post( get_the_excerpt() ) ) ?>
+		<?php echo wpautop( wp_kses_post( get_the_excerpt() ) ); ?>
 		<h2>応募資格</h2>
-		<?php echo wpautop( tscfp( '_requirements' ) ) ?>
+		<?php echo wpautop( tscfp( '_requirements' ) ); ?>
 		<table>
 			<tbody>
 			<tr>
 				<th>募集人数</th>
-				<td><?= esc_html( tscfp( '_job_number' ) ) ?></td>
+				<td><?php echo esc_html( tscfp( '_job_number' ) ); ?></td>
 			</tr>
 			<tr>
 				<th>募集期限</th>
@@ -74,48 +74,56 @@ use Framework\Helper;
 			</tr>
 			<tr>
 				<th>勤務地</th>
-				<td><?php
-					foreach ( [
-							[ 'pref', '', '' ],
-							[ 'city', '', '' ],
-					 ] as list( $key, $prefix, $suffix ) ) {
-						if ( $val = tscfp( '_job_' . $key ) ) {
-							echo esc_html( $prefix . $val . $suffix );
-						}
+				<td>
+				<?php
+				foreach ( [
+					[ 'pref', '', '' ],
+					[ 'city', '', '' ],
+				] as list( $key, $prefix, $suffix ) ) {
+					if ( $val = tscfp( '_job_' . $key ) ) {
+						echo esc_html( $prefix . $val . $suffix );
 					}
-				?></td>
+				}
+				?>
+				</td>
 			</tr>
-			<?php foreach ( [
+			<?php
+			foreach ( [
 				'ability' => '職能',
 				'feature' => '特徴',
 			] as $taxonomy => $label ) {
 				?>
 				<tr>
-					<th><?= $label ?></th>
+					<th><?php echo $label; ?></th>
 					<td>
 						<?php
 						$terms = get_the_terms( get_post(), $taxonomy );
 						if ( $terms && ! is_wp_error( $terms ) ) :
-							array_map( function( $term ) {
-								printf( '<a href="%s" class="tag-cloud-link job-label job-label--%s">%s</a>', get_term_link( $term ), $term->taxonomy, esc_html( $term->name ) );
-							}, $terms );
-						else : ?>
+							array_map(
+								function ( $term ) {
+									printf( '<a href="%s" class="tag-cloud-link job-label job-label--%s">%s</a>', get_term_link( $term ), $term->taxonomy, esc_html( $term->name ) );
+								},
+								$terms
+							);
+						else :
+							?>
 							<span class="job-list__empty">---</span>
 						<?php endif; ?>
 					</td>
 				</tr>
-				<?php
-			} ?>
+					<?php
+			}
+			?>
 			<tr>
 				<th>待遇</th>
 				<td>
-					<?= esc_html( capitalp_job_reward() ) ?>
+					<?php echo esc_html( capitalp_job_reward() ); ?>
 				</td>
 			</tr>
 			</tbody>
 		</table>
 		<?php get_template_part( 'template-parts/block/job-submission' ); ?>
-		<?= apply_filters( 'the_content', 'この採用を友人に紹介するには、シェアをしてください。' ) ?>
+		<?php echo apply_filters( 'the_content', 'この採用を友人に紹介するには、シェアをしてください。' ); ?>
 	</div>
 
 	<?php do_action( 'snow_monkey_after_entry_content' ); ?>
@@ -130,9 +138,13 @@ use Framework\Helper;
 		<?php get_template_part( 'template-parts/entry-tags' ); ?>
 
 		<?php
-		Helper::get_template_part( 'template-parts/google-adsense', null, [
-			'position' => 'content-bottom',
-		] );
+		Helper::get_template_part(
+			'template-parts/google-adsense',
+			null,
+			[
+				'position' => 'content-bottom',
+			]
+		);
 		?>
 
 		<?php get_template_part( 'template-parts/like-me-box' ); ?>

@@ -12,10 +12,10 @@ class CapitalP_WidgetAdsence extends WP_Widget {
 	 *
 	 * @param string $id_base
 	 * @param string $name
-	 * @param array $widget_options
-	 * @param array $control_options
+	 * @param array  $widget_options
+	 * @param array  $control_options
 	 */
-	public function __construct(){
+	public function __construct() {
 		parent::__construct(
 			'adsense_widget',
 			'Capital P: Google Adsence',
@@ -33,13 +33,12 @@ class CapitalP_WidgetAdsence extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		echo $args['before_widget'];
-        printf( '%sSponsored Link%s', $args['before_title'], $args['after_title'] );
-        ?>
-		      <div class="ad-sidebar-wrapper">
+		printf( '%sSponsored Link%s', $args['before_title'], $args['after_title'] );
+		?>
+				<div class="ad-sidebar-wrapper">
 			<?php capitalp_ad( 'sidebar' ); ?>
 		</div>
 		<?php
 		echo $args['after_widget'];
-
 	}
 }

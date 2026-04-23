@@ -12,12 +12,12 @@ if ( ! $parent && ! $child ) {
 		<div class="for_en">
 			<p>
 				This page has original Japanese version
-				&quot;<a href="<?= get_permalink( $parent ) ?>"><?= esc_html( get_the_title( $parent ) ) ?>&quot;</a>.
+				&quot;<a href="<?php echo get_permalink( $parent ); ?>"><?php echo esc_html( get_the_title( $parent ) ); ?>&quot;</a>.
 			</p>
 		</div>
 		<div class="for_jp">
 			<p>
-				このページにはオリジナルの日本語版<a href="<?= get_permalink( $parent ) ?>"><?= esc_html( get_the_title( $parent ) ) ?></a>があります。
+				このページにはオリジナルの日本語版<a href="<?php echo get_permalink( $parent ); ?>"><?php echo esc_html( get_the_title( $parent ) ); ?></a>があります。
 			</p>
 		</div>
 	<?php endif; ?>
@@ -25,19 +25,19 @@ if ( ! $parent && ! $child ) {
 	<?php if ( $child ) : ?>
 		<div class="for_en">
 			<p>This post has English version &quot;<a
-					href="<?= get_permalink( $child ) ?>"><?= esc_html( get_the_title( $child ) ) ?></a>&quot;.
+					href="<?php echo get_permalink( $child ); ?>"><?php echo esc_html( get_the_title( $child ) ); ?></a>&quot;.
 			</p>
 		</div>
 		<div class="for_jp">
 			<p>
-				このページには英語版 <a href="<?= get_permalink( $child ) ?>"><?= esc_html( get_the_title( $child ) ) ?></a>
+				このページには英語版 <a href="<?php echo get_permalink( $child ); ?>"><?php echo esc_html( get_the_title( $child ) ); ?></a>
 				があります。ご興味がある方はご一読ください。
 			</p>
 		</div>
 	<?php elseif ( ! capitalp_is_english_page() ) : ?>
 		<div class="for_en">
 			<p>
-				Howdy! This page is Japanese, but we are also writing <a href="<?= get_post_type_archive_link( 'en' ) ?>">English Posts</a>.
+				Howdy! This page is Japanese, but we are also writing <a href="<?php echo get_post_type_archive_link( 'en' ); ?>">English Posts</a>.
 			</p>
 		</div>
 	<?php endif; ?>

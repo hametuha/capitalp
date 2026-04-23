@@ -11,7 +11,7 @@
  * @var AMP_Post_Template $this
  */
 
-$this->load_parts( array( 'html-start' ) );
+$this->load_parts( [ 'html-start' ] );
 ?>
 
 <amp-auto-ads
@@ -19,15 +19,15 @@ $this->load_parts( array( 'html-start' ) );
 	data-ad-client="ca-pub-0087037684083564">
 </amp-auto-ads>
 
-<?php $this->load_parts( array( 'header' ) ); ?>
+<?php $this->load_parts( [ 'header' ] ); ?>
 
 <article class="amp-wp-article">
 	<header class="amp-wp-article-header">
 		<h1 class="amp-wp-title"><?php echo esc_html( $this->get( 'post_title' ) ); ?></h1>
-		<?php $this->load_parts( apply_filters( 'amp_post_article_header_meta', array( 'meta-author', 'meta-time' ) ) ); ?>
+		<?php $this->load_parts( apply_filters( 'amp_post_article_header_meta', [ 'meta-author', 'meta-time' ] ) ); ?>
 	</header>
 
-	<?php $this->load_parts( array( 'featured-image' ) ); ?>
+	<?php $this->load_parts( [ 'featured-image' ] ); ?>
 	
 	<amp-ad width="100vw" height="320"
 			type="adsense"
@@ -53,11 +53,11 @@ $this->load_parts( array( 'html-start' ) );
 	</amp-ad>
 	
 	<footer class="amp-wp-article-footer">
-		<?php $this->load_parts( apply_filters( 'amp_post_article_footer_meta', array( 'meta-taxonomy', 'meta-comments-link' ) ) ); ?>
+		<?php $this->load_parts( apply_filters( 'amp_post_article_footer_meta', [ 'meta-taxonomy', 'meta-comments-link' ] ) ); ?>
 	</footer>
 </article>
 
-<?php $this->load_parts( array( 'footer' ) ); ?>
+<?php $this->load_parts( [ 'footer' ] ); ?>
 
 <amp-sticky-ad layout="nodisplay">
 	<amp-ad width="100vw"
@@ -78,8 +78,8 @@ $this->load_parts( array( 'html-start' ) );
 				"account": "UA-1766751-12"
 			},
 			"extraUrlParams": {
-				"cd1": "<?= get_queried_object_id() ?>",
-				"cd2": "<?= get_queried_object()->post_author ?>"
+				"cd1": "<?php echo get_queried_object_id(); ?>",
+				"cd2": "<?php echo get_queried_object()->post_author; ?>"
 			},
 			"triggers": {
 				"trackPageviewWithCustomUrl": {
@@ -87,7 +87,7 @@ $this->load_parts( array( 'html-start' ) );
 					"request": "pageview",
 					"vars": {
 						"title": "<?php echo wp_get_document_title(); ?>",
-						"documentLocation": "<?php echo get_permalink( get_queried_object() ) ?>"
+						"documentLocation": "<?php echo get_permalink( get_queried_object() ); ?>"
 					}
 				}
 			}
@@ -96,4 +96,4 @@ $this->load_parts( array( 'html-start' ) );
 </amp-analytics>
 
 <?php
-$this->load_parts( array( 'html-end' ) );
+$this->load_parts( [ 'html-end' ] );

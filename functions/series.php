@@ -29,8 +29,11 @@ function capitalp_get_series( $post = null ) {
 	if ( ! $tags || is_wp_error( $tags ) ) {
 		return [];
 	}
-	$filtered = array_filter( $tags, function( $tag ) {
-		return capitalp_is_series( $tag );
-	} );
+	$filtered = array_filter(
+		$tags,
+		function ( $tag ) {
+			return capitalp_is_series( $tag );
+		}
+	);
 	return $filtered;
 }

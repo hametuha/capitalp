@@ -20,11 +20,11 @@ class CapitalP extends WP_CLI_Command {
 		$i = 0;
 		foreach ( $mimes as $reg => $mime_type ) {
 			$table->addRow( [ $i, $reg, $mime_type ] );
-			$i++;
+			++$i;
 		}
 		$table->display();
 	}
-	
+
 	/**
 	 * Get CCP members
 	 */
@@ -47,7 +47,7 @@ class CapitalP extends WP_CLI_Command {
 		}
 		$table->display();
 	}
-	
+
 	/**
 	 * Update CCP role.
 	 *
@@ -61,10 +61,9 @@ class CapitalP extends WP_CLI_Command {
 		$table->display();
 		WP_CLI::success( sprintf( 'Above is the CCP %d members status.', $body[0] + $body[1] + $body[2] ) );
 	}
-	
+
 	/**
 	 * Get analytics test.
-	 *
 	 *
 	 * @synopsis [--start-date=<start-date>] [--end-date=<end-date>] [--metrics=<metrics>] [--max-results=<max-results>] [--dimensions=<dimensions>] [--filters=<filters>]
 	 * @param array $args
@@ -76,16 +75,19 @@ class CapitalP extends WP_CLI_Command {
 			WP_CLI::error( 'Failed to get Google Analytics fetcher. Please check setting.' );
 		}
 		$args = [];
-		foreach ( wp_parse_args( $assoc, [
-			'start-date'  => date_i18n( 'Y-m-d', strtotime( '7 days ago' ) ),
-			'end-date'    => date_i18n( 'Y-m-d' ),
-			'metrics'     => 'ga:pageviews',
-			'max-results' => 20,
-			'dimensions'  => 'ga:pagePath',
-			'filters'     => '',
-			'sort'        => '-ga:pageviews',
-			'start-index' => '',
-		] ) as $key => $value ) {
+		foreach ( wp_parse_args(
+			$assoc,
+			[
+				'start-date'  => date_i18n( 'Y-m-d', strtotime( '7 days ago' ) ),
+				'end-date'    => date_i18n( 'Y-m-d' ),
+				'metrics'     => 'ga:pageviews',
+				'max-results' => 20,
+				'dimensions'  => 'ga:pagePath',
+				'filters'     => '',
+				'sort'        => '-ga:pageviews',
+				'start-index' => '',
+			]
+		) as $key => $value ) {
 			switch ( $key ) {
 				case 'start-date':
 					$start_date = $value;
@@ -108,7 +110,7 @@ class CapitalP extends WP_CLI_Command {
 			if ( ! $result ) {
 				WP_CLI::error( 'No data found.' );
 			}
-			$table = new cli\Table();
+			$table  = new cli\Table();
 			$header = [];
 			foreach ( [ $args['dimensions'], $metrics ] as $csv ) {
 				foreach ( explode( ',', $csv ) as $col ) {
@@ -124,7 +126,7 @@ class CapitalP extends WP_CLI_Command {
 			WP_CLI::error( $e->getMessage() );
 		}
 	}
-	
+
 	/**
 	 * Get slack members
 	 *
@@ -143,13 +145,13 @@ class CapitalP extends WP_CLI_Command {
 		}
 		$table->display();
 	}
-	
+
 	/**
 	 * Get latest ranking
 	 */
 	public function fetch_ranking() {
 		$weekly_ranking = capitalp_get_ranking( 20, date_i18n( 'Y-m-d', strtotime( '7 days ago' ) ) );
-		$total_ranking = capitalp_get_ranking( 20, '2016-12-07' );
+		$total_ranking  = capitalp_get_ranking( 20, '2016-12-07' );
 		if ( ! $weekly_ranking || ! $total_ranking ) {
 			WP_CLI::error( 'ランキングを取得できませんでした。' );
 		}
@@ -157,11 +159,11 @@ class CapitalP extends WP_CLI_Command {
 		$title = sprintf( '%s時点のランキング', date_i18n( get_option( 'date_format' ) ) );
 		ob_start();
 		foreach ( [
-					'週間ランキング' => $weekly_ranking,
-					'全期間ランキング' => $total_ranking,
-				  ] as $label => $ranking ) :
-		?>
-			<h2><?= $label ?></h2>
+			'週間ランキング'  => $weekly_ranking,
+			'全期間ランキング' => $total_ranking,
+		] as $label => $ranking ) :
+			?>
+			<h2><?php echo $label; ?></h2>
 			<table>
 				<thead>
 				<tr>
@@ -171,26 +173,31 @@ class CapitalP extends WP_CLI_Command {
 				</tr>
 				</thead>
 				<tbody>
-					<?php $counter = 0; foreach ( $ranking as $rank ) : $counter++; ?>
+					<?php
+					$counter = 0;
+					foreach ( $ranking as $rank ) :
+						++$counter;
+						?>
 						<tr>
-							<th><?= $counter ?>位</th>
+							<th><?php echo $counter; ?>位</th>
 							<td>
-								<a href="<?= get_permalink( $rank ) ?>">
-									<?= esc_html( get_the_title( $rank ) ) ?>
+								<a href="<?php echo get_permalink( $rank ); ?>">
+									<?php echo esc_html( get_the_title( $rank ) ); ?>
 								</a>
 							</td>
 							<td>
-								<?= number_format_i18n( $rank->pv ) ?>
+								<?php echo number_format_i18n( $rank->pv ); ?>
 							</td>
 						</tr>
-					<?php
-					if ( 10 <= $counter ) {
-						break;
-					}
-					endforeach; ?>
+						<?php
+						if ( 10 <= $counter ) {
+							break;
+						}
+					endforeach;
+					?>
 				</tbody>
 			</table>
-		<?php
+			<?php
 		endforeach;
 		$content = ob_get_contents();
 		ob_end_clean();
@@ -199,15 +206,18 @@ class CapitalP extends WP_CLI_Command {
 		$date = date_i18n( 'Y-m-d 10:i:s' );
 		$gmt  = get_gmt_from_date( $date );
 		// データベースに挿入
-		$result = wp_insert_post( [
-			'post_title' => $title,
-			'post_content' => $content,
-			'post_status' => 'future',
-			'post_name' => 'of-' . date_i18n( 'Y-m-d' ),
-			'post_type' => 'ranking',
-			'post_date' => $date,
-			'post_date_gmt' => $gmt,
-		], true );
+		$result = wp_insert_post(
+			[
+				'post_title'    => $title,
+				'post_content'  => $content,
+				'post_status'   => 'future',
+				'post_name'     => 'of-' . date_i18n( 'Y-m-d' ),
+				'post_type'     => 'ranking',
+				'post_date'     => $date,
+				'post_date_gmt' => $gmt,
+			],
+			true
+		);
 		if ( is_wp_error( $result ) ) {
 			WP_CLI::error( $result->get_error_message() );
 		}

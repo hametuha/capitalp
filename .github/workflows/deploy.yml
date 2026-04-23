@@ -1,0 +1,60 @@
+name: Deploy to Pressable
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+concurrency:
+  group: pressable-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy theme to Pressable production
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://capitalp.jp
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Composer production dependencies
+        run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run package
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PRESSABLE_SSH_KEY }}
+
+      - name: Add Pressable host to known_hosts
+        run: ssh-keyscan -H ssh.pressable.com >> ~/.ssh/known_hosts
+
+      - name: Deploy theme via rsync
+        env:
+          SSH_USER: ${{ secrets.PRESSABLE_SSH_USER }}
+        run: |
+          rsync -avz --delete \
+            --exclude-from=.distignore \
+            ./ "${SSH_USER}@ssh.pressable.com:/home/${SSH_USER}/htdocs/wp-content/themes/capitalp/"

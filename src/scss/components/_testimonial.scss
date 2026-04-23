@@ -37,7 +37,7 @@
     background: $bg-color;
     margin: 0;
     border-left: none;
-    &:before{
+    &::before{
       content: "";
       position: absolute;
       width: 0;
@@ -64,10 +64,10 @@
     display: block;
     font-size: 0.85em;
     color: #888;
-    font-weight: bold;
+    font-weight: 700;
     font-style: normal;
   }
-  &:after {
+  &::after {
 
   }
 }

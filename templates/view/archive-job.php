@@ -8,18 +8,18 @@
 <div class="c-entry">
 	<header class="c-entry__header">
 		<h1 class="c-entry__title">
-			<?php echo capitalp_job_board_title() ?>
+			<?php echo capitalp_job_board_title(); ?>
 		</h1>
 	</header>
 
 	<p class="c-entry__header--description center">
-		<?= esc_html( get_post_type_object( 'job' )->description ) ?>
+		<?php echo esc_html( get_post_type_object( 'job' )->description ); ?>
 	</p>
 
 	<div class="c-entry__content">
 		<div class="p-archive">
 			
-			<?php $archive_layout  = get_theme_mod( 'archive-layout' ); ?>
+			<?php $archive_layout = get_theme_mod( 'archive-layout' ); ?>
 
 			<ul class="c-entries c-entries--<?php echo esc_attr( $archive_layout ); ?>">
 				<?php while ( have_posts() ) : ?>
