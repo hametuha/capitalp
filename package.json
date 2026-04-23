@@ -15,7 +15,13 @@
     "fix": "npm run fix:js && npm run fix:css",
     "fix:js": "eslint --fix ./src/js",
     "fix:css": "stylelint --fix ./src/scss",
-    "i18n": "po2json languages/ja.po languages/capitalp-ja-capitalp-login.json -f jed"
+    "i18n": "po2json languages/ja.po languages/capitalp-ja-capitalp-login.json -f jed",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.js": "wp-scripts lint-js",
+    "src/**/*.scss": "wp-scripts lint-style",
+    "**/*.php": "vendor/bin/phpcs --standard=phpcs.ruleset.xml --runtime-set ignore_warnings_on_exit 1"
   },
   "repository": {
     "type": "git",
@@ -37,6 +43,8 @@
     "@kunoichi/grab-deps": "^3.0.0",
     "@wordpress/scripts": "^30.0.0",
     "autoprefixer": "^10.4.16",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "npm-watch": "^0.13.0",
     "po2json": "^1.0.0-alpha",
     "postcss": "^8.4.33",
