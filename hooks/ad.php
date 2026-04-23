@@ -10,7 +10,7 @@
 /**
  * Add PR to title.
  *
- * @param string $title
+ * @param string   $title
  * @param null|int $post_id
  * @return string
  */
@@ -26,15 +26,20 @@ add_filter( 'the_title_rss', 'capitalp_add_pr_to_title', 10 );
 
 /**
  * Add pr to title for Yoast
+ *
  * @param string $title
  * @return string
  */
-add_filter( 'wpseo_title', function( $title ) {
-	if ( is_single() && capitalp_is_pr( get_queried_object() ) ) {
-		$title = '[PR]' . $title;
-	}
-	return $title;
-}, 20 );
+add_filter(
+	'wpseo_title',
+	function ( $title ) {
+		if ( is_single() && capitalp_is_pr( get_queried_object() ) ) {
+			$title = '[PR]' . $title;
+		}
+		return $title;
+	},
+	20
+);
 
 /**
  * Add PR to title if yoast is deactivated.
@@ -42,19 +47,25 @@ add_filter( 'wpseo_title', function( $title ) {
  * @param array $title
  * @return array
  */
-add_filter( 'document_title_parts', function ( $title ) {
-	if ( is_single() && capitalp_is_pr( get_queried_object() ) ) {
-		$title['title'] = '[PR]' . $title['title'];
+add_filter(
+	'document_title_parts',
+	function ( $title ) {
+		if ( is_single() && capitalp_is_pr( get_queried_object() ) ) {
+			$title['title'] = '[PR]' . $title['title'];
+		}
+		return $title;
 	}
-	return $title;
-} );
+);
 
 /**
  * Render related contents
  */
-add_filter( 'kumag_show_related_articles', function() {
-	if ( function_exists( 'get_the_related_post_patch' ) ) {
-		echo get_the_related_post_patch( null, 8, 2 );
+add_filter(
+	'kumag_show_related_articles',
+	function () {
+		if ( function_exists( 'get_the_related_post_patch' ) ) {
+			echo get_the_related_post_patch( null, 8, 2 );
+		}
+		return false;
 	}
-	return false;
-} );
+);

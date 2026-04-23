@@ -1,5 +1,5 @@
 body.login h1 a{
-  background-image: url("../img/dog-blue.png");
+  background-image: url(../img/dog-blue.png);
   border-radius: 50%;
 }
 .cappy-login-notice{
@@ -10,7 +10,7 @@ body.login h1 a{
   color: #fff;
   border-radius: 2px;
   position: relative;
-  &:before{
+  &::before{
     content: "";
     position: absolute;
     display: block;

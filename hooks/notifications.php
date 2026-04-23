@@ -6,63 +6,77 @@
  */
 
 // Send notification if post status is changed.
-add_action( 'transition_post_status', function ( $new_status, $old_status, $post ) {
-	if ( 'post' !== $post->post_type ) {
-		return;
-	}
-	if ( ( 'publish' === $new_status ) && ( 'publish' !== $old_status ) ) {
-		// Post is newly published.
-		$content = '@channel 新しく記事が公開されたワン！ いっぱい宣伝して欲しいワン！ %s';
-		do_action( 'hameslack', sprintf( $content, get_permalink( $post ) ) );
-	}
-}, 10, 3 );
+add_action(
+	'transition_post_status',
+	function ( $new_status, $old_status, $post ) {
+		if ( 'post' !== $post->post_type ) {
+			return;
+		}
+		if ( ( 'publish' === $new_status ) && ( 'publish' !== $old_status ) ) {
+			// Post is newly published.
+			$content = '@channel 新しく記事が公開されたワン！ いっぱい宣伝して欲しいワン！ %s';
+			do_action( 'hameslack', sprintf( $content, get_permalink( $post ) ) );
+		}
+	},
+	10,
+	3
+);
 
 // Cappy says...
-add_filter( 'hameslack_api_default_text', function () {
-	return 'ワンワン！　よくわからないワン！';
-} );
+add_filter(
+	'hameslack_api_default_text',
+	function () {
+		return 'ワンワン！　よくわからないワン！';
+	}
+);
 
 // Cappy do...
-add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
-	switch ( $post->post_name ) {
-		case 'cappy-api':
-			$text    = explode( "\n", trim( str_replace( 'cappy', '', $request['text'] ) ) );
-			$command = array_shift( $text );
-			$user_name        = $request['user_name'];
-			$user_query       = new WP_User_Query( [
-				'number'     => 1,
-				'meta_query' => [
+add_filter(
+	'hameslack_rest_response',
+	function ( $response, $request, $post ) {
+		switch ( $post->post_name ) {
+			case 'cappy-api':
+				$text         = explode( "\n", trim( str_replace( 'cappy', '', $request['text'] ) ) );
+				$command      = array_shift( $text );
+				$user_name    = $request['user_name'];
+				$user_query   = new WP_User_Query(
 					[
-						'key'   => 'slack',
-						'value' => $user_name,
-					],
-				],
-			] );
-			$current_user = null;
-			if ( ( $current_users = $user_query->get_results() ) ) {
-				$current_user = $current_users[0];
-			}
-			foreach (
+						'number'     => 1,
+						'meta_query' => [
+							[
+								'key'   => 'slack',
+								'value' => $user_name,
+							],
+						],
+					]
+				);
+				$current_user = null;
+				if ( ( $current_users = $user_query->get_results() ) ) {
+					$current_user = $current_users[0];
+				}
+				foreach (
 				[
 					'#bow#'        => function ( $response, $request, $post ) {
 						$response['text'] = 'Wow!';
 
 						return $response;
 					},
-					'#who#' => function( $response, $request, $post ) use ( $current_user, $user_name ) {
+					'#who#'        => function ( $response, $request, $post ) use ( $current_user, $user_name ) {
 						$response['text'] = $current_user ? sprintf( '@%s %sさんだワン！', $user_name, $current_user->display_name ) : 'わからないワン…';
 						return $response;
 					},
-					'#list#' => function( $response, $request, $post ) use ( $current_user, $user_name ) {
+					'#list#'       => function ( $response, $request, $post ) use ( $current_user, $user_name ) {
 						$response['attachments'] = [];
-						foreach ( get_posts( [
-							'post_type'      => 'post',
-							'post_status'    => 'draft',
-							'posts_per_page' => 20,
-							'orderby'        => [ 'ID' => 'DESC' ],
-						] ) as $post ) {
+						foreach ( get_posts(
+							[
+								'post_type'      => 'post',
+								'post_status'    => 'draft',
+								'posts_per_page' => 20,
+								'orderby'        => [ 'ID' => 'DESC' ],
+							]
+						) as $post ) {
 							$response['attachments'][] = [
-								'title'       => $post->ID . ' : '. get_the_title( $post ),
+								'title'       => $post->ID . ' : ' . get_the_title( $post ),
 								'title_link'  => admin_url( sprintf( 'post.php?post=%d&action=edit', $post->ID ) ),
 								'author_name' => get_the_author_meta( 'display_name', $post->post_author ),
 							];
@@ -70,7 +84,7 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 						$response['text'] = sprintf( '@%s 書きかけの記事はこちらだワン！', $user_name );
 						return $response;
 					},
-					'#append#' => function( $response, $request, $post ) use ( $text, $command, $current_user, $user_name ) {
+					'#append#'     => function ( $response, $request, $post ) use ( $text, $command, $current_user, $user_name ) {
 						try {
 							list( $prefix, $id ) = explode( ' ', preg_replace( '#\s+#', ' ', trim( $command ) ) );
 							if ( ! is_numeric( $id ) || ! ( $post = get_post( $id ) ) || 'post' !== $post->post_type ) {
@@ -80,13 +94,15 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 								throw new \Exception( 'すでに公開する投稿には追記できないワン！' );
 							}
 							array_unshift( $text, $post->post_content );
-							wp_update_post( [
-								'ID' => $post->ID,
-								'post_content' => implode( "\n\n", $text ),
-							] );
+							wp_update_post(
+								[
+									'ID'           => $post->ID,
+									'post_content' => implode( "\n\n", $text ),
+								]
+							);
 							$response['text'] = sprintf( '@%s 投稿に追加したワン！', $user_name );
 						} catch ( \Exception $e ) {
-							$response['text'] = "@{$user_name} ".$e->getMessage();
+							$response['text'] = "@{$user_name} " . $e->getMessage();
 						} finally {
 							return $response;
 						}
@@ -105,25 +121,30 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 							if ( ! is_numeric( $to ) ) {
 								$to = 1;
 							}
-							$from_gmt   = current_time( 'timestamp', true ) - $from * 3600;
+							$from_gmt   = time() - $from * 3600;
 							$from_local = current_time( 'timestamp' ) - $from * 3600;
-							$to_gmt     = current_time( 'timestamp', true ) - $to * 3600;
+							$to_gmt     = time() - $to * 3600;
 							$to_local   = current_time( 'timestamp' ) - $to * 3600;
-							$messages = hameslack_channel_history( $request['channel_name'], $to_gmt, $from_gmt, [
-								'count' => 300,
-							] );
+							$messages = hameslack_channel_history(
+								$request['channel_name'],
+								$to_gmt,
+								$from_gmt,
+								[
+									'count' => 300,
+								]
+							);
 							if ( is_wp_error( $messages ) ) {
 								throw new Exception( $messages->get_error_message() );
 							}
 							if ( empty( $messages ) ) {
 								throw new Exception( 'その期間にメッセージはなかったワン' );
 							}
-//							error_log( sprintf( 'Cappy logs %d messages.', count( $messages ) ) );
+							// error_log( sprintf( 'Cappy logs %d messages.', count( $messages ) ) );
 							$format  = get_option( 'time_format' );
 							$title   = sprintf( '%s〜%sのログ', date_i18n( $format, $to_local ), date_i18n( $format, $from_local ) );
 							// Grab users.
 							$slack_users = capitalp_get_slack_members();
-							$get_user_id = function( $slack_id ) use ( $slack_users ) {
+							$get_user_id = function ( $slack_id ) use ( $slack_users ) {
 								foreach ( $slack_users as $name => $user ) {
 									if ( $slack_id == $user['slack_id'] ) {
 										return $user['wp_id'];
@@ -134,28 +155,31 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 							// Create content.
 							$content = [];
 							foreach ( $messages as $message ) {
-//								error_log( sprintf( '[Cappy Message] %s', var_export( $message, true ) ) );
+								// error_log( sprintf( '[Cappy Message] %s', var_export( $message, true ) ) );
 								$content[] = sprintf( '[capitalp_author user_id=%d slack_id=%s]%s[/capitalp_author]', $get_user_id( $message->user ), $message->user, $message->text );
 							}
 							$new_content = [];
 							foreach ( $content as $c ) {
 								array_unshift( $new_content, $c );
 							}
-							$post_id = wp_insert_post( [
-								'post_type' => 'post',
-								'post_status' => 'draft',
-								'post_title' => $title,
-								'post_content' => implode( "\n", $new_content ),
-								'post_author' => $current_user->ID,
-							], true );
+							$post_id = wp_insert_post(
+								[
+									'post_type'    => 'post',
+									'post_status'  => 'draft',
+									'post_title'   => $title,
+									'post_content' => implode( "\n", $new_content ),
+									'post_author'  => $current_user->ID,
+								],
+								true
+							);
 							if ( is_wp_error( $post_id ) ) {
 								throw new Exception( $post_id->get_error_message() );
 							}
 							$response['text'] = sprintf( 'ログを作成したワン！' );
 							$response['attachments'] = [
 								[
-									'title' => $title,
-									'title_link'  => admin_url( sprintf( 'post.php?post=%d&action=edit', $post_id ) ),
+									'title'      => $title,
+									'title_link' => admin_url( sprintf( 'post.php?post=%d&action=edit', $post_id ) ),
 								],
 							];
 						} catch ( Exception $e ) {
@@ -293,28 +317,35 @@ add_filter( 'hameslack_rest_response', function ( $response, $request, $post ) {
 						return $response;
 					},
 				] as $regex => $callback
-			) {
-				if ( preg_match( $regex, $command ) ) {
-					$response = call_user_func_array( $callback, [ $response, $request, $post ] );
-					break;
+				) {
+					if ( preg_match( $regex, $command ) ) {
+						$response = call_user_func_array( $callback, [ $response, $request, $post ] );
+						break;
+					}
 				}
-			}
-			break;
-		default:
-			// Do nothing.
-			break;
-	}
+				break;
+			default:
+				// Do nothing.
+				break;
+		}
 
-	return $response;
-}, 10, 3 );
+		return $response;
+	},
+	10,
+	3
+);
 
 /**
  * Send slack if feedback sent.
  */
-add_action( 'grunion_pre_message_sent', function( $post_id ) {
-	if ( 'publish' == get_post_status( $post_id ) ) {
-		$edit_link = admin_url( "post.php?post={$post_id}&action=edit" );
-		$content = "@here ユーザーからタレコミまたはフィードバックがあるワン！ {$edit_link}";
-		do_action( 'hameslack',  $content );
-	}
-}, 10 );
+add_action(
+	'grunion_pre_message_sent',
+	function ( $post_id ) {
+		if ( 'publish' == get_post_status( $post_id ) ) {
+			$edit_link = admin_url( "post.php?post={$post_id}&action=edit" );
+			$content   = "@here ユーザーからタレコミまたはフィードバックがあるワン！ {$edit_link}";
+			do_action( 'hameslack', $content );
+		}
+	},
+	10
+);

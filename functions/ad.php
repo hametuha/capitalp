@@ -14,7 +14,7 @@
 function capitalp_ad( $position ) {
 	switch ( $position ) {
 		case 'infeed':
-			echo <<<HTML
+			echo <<<'HTML'
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
      style="display:block"
@@ -28,7 +28,7 @@ function capitalp_ad( $position ) {
 HTML;
 			break;
 		case 'inside_loop':
-			echo <<<HTML
+			echo <<<'HTML'
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- CapitalP InsideLoop -->
 <ins class="adsbygoogle"
@@ -42,7 +42,7 @@ HTML;
 HTML;
 			break;
 		case 'sidebar':
-			echo <<<HTML
+			echo <<<'HTML'
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- CapitalP Sidebar -->
 <ins class="adsbygoogle"
@@ -56,7 +56,7 @@ HTML;
 HTML;
 			break;
 		case 'after_content':
-			echo <<<HTML
+			echo <<<'HTML'
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- CapitalP AfterContent -->
 <ins class="adsbygoogle"
@@ -70,7 +70,7 @@ HTML;
 HTML;
 			break;
 		case 'related':
-			echo <<<HTML
+			echo <<<'HTML'
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
 	 style="display:block"
@@ -85,7 +85,7 @@ HTML;
 			break;
 		case 'after_title':
 		default:
-			echo <<<HTML
+			echo <<<'HTML'
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- CapitalP After Title -->
 <ins class="adsbygoogle"

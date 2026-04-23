@@ -29,6 +29,6 @@ if ( ! $query->have_posts() ) {
 		?>
 	</div><!-- //.job-list__wrapper -->
 	<div class="wpaw-showcase__action">
-		<a class="wpaw-showcase__more" href="<?php echo get_post_type_archive_link( 'job' ) ?>">求人一覧へ</a>
+		<a class="wpaw-showcase__more" href="<?php echo get_post_type_archive_link( 'job' ); ?>">求人一覧へ</a>
 	</div>
 </div><!-- //.job-container -->

@@ -30,12 +30,14 @@ function capitalp_translated_alternative() {
 	if ( ! is_single() ) {
 		return null;
 	}
-	foreach ( get_posts( [
-		'post_type' => 'en',
-	    'posts_per_page' => 1,
-	    'post_status' => 'publish',
-	    'post_parent' => get_queried_object_id(),
-	] ) as $p ) {
+	foreach ( get_posts(
+		[
+			'post_type'      => 'en',
+			'posts_per_page' => 1,
+			'post_status'    => 'publish',
+			'post_parent'    => get_queried_object_id(),
+		]
+	) as $p ) {
 		return $p;
 	}
 	return null;

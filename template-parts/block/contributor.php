@@ -6,9 +6,18 @@ if ( author_can( get_post(), 'contributor' ) ) {
 }
 // シリーズ
 if ( $series = capitalp_get_series() ) {
-	$conditions[] = sprintf( 'この記事は連載%sの一部です。', implode( ', ', array_map( function( $tag ) {
-		return sprintf( '<a href="%1$s">&quot;%2$s&quot;</a>', get_tag_link( $tag ), esc_html( $tag->name ) );
-	}, $series ) ) );
+	$conditions[] = sprintf(
+		'この記事は連載%sの一部です。',
+		implode(
+			', ',
+			array_map(
+				function ( $tag ) {
+					return sprintf( '<a href="%1$s">&quot;%2$s&quot;</a>', get_tag_link( $tag ), esc_html( $tag->name ) );
+				},
+				$series
+			)
+		)
+	);
 }
 // 会員専用
 if ( chiramise_should_check() ) {
@@ -27,7 +36,7 @@ if ( ! $conditions ) {
 <aside class="capitalp-condition">
 	<ul class="capitalp-condition-list">
 	<?php foreach ( $conditions as $condition ) : ?>
-		<li class="cpitalp-condition-item"><?= $condition ?></li>
+		<li class="cpitalp-condition-item"><?php echo $condition; ?></li>
 	<?php endforeach; ?>
 	</ul>
 	

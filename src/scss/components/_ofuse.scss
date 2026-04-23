@@ -2,7 +2,7 @@ $ofuse-color: #21759B;
 
 %cappy{
   padding: 150px 10px 10px;
-  background: $ofuse-color url( '../img/dog-blue.png' ) center 20px no-repeat;
+  background: $ofuse-color url( ../img/dog-blue.png ) center 20px no-repeat;
   -webkit-background-size: 120px;
   background-size: 120px;
   color: #fff;
@@ -12,7 +12,7 @@ $ofuse-color: #21759B;
   &-success{
     @extend %cappy;
     &-list{
-      font-weight: bold;
+      font-weight: 700;
       padding-left: 1.5em;
       li{
         margin: 5px 0;
@@ -23,7 +23,7 @@ $ofuse-color: #21759B;
           box-shadow: none !important;
         }
         a:hover, a:active{
-          color: red;
+          color: #f00;
           text-decoration: underline;
           box-shadow: none !important;
         }
@@ -35,12 +35,12 @@ $ofuse-color: #21759B;
     @extend %cappy;
     &-text{
       margin: 0;
-      font-weight: bold;
+      font-weight: 700;
     }
     &.loading{
       position: relative;
       z-index: 1;
-      &:before{
+      &::before{
         content: "";
         position: absolute;
         z-index: 2;
@@ -50,7 +50,7 @@ $ofuse-color: #21759B;
         bottom: 0;
         background-color: rgba( 255, 255, 255, .8 );
       }
-      &:after{
+      &::after{
         content: "";
         position: absolute;
         z-index: 3;
@@ -59,7 +59,7 @@ $ofuse-color: #21759B;
         transform: translate( -50%, -50% );
         width: 60px;
         height: 60px;
-        background: transparent url( "../img/ripple.gif" ) center center no-repeat;
+        background: transparent url( ../img/ripple.gif ) center center no-repeat;
         background-size: cover;
       }
     }
@@ -80,7 +80,7 @@ $ofuse-color: #21759B;
       text-decoration: underline;
     }
     &:hover, &:active{
-      color: red;
+      color: #f00;
       text-decoration: none;
     }
   }
@@ -104,7 +104,7 @@ $ofuse-color: #21759B;
 .ofuse-more{
   i{
     display: block;
-    background: $ofuse-color url( '../img/dog-blue.png' ) center center no-repeat;
+    background: $ofuse-color url( ../img/dog-blue.png ) center center no-repeat;
     width: 60px;
     height: 60px;
     margin: 0 auto;

@@ -2,7 +2,7 @@
 	&-wrapper {
 		padding: $margin;
 
-		&:after {
+		&::after {
 			content: "";
 			clear: both;
 			display: block;
@@ -61,7 +61,7 @@
 		small {
 			display: block;
 			color: #aaa;
-			font-weight: normal;
+			font-weight: 400;
 			font-size: 0.6em;
 		}
 	}

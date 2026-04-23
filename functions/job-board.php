@@ -79,8 +79,8 @@ function capitalp_is_job_expired( $post = null ) {
  * @return string
  */
 function capitalp_get_reward_type( $post = null ) {
-	static $config  = null;
-	$post           = get_post( $post );
+	static $config = null;
+	$post          = get_post( $post );
 	if ( is_null( $config ) ) {
 		$config = json_decode( file_get_contents( Tarosky\TSCF\Utility\Parser::instance()->config_file_path() ) );
 	}
@@ -131,7 +131,7 @@ function capitalp_job_reward( $post = null ) {
  * Detect if user has submitted to the job.
  *
  * @param null|int|WP_Post $post
- * @param int $user_id
+ * @param int              $user_id
  * @return WP_Post|null
  */
 function capitalp_get_submission( $post = null, $user_id = 0 ) {
@@ -139,18 +139,20 @@ function capitalp_get_submission( $post = null, $user_id = 0 ) {
 	if ( ! $user_id ) {
 		$user_id = get_current_user_id();
 	}
-	foreach ( get_posts( [
-		'post_type'      => 'submission',
-		'post_parent'    => $post->ID,
-		'author'         => $post->post_author,
-		'posts_per_page' => 1,
-		'meta_query'     => [
-			[
-				'key'   => '_job_submitter',
-				'value' => $user_id,
+	foreach ( get_posts(
+		[
+			'post_type'      => 'submission',
+			'post_parent'    => $post->ID,
+			'author'         => $post->post_author,
+			'posts_per_page' => 1,
+			'meta_query'     => [
+				[
+					'key'   => '_job_submitter',
+					'value' => $user_id,
+				],
 			],
-		],
-	] ) as $submission ) {
+		]
+	) as $submission ) {
 		return $submission;
 	}
 	return null;
@@ -171,13 +173,16 @@ function capitalp_submit_job( $post = null, $user_id = 0 ) {
 		return $submission;
 	}
 	// Create new one.
-	$submission_id = wp_insert_post( [
-		'post_type'   => 'submission',
-		'post_parent' => $post->ID,
-		'post_author' => $post->post_author,
-		'post_status' => 'publish',
-		'post_title'  => sprintf( '%s - %s', get_the_title( $post ), date_i18n( 'Y-m-d H:i:s' ) ),
-	], true );
+	$submission_id = wp_insert_post(
+		[
+			'post_type'   => 'submission',
+			'post_parent' => $post->ID,
+			'post_author' => $post->post_author,
+			'post_status' => 'publish',
+			'post_title'  => sprintf( '%s - %s', get_the_title( $post ), date_i18n( 'Y-m-d H:i:s' ) ),
+		],
+		true
+	);
 	if ( is_wp_error( $submission_id ) ) {
 		return $submission_id;
 	} else {

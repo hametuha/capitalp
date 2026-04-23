@@ -22,7 +22,7 @@
 		margin-bottom: $size;
 		position: relative;
 
-		&:after {
+		&::after {
 			$width: 1.2em;
 			content: "";
 			display: inline-block;
