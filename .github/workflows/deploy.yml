@@ -70,12 +70,34 @@ jobs:
       - name: Add Pressable host to known_hosts
         run: ssh-keyscan -H ssh.pressable.com >> ~/.ssh/known_hosts
 
-      - name: Deploy theme via rsync
+      # Pressable は「ローカルから rsync push」を protocol-level で拒否する
+      # （runner 側 rsync 3.2.7 で "unexpected tag 103" エラー）。公式ドキュメント
+      # https://pressable.com/knowledgebase/how-to-migrate-your-wordpress-site-to-pressable/
+      # でも scp でアーカイブを /tmp に置いてから server 側でローカル rsync を
+      # 走らせる手順が示されている。同じパターンに合わせる。
+      - name: Package theme (tar.gz)
+        run: |
+          tar czf /tmp/capitalp-deploy.tar.gz --exclude-from=.distignore -C . .
+          ls -lh /tmp/capitalp-deploy.tar.gz
+
+      - name: Upload tarball via SCP
         env:
           SSH_USER: ${{ secrets.PRESSABLE_SSH_USER }}
-        # --protocol=31 は runner 側 rsync 3.2.7 と Pressable 側 rsync の
-        # プロトコル不整合（"unexpected tag 103" エラー）を回避するため。
         run: |
-          rsync -avz --delete --protocol=31 \
-            --exclude-from=.distignore \
-            ./ "${SSH_USER}@ssh.pressable.com:/home/${SSH_USER}/htdocs/wp-content/themes/capitalp/"
+          scp -q /tmp/capitalp-deploy.tar.gz "${SSH_USER}@ssh.pressable.com:/tmp/capitalp-deploy.tar.gz"
+
+      - name: Extract and sync on Pressable
+        env:
+          SSH_USER: ${{ secrets.PRESSABLE_SSH_USER }}
+        run: |
+          ssh "${SSH_USER}@ssh.pressable.com" '
+            set -e
+            STAGE=/tmp/capitalp-deploy-stage
+            ARCHIVE=/tmp/capitalp-deploy.tar.gz
+            rm -rf "$STAGE"
+            mkdir -p "$STAGE"
+            tar xzf "$ARCHIVE" -C "$STAGE"
+            rsync -avh --delete "$STAGE/" ~/htdocs/wp-content/themes/capitalp/
+            rm -rf "$ARCHIVE" "$STAGE"
+            echo "Deploy complete."
+          '
