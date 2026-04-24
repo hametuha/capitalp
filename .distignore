@@ -1,5 +1,6 @@
-# Files and directories excluded from production deploy (rsync --exclude-from).
-# Syntax is rsync's; patterns are matched against paths relative to the theme root.
+# Files and directories excluded from the production deploy archive.
+# Used by `tar --exclude-from` in .github/workflows/deploy.yml. Syntax is
+# glob-style; the file is also compatible with rsync's --exclude-from.
 
 # VCS / CI
 .git/
@@ -10,6 +11,8 @@
 # Local dev environment
 .docker/
 .DS_Store
+.husky/
+tmp/
 
 # Source files (built output lives in assets/)
 src/
