@@ -1,0 +1,12 @@
+// WordPress の wp-includes/css/dist/editor/style.min.css が front-end にも読み込まれる際、
+// エディタ内部の別コンポーネント向け .comment-avatar ルール（border-radius: 50% と
+// border-style: solid）がテーマの .comment-avatar と衝突する。親テーマの width: 80px と
+// flex-stretch された高さの組み合わせで、縦長の楕円の黒枠が描画される。
+// そのプロパティ群を明示的にリセットする。
+.comment-avatar {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	margin-left: 0;
+	padding: 0;
+}
