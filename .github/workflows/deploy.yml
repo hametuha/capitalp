@@ -5,6 +5,11 @@ on:
     types:
       - published
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'バージョン文字列（例: 3.0.3）。空ならヘッダ書き換えをスキップ。'
+        required: false
+        type: string
 
 concurrency:
   group: pressable-production
@@ -19,6 +24,20 @@ jobs:
       url: https://capitalp.jp
     steps:
       - uses: actions/checkout@v4
+
+      - name: Bump theme version in style.css
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          DISPATCH_TAG: ${{ inputs.tag }}
+        run: |
+          VERSION="${RELEASE_TAG:-$DISPATCH_TAG}"
+          if [ -z "$VERSION" ]; then
+            echo "No version provided; leaving style.css untouched."
+            exit 0
+          fi
+          sed -i "s/^Version: .*/Version: ${VERSION}/" style.css
+          echo "Bumped style.css Version to ${VERSION}"
+          grep '^Version:' style.css
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
