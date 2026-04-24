@@ -73,7 +73,9 @@ jobs:
       - name: Deploy theme via rsync
         env:
           SSH_USER: ${{ secrets.PRESSABLE_SSH_USER }}
+        # --protocol=31 は runner 側 rsync 3.2.7 と Pressable 側 rsync の
+        # プロトコル不整合（"unexpected tag 103" エラー）を回避するため。
         run: |
-          rsync -avz --delete \
+          rsync -avz --delete --protocol=31 \
             --exclude-from=.distignore \
             ./ "${SSH_USER}@ssh.pressable.com:/home/${SSH_USER}/htdocs/wp-content/themes/capitalp/"
