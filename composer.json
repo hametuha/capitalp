@@ -22,6 +22,9 @@
         "php-stubs/wp-cli-stubs": "^2.11"
     },
     "config": {
+        "platform": {
+            "php": "8.2"
+        },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
