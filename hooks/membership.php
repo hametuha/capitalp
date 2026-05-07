@@ -7,7 +7,7 @@
 add_action(
 	'login_enqueue_scripts',
 	function () {
-		wp_enqueue_style( 'login-header', get_stylesheet_directory_uri() . '/assets/css/login.css', [], wp_get_theme()->get( 'Version' ) );
+		wp_enqueue_style( 'login-header' );
 	}
 );
 

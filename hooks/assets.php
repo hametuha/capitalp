@@ -4,24 +4,106 @@
  */
 
 
+/**
+ * Map manifest handle (filename without extension) to the actual WP handle used in PHP.
+ *
+ * @return array<string, string>
+ */
+function capitalp_asset_handle_map() {
+	return [
+		'style'                    => 'capitalp',
+		'login'                    => 'login-header',
+		'interview'                => 'capitalp-interview',
+		'tracker'                  => 'capitalp-tracker',
+		'capital-marketing'        => 'capitalp-marketing',
+		'capitalp-login-link'      => 'capitalp-login',
+		'capitalp-interview-block' => 'capitalp-interview',
+		'post-picker'              => 'cappy-post-selector',
+		'job-board'                => 'capitalp-job-board',
+	];
+}
 
 /**
- * Register scripts
+ * Cross-package dependencies grab-deps cannot auto-detect.
+ *
+ * Source JS uses globals (jQuery, wp.element, etc.) instead of ES imports, so deps
+ * that don't appear as named imports are augmented here. JSX runtime (react-jsx-runtime)
+ * is detected by grab-deps and comes from wp-dependencies.json automatically.
+ *
+ * @return array<string, string[]>
+ */
+function capitalp_asset_extra_deps() {
+	return [
+		'capitalp'            => [ 'ku-mag' ],
+		'capitalp-tracker'    => [ 'jquery' ],
+		'capitalp-marketing'  => [ 'jquery' ],
+		'capitalp-login'      => [ 'wp-element', 'wp-api-fetch', 'wp-i18n', 'cookie-tasting-heartbeat' ],
+		'capitalp-contents'   => [ 'jquery-effects-highlight', 'capitalp-login' ],
+		'capitalp-interview'  => [ 'wp-editor' ],
+		'cappy-post-selector' => [ 'select2', 'wp-api' ],
+		'capitalp-job-board'  => [ 'jquery' ],
+	];
+}
+
+/**
+ * Register scripts and styles from wp-dependencies.json.
  */
 add_action(
 	'init',
 	function () {
+		$manifest = get_stylesheet_directory() . '/wp-dependencies.json';
+		if ( ! file_exists( $manifest ) ) {
+			return;
+		}
+		$entries = json_decode( file_get_contents( $manifest ), true );
+		if ( ! is_array( $entries ) ) {
+			return;
+		}
 
-		$version = wp_get_theme()->get( 'Version' );
+		$handle_map    = capitalp_asset_handle_map();
+		$extra_deps    = capitalp_asset_extra_deps();
+		$theme_version = wp_get_theme()->get( 'Version' );
+		// Files read directly (not enqueued) — skip registration.
+		$skip_handles = [ 'amp', 'editor-style-capitalp' ];
 
-		// Register this style
-		wp_register_style( 'capitalp', get_stylesheet_directory_uri() . '/assets/css/style.css', [ 'ku-mag' ], $version );
+		foreach ( $entries as $entry ) {
+			$manifest_handle = $entry['handle'] ?? '';
+			if ( ! $manifest_handle || in_array( $manifest_handle, $skip_handles, true ) ) {
+				continue;
+			}
+			$handle = $handle_map[ $manifest_handle ] ?? $manifest_handle;
 
-		// Register JS
-		wp_register_script( 'capitalp-tracker', get_stylesheet_directory_uri() . '/assets/js/tracker.js', [ 'jquery' ], $version, true );
-		wp_register_script( 'capitalp-marketing', get_stylesheet_directory_uri() . '/assets/js/capital-marketing.js', [ 'jquery' ], $version, true );
-		wp_register_script( 'capitalp-login', get_stylesheet_directory_uri() . '/assets/js/capitalp-login-link.js', [ 'react-jsx-runtime', 'wp-element', 'wp-api-fetch', 'wp-i18n', 'cookie-tasting-heartbeat' ], $version, true );
-		wp_register_script( 'capitalp-contents', get_stylesheet_directory_uri() . '/assets/js/capitalp-contents.js', [ 'jquery-effects-highlight', 'capitalp-login' ], $version, true );
+			$rel_path = $entry['path'] ?? '';
+			$abs_path = get_stylesheet_directory() . '/' . $rel_path;
+			if ( ! $rel_path || ! file_exists( $abs_path ) ) {
+				continue;
+			}
+			$url     = get_stylesheet_directory_uri() . '/' . $rel_path;
+			$version = ! empty( $entry['hash'] ) ? $entry['hash'] : $theme_version;
+
+			$deps = $entry['deps'] ?? [];
+			if ( ! empty( $extra_deps[ $handle ] ) ) {
+				$deps = array_values( array_unique( array_merge( $deps, $extra_deps[ $handle ] ) ) );
+			}
+
+			switch ( $entry['ext'] ?? '' ) {
+				case 'js':
+					wp_register_script(
+						$handle,
+						$url,
+						$deps,
+						$version,
+						[
+							'in_footer' => ! empty( $entry['footer'] ),
+							'strategy'  => $entry['strategy'] ?? '',
+						]
+					);
+					break;
+				case 'css':
+					wp_register_style( $handle, $url, $deps, $version, $entry['media'] ?? 'all' );
+					break;
+			}
+		}
 	}
 );
 
