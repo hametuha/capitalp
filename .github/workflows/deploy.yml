@@ -77,19 +77,28 @@ jobs:
       # https://pressable.com/knowledgebase/how-to-migrate-your-wordpress-site-to-pressable/
       # でも scp でアーカイブを /tmp に置いてから server 側でローカル rsync を
       # 走らせる手順が示されている。同じパターンに合わせる。
+      #
+      # exclude ロジックは rsync のステージングに集約する。GNU tar の
+      # --exclude-from は `./` プレフィックス付きパスで trailing slash の
+      # ディレクトリパターンが期待通りにマッチしないため直接使わない。
+      - name: Stage deploy tree
+        run: |
+          STAGE=/tmp/capitalp-build
+          rm -rf "$STAGE"
+          mkdir -p "$STAGE/capitalp"
+          rsync -a --exclude-from=.distignore ./ "$STAGE/capitalp/"
+          echo "--- top level of staged tree ---"
+          find "$STAGE/capitalp" -maxdepth 1 -mindepth 1 -printf '%f\n' | sort | head -30
+
       - name: Package theme (tar.gz for deploy)
         run: |
-          tar czf /tmp/capitalp-deploy.tar.gz --exclude-from=.distignore -C . .
+          tar czf /tmp/capitalp-deploy.tar.gz -C /tmp/capitalp-build/capitalp .
           ls -lh /tmp/capitalp-deploy.tar.gz
 
-      # WordPress の zip インストーラ規約に合わせ、capitalp/ を root に持つ zip を作る。
+      # WordPress の zip インストーラ規約に合わせ、capitalp/ を root に持つ zip。
       - name: Package theme (zip for release asset)
         run: |
-          STAGE=/tmp/capitalp-zip-stage
-          rm -rf "$STAGE"
-          mkdir -p "$STAGE"
-          rsync -a --exclude-from=.distignore ./ "$STAGE/capitalp/"
-          (cd "$STAGE" && zip -qr /tmp/capitalp.zip capitalp)
+          (cd /tmp/capitalp-build && zip -qr /tmp/capitalp.zip capitalp)
           ls -lh /tmp/capitalp.zip
 
       - name: Upload zip as workflow artifact
