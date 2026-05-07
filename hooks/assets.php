@@ -20,7 +20,7 @@ add_action(
 		// Register JS
 		wp_register_script( 'capitalp-tracker', get_stylesheet_directory_uri() . '/assets/js/tracker.js', [ 'jquery' ], $version, true );
 		wp_register_script( 'capitalp-marketing', get_stylesheet_directory_uri() . '/assets/js/capital-marketing.js', [ 'jquery' ], $version, true );
-		wp_register_script( 'capitalp-login', get_stylesheet_directory_uri() . '/assets/js/capitalp-login-link.js', [ 'wp-element', 'wp-api-fetch', 'wp-i18n', 'cookie-tasting-heartbeat' ], $version, true );
+		wp_register_script( 'capitalp-login', get_stylesheet_directory_uri() . '/assets/js/capitalp-login-link.js', [ 'react-jsx-runtime', 'wp-element', 'wp-api-fetch', 'wp-i18n', 'cookie-tasting-heartbeat' ], $version, true );
 		wp_register_script( 'capitalp-contents', get_stylesheet_directory_uri() . '/assets/js/capitalp-contents.js', [ 'jquery-effects-highlight', 'capitalp-login' ], $version, true );
 	}
 );
