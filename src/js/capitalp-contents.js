@@ -1,5 +1,7 @@
-/**
+/*!
+ * Singular content unlock UI.
  *
+ * @deps jquery, jquery-effects-highlight, capitalp-login, wp-i18n, wp-api-fetch
  */
 
 const $ = jQuery;

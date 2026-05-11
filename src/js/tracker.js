@@ -1,5 +1,8 @@
-/**
- * Description
+/*!
+ * Podcast / media tracker.
+ *
+ * @handle capitalp-tracker
+ * @deps jquery
  */
 
 jQuery( document ).ready( function( $ ) {

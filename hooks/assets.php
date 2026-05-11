@@ -3,50 +3,12 @@
  * Asset routine
  */
 
-
-/**
- * Map manifest handle (filename without extension) to the actual WP handle used in PHP.
- *
- * @return array<string, string>
- */
-function capitalp_asset_handle_map() {
-	return [
-		'style'                    => 'capitalp',
-		'login'                    => 'login-header',
-		'interview'                => 'capitalp-interview',
-		'tracker'                  => 'capitalp-tracker',
-		'capital-marketing'        => 'capitalp-marketing',
-		'capitalp-login-link'      => 'capitalp-login',
-		'capitalp-interview-block' => 'capitalp-interview',
-		'post-picker'              => 'cappy-post-selector',
-		'job-board'                => 'capitalp-job-board',
-	];
-}
-
-/**
- * Cross-package dependencies grab-deps cannot auto-detect.
- *
- * Source JS uses globals (jQuery, wp.element, etc.) instead of ES imports, so deps
- * that don't appear as named imports are augmented here. JSX runtime (react-jsx-runtime)
- * is detected by grab-deps and comes from wp-dependencies.json automatically.
- *
- * @return array<string, string[]>
- */
-function capitalp_asset_extra_deps() {
-	return [
-		'capitalp'            => [ 'ku-mag' ],
-		'capitalp-tracker'    => [ 'jquery' ],
-		'capitalp-marketing'  => [ 'jquery' ],
-		'capitalp-login'      => [ 'wp-element', 'wp-api-fetch', 'wp-i18n', 'cookie-tasting-heartbeat' ],
-		'capitalp-contents'   => [ 'jquery-effects-highlight', 'capitalp-login' ],
-		'capitalp-interview'  => [ 'wp-editor' ],
-		'cappy-post-selector' => [ 'select2', 'wp-api' ],
-		'capitalp-job-board'  => [ 'jquery' ],
-	];
-}
-
 /**
  * Register scripts and styles from wp-dependencies.json.
+ *
+ * Handles and deps come from the source files' `@handle` / `@deps` annotations
+ * (see src/js/*.js and src/scss/*.scss). grab-deps captures them at build time
+ * and emits the manifest, so PHP just registers what's in it.
  */
 add_action(
 	'init',
@@ -60,19 +22,15 @@ add_action(
 			return;
 		}
 
-		$handle_map    = capitalp_asset_handle_map();
-		$extra_deps    = capitalp_asset_extra_deps();
 		$theme_version = wp_get_theme()->get( 'Version' );
 		// Files read directly (not enqueued) — skip registration.
 		$skip_handles = [ 'amp', 'editor-style-capitalp' ];
 
 		foreach ( $entries as $entry ) {
-			$manifest_handle = $entry['handle'] ?? '';
-			if ( ! $manifest_handle || in_array( $manifest_handle, $skip_handles, true ) ) {
+			$handle = $entry['handle'] ?? '';
+			if ( ! $handle || in_array( $handle, $skip_handles, true ) ) {
 				continue;
 			}
-			$handle = $handle_map[ $manifest_handle ] ?? $manifest_handle;
-
 			$rel_path = $entry['path'] ?? '';
 			$abs_path = get_stylesheet_directory() . '/' . $rel_path;
 			if ( ! $rel_path || ! file_exists( $abs_path ) ) {
@@ -80,11 +38,7 @@ add_action(
 			}
 			$url     = get_stylesheet_directory_uri() . '/' . $rel_path;
 			$version = ! empty( $entry['hash'] ) ? $entry['hash'] : $theme_version;
-
-			$deps = $entry['deps'] ?? [];
-			if ( ! empty( $extra_deps[ $handle ] ) ) {
-				$deps = array_values( array_unique( array_merge( $deps, $extra_deps[ $handle ] ) ) );
-			}
+			$deps    = $entry['deps'] ?? [];
 
 			switch ( $entry['ext'] ?? '' ) {
 				case 'js':

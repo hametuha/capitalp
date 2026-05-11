@@ -1,5 +1,8 @@
-/**
- * Description
+/*!
+ * Post picker for the English post type editor.
+ *
+ * @handle cappy-post-selector
+ * @deps select2, wp-api
  */
 
 ( function( $ ) {

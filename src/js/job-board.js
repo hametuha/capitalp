@@ -1,5 +1,8 @@
-/**
- * Description
+/*!
+ * Captal P専用のjob boardヘルパー
+ *
+ * @handle capitalp-job-board
+ * @deps jquery
  */
 
 ( function( $ ) {
