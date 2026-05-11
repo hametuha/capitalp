@@ -1,5 +1,8 @@
-/**
+/*!
  * Login link generator.
+ *
+ * @handle capitalp-login
+ * @deps wp-element,wp-api-fetch,wp-i18n,cookie-tasting-heartbeat
  */
 
 const { render, Component } = wp.element;

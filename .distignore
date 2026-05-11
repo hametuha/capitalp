@@ -34,6 +34,3 @@ composer.lock
 phpcs.ruleset.xml
 phpstan.neon
 phpstan-baseline.neon
-
-# Generated dep manifests (PHP enqueues hardcode handles currently)
-wp-dependencies.json

@@ -1,5 +1,8 @@
-/**
- * Description
+/*!
+ * Interview block (block editor).
+ *
+ * @handle capitalp-interview
+ * @deps wp-blocks, wp-components, wp-element, wp-editor
  */
 
 ( () => {

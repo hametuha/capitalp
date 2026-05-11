@@ -41,7 +41,7 @@ add_action(
 				function ( $post ) {
 					// Set parent pages.
 					wp_enqueue_style( 'select2' );
-					wp_enqueue_script( 'cappy-post-selector', get_stylesheet_directory_uri() . '/assets/js/post-picker.js', [ 'select2', 'wp-api' ], wp_get_theme()->get( 'Version' ), true );
+					wp_enqueue_script( 'cappy-post-selector' );
 					add_action(
 						'admin_footer',
 						function () {

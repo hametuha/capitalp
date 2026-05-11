@@ -1,3 +1,10 @@
+/*!
+ * Outbound link UTM tagger.
+ *
+ * @handle capitalp-marketing
+ * @deps jquery
+ */
+
 ! ( function( $ ) {
 	'use strict';
 	$( 'a[href]' ).each( function( index, link ) {

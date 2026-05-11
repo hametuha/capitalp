@@ -3,25 +3,61 @@
  * Asset routine
  */
 
-
-
 /**
- * Register scripts
+ * Register scripts and styles from wp-dependencies.json.
+ *
+ * Handles and deps come from the source files' `@handle` / `@deps` annotations
+ * (see src/js/*.js and src/scss/*.scss). grab-deps captures them at build time
+ * and emits the manifest, so PHP just registers what's in it.
  */
 add_action(
 	'init',
 	function () {
+		$manifest = get_stylesheet_directory() . '/wp-dependencies.json';
+		if ( ! file_exists( $manifest ) ) {
+			return;
+		}
+		$entries = json_decode( file_get_contents( $manifest ), true );
+		if ( ! is_array( $entries ) ) {
+			return;
+		}
 
-		$version = wp_get_theme()->get( 'Version' );
+		$theme_version = wp_get_theme()->get( 'Version' );
+		// Files read directly (not enqueued) — skip registration.
+		$skip_handles = [ 'amp', 'editor-style-capitalp' ];
 
-		// Register this style
-		wp_register_style( 'capitalp', get_stylesheet_directory_uri() . '/assets/css/style.css', [ 'ku-mag' ], $version );
+		foreach ( $entries as $entry ) {
+			$handle = $entry['handle'] ?? '';
+			if ( ! $handle || in_array( $handle, $skip_handles, true ) ) {
+				continue;
+			}
+			$rel_path = $entry['path'] ?? '';
+			$abs_path = get_stylesheet_directory() . '/' . $rel_path;
+			if ( ! $rel_path || ! file_exists( $abs_path ) ) {
+				continue;
+			}
+			$url     = get_stylesheet_directory_uri() . '/' . $rel_path;
+			$version = ! empty( $entry['hash'] ) ? $entry['hash'] : $theme_version;
+			$deps    = $entry['deps'] ?? [];
 
-		// Register JS
-		wp_register_script( 'capitalp-tracker', get_stylesheet_directory_uri() . '/assets/js/tracker.js', [ 'jquery' ], $version, true );
-		wp_register_script( 'capitalp-marketing', get_stylesheet_directory_uri() . '/assets/js/capital-marketing.js', [ 'jquery' ], $version, true );
-		wp_register_script( 'capitalp-login', get_stylesheet_directory_uri() . '/assets/js/capitalp-login-link.js', [ 'wp-element', 'wp-api-fetch', 'wp-i18n', 'cookie-tasting-heartbeat' ], $version, true );
-		wp_register_script( 'capitalp-contents', get_stylesheet_directory_uri() . '/assets/js/capitalp-contents.js', [ 'jquery-effects-highlight', 'capitalp-login' ], $version, true );
+			switch ( $entry['ext'] ?? '' ) {
+				case 'js':
+					wp_register_script(
+						$handle,
+						$url,
+						$deps,
+						$version,
+						[
+							'in_footer' => ! empty( $entry['footer'] ),
+							'strategy'  => $entry['strategy'] ?? '',
+						]
+					);
+					break;
+				case 'css':
+					wp_register_style( $handle, $url, $deps, $version, $entry['media'] ?? 'all' );
+					break;
+			}
+		}
 	}
 );
 
