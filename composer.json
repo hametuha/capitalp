@@ -11,7 +11,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "tarosky/tscf": "^1.1"
+        "tarosky/tscf": "^2.1"
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "^3.0",
